@@ -1,0 +1,39 @@
+# 模型权重
+*.ckpt
+*.pth
+*.pt
+*.bin
+*.onnx
+
+# 数据集
+datasets/
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+.eggs/
+*.egg-info/
+
+# 可视化输出（大文件）
+vis_results/
+*.png
+*.jpg
+
+# conda/pip
+*.tar.gz
+*.whl
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+
+# 日志
+*.log
+*.out
+
+# OS
+.DS_Store
+Thumbs.db
+como/venv/
