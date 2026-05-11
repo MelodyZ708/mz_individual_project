@@ -1,0 +1,41 @@
+
+============================================================
+CHANNEL SUMMARY ACROSS ALL IMAGES
+============================================================
+
+Always dead (range < 1e-4 in all images): 8 channels
+  Channels: [3, 5, 8, 10, 14, 37, 39, 49]
+
+Sometimes dead: 0 channels
+
+Always active: 56 channels
+
+  → 56/64 channels carry useful information for conv1
+
+------------------------------------------------------------
+TOP 10 most informative channels (by avg std across images):
+------------------------------------------------------------
+Rank  Channel   Avg Std     
+1     Ch 22     0.3234
+2     Ch 62     0.3086
+3     Ch 20     0.2981
+4     Ch 52     0.2696
+5     Ch 23     0.2684
+6     Ch 61     0.2632
+7     Ch 47     0.2577
+8     Ch 46     0.2451
+9     Ch 17     0.2294
+10    Ch 11     0.2157
+
+BOTTOM 10 (least informative / dead):
+Rank  Channel   Avg Std     
+55    Ch 18     0.039029
+56    Ch 55     0.035966
+57    Ch 10     0.000000
+58    Ch 8      0.000000
+59    Ch 37     0.000000
+60    Ch 5      0.000000
+61    Ch 49     0.000000
+62    Ch 3      0.000000
+63    Ch 14     0.000000
+64    Ch 39     0.000000

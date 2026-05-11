@@ -16,9 +16,9 @@ __pycache__/
 *.egg-info/
 
 # 可视化输出（大文件）
-vis_results/
-*.png
-*.jpg
+# vis_results/
+# *.png
+# *.jpg
 
 # conda/pip
 *.tar.gz
