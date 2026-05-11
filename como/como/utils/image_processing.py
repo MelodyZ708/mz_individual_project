@@ -125,28 +125,50 @@ class IntrinsicsPyramidModule(nn.Module):
 
 
 class CNNFeatureExtractor(nn.Module):
-    def __init__(self, target_channels=8, device="cuda:0", mode="rgb_cnn", channel_select="all"):
+    def __init__(self, target_channels=8, device="cuda:0", mode="rgb_cnn", 
+                 channel_select="all", cnn_layer="conv1"):
         super().__init__()
         self.device = device
         self.mode = mode  # "rgb_cnn" or "cnn_only"
+        self.cnn_layer = cnn_layer  # "conv1" or "layer1"
         
         # 加载预训练的 ResNet18
         from torchvision.models import resnet18, ResNet18_Weights
         resnet = resnet18(weights=ResNet18_Weights.IMAGENET1K_V1).to(device)
         resnet.eval()
         
-        # 提取浅层特征 (conv1 + bn1 + relu)
-        self.feature_extractor = nn.Sequential(
-            resnet.conv1,
-            resnet.bn1,
-            resnet.relu
-        )
+        # 根据 cnn_layer 参数构建特征提取器
+        if cnn_layer == "layer1":
+            # conv1 + bn1 + relu + maxpool + layer1
+            # layer1 output: 64 channels, H/2 × W/2 (maxpool doesn't change spatial size 
+            # because layer1 has stride=1, but maxpool halves it further to H/4 × W/4)
+            # 
+            # Actually: conv1(stride=2) → H/2, maxpool(stride=2) → H/4, layer1(stride=1) → H/4
+            # So layer1 output is H/4 × W/4, need 4× upsample
+            self.feature_extractor = nn.Sequential(
+                resnet.conv1,    # 3 → 64, stride=2, H/2 × W/2
+                resnet.bn1,
+                resnet.relu,
+                resnet.maxpool,  # stride=2, H/4 × W/4
+                resnet.layer1    # 64 → 64, stride=1, H/4 × W/4
+            )
+            self.upsample_factor = 4  # need 4× upsample to restore resolution
+            print(f"[CNNFeatureExtractor] Using layer1 features (64ch, resolution=H/4×W/4, upsample=4×)")
+        else:
+            # Default: conv1 + bn1 + relu only
+            self.feature_extractor = nn.Sequential(
+                resnet.conv1,    # 3 → 64, stride=2, H/2 × W/2
+                resnet.bn1,
+                resnet.relu
+            )
+            self.upsample_factor = 2  # need 2× upsample to restore resolution
+            print(f"[CNNFeatureExtractor] Using conv1 features (64ch, resolution=H/2×W/2, upsample=2×)")
         
         # 冻结参数
         for param in self.feature_extractor.parameters():
             param.requires_grad = False
             
-        # 随机选择通道的索引（固定种子保证与之前实验一致）
+        # 随机选择通道的索引（固定种子保证可复现）
         torch.manual_seed(42)
         all_8_indices = torch.randperm(64)[:8].to(device)
         
@@ -157,6 +179,8 @@ class CNNFeatureExtractor(nn.Module):
             self.actual_cnn_channels = 8
         elif str(channel_select).lower() == "active":
             # 仅使用活跃通道 (Ch2, 4, 5, 6, 8 -> 编程索引 1, 3, 4, 5, 7)
+            # NOTE: "active" channels were determined for conv1. For layer1, the dead/active
+            # pattern may differ. Use "all" for layer1 experiments initially.
             active_mask = torch.tensor([False, True, False, True, True, True, False, True], device=device)
             self.selected_indices = all_8_indices[active_mask]
             self.actual_cnn_channels = 5
@@ -179,8 +203,9 @@ class CNNFeatureExtractor(nn.Module):
                 
         if target_channels != self.actual_cnn_channels:
             print(f"[Warning] Requested {target_channels} CNN channels, but using {self.actual_cnn_channels} based on channel_select='{channel_select}'")
-
-        print(f"[CNNFeatureExtractor] mode={self.mode}, channel_select='{channel_select}', actual_cnn_channels={self.actual_cnn_channels}, selected_indices={self.selected_indices.tolist()}, total_output_channels={self.actual_cnn_channels if self.mode == 'cnn_only' else 3 + self.actual_cnn_channels}")
+        
+        print(f"[CNNFeatureExtractor] Config: layer={cnn_layer}, mode={mode}, channels={self.actual_cnn_channels}, "
+              f"channel_select={channel_select}")
 
     def forward(self, rgb_img):
         orig_dtype = rgb_img.dtype

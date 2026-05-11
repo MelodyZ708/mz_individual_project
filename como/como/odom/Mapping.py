@@ -78,13 +78,15 @@ class Mapping:
         elif self.cfg["color"] == "cnn":
             cnn_mode = self.cfg.get("cnn_mode", "rgb_cnn")
             channel_select = self.cfg.get("cnn_channel_select", "all")
+            cnn_layer = self.cfg.get("cnn_layer", "conv1")
             
             # 临时实例化以获取实际计算出的 CNN 通道数
             self.feature_extractor = CNNFeatureExtractor(
                 target_channels=self.cfg.get("cnn_channels", 8), 
                 device=self.device, 
                 mode=cnn_mode, 
-                channel_select=channel_select
+                channel_select=channel_select,
+                cnn_layer=cnn_layer
             )
             actual_cnn_ch = self.feature_extractor.actual_cnn_channels
             
