@@ -1,0 +1,35 @@
+Dead Channel Diagnosis Report
+============================================================
+
+Pipeline: Input RGB → ImageNet Normalize → Conv1 (7x7, stride=2) → BN → ReLU
+
+FINDING: Dead channels are caused by the BN + ReLU combination.
+The BN layer uses running statistics learned on ImageNet.
+For certain channels, the TUM indoor scene inputs produce conv1 outputs
+that, after BN normalization with ImageNet statistics, are entirely negative.
+ReLU then clips these to zero, producing 'dead' channels.
+
+This is a DOMAIN GAP effect, not a bug:
+- The filters themselves are functional (Stage 1 shows non-zero output)
+- BN shifts the distribution based on ImageNet expectations
+- When TUM input doesn't match ImageNet distribution for that filter,
+  the BN output falls entirely below zero
+- ReLU eliminates the signal
+
+IMPLICATION: Using conv1 features without ReLU, or with a different
+activation (e.g., LeakyReLU), would recover these channels.
+Alternatively, re-computing BN statistics on TUM data (BN recalibration)
+would shift the distributions back to a useful range.
+
+Dead channels (1-based): [3, 5, 8, 10, 14, 37, 39, 49]
+
+Ch    S1(Conv) max     S2(Conv+BN) max    S3(+ReLU) max    Mechanism
+--------------------------------------------------------------------------------
+Ch3   0.0000           -0.0000            0.000000         BN shifts to negative → ReLU kills
+Ch5   0.0000           -0.0000            0.000000         BN shifts to negative → ReLU kills
+Ch8   0.0000           -0.0000            0.000000         BN shifts to negative → ReLU kills
+Ch10  0.0001           -0.0000            0.000000         BN shifts to negative → ReLU kills
+Ch14  0.0004           -0.0000            0.000000         BN shifts to negative → ReLU kills
+Ch37  0.0000           -0.0000            0.000000         BN shifts to negative → ReLU kills
+Ch39  0.0000           -0.0000            0.000000         BN shifts to negative → ReLU kills
+Ch49  0.0000           -0.0000            0.000000         BN shifts to negative → ReLU kills

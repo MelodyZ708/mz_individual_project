@@ -1,0 +1,82 @@
+CHANNEL CLASSIFICATION FOR TOP 5 COMBINATIONS
+======================================================================
+
+Visualization mode: ReLU + viridis
+NOTE: ReLU is applied ONLY for visualization clarity.
+The actual COMO system uses pre-ReLU features.
+
+DEAD CHANNELS (BN gamma≈0, no contribution to cost):
+  [2, 4, 7, 9, 13, 36, 48]
+  These channels output near-constant values (~1e-7) regardless of input.
+  They are effectively 'free slots' that neither help nor hurt.
+
+
+Top1_Run5 (Retention=115.1%): [6, 7, 12, 15, 36, 45, 58, 62]
+  Active: 6/8 channels
+  Ch Type         Summary
+---- ------------ ----------------------------------------
+   6 texture      Color Texture (G-B (Blue-Yellow) opponent, high-freq)
+   7 DEAD         (no output)
+  12 edge         Horizontal Edge (175°), Grayscale
+  15 texture      Color Texture (R-B opponent, high-freq)
+  36 DEAD         (no output)
+  45 texture      Color Texture (R-G opponent, medium-freq)
+  58 texture      Grayscale Texture (medium-freq)
+  62 texture      Grayscale Texture (medium-freq)
+
+
+Top2_Run1 (Retention=109.1%): [8, 22, 23, 27, 28, 42, 48, 60]
+  Active: 7/8 channels
+  Ch Type         Summary
+---- ------------ ----------------------------------------
+   8 edge         Vertical Edge (94°), Grayscale
+  22 edge         Vertical Edge (88°), Grayscale
+  23 texture      Color Texture (R-B opponent, high-freq)
+  27 texture      Color Texture (R-B opponent, high-freq)
+  28 texture      Color Texture (R-G opponent, high-freq)
+  42 edge         Horizontal Edge (15°), Grayscale
+  48 DEAD         (no output)
+  60 edge         Diagonal (↘) Edge (143°), Grayscale
+
+
+Top3_Run16 (Retention=105.6%): [1, 4, 7, 13, 22, 34, 41, 54]
+  Active: 5/8 channels
+  Ch Type         Summary
+---- ------------ ----------------------------------------
+   1 edge         Horizontal Edge (11°), Grayscale
+   4 DEAD         (no output)
+   7 DEAD         (no output)
+  13 DEAD         (no output)
+  22 edge         Vertical Edge (88°), Grayscale
+  34 texture      Color Texture (R-B opponent, medium-freq)
+  41 texture      Grayscale Texture (high-freq)
+  54 texture      Color Texture (Green-dominant (35%), medium-freq)
+
+
+Top4_Run12 (Retention=94.5%): [8, 9, 17, 19, 37, 41, 51, 52]
+  Active: 7/8 channels
+  Ch Type         Summary
+---- ------------ ----------------------------------------
+   8 edge         Vertical Edge (94°), Grayscale
+   9 DEAD         (no output)
+  17 texture      Color Texture (Red-dominant (45%), medium-freq)
+  19 edge         Diagonal (↘) Edge (140°), Grayscale
+  37 texture      Color Texture (Blue-dominant (82%), medium-freq)
+  41 texture      Grayscale Texture (high-freq)
+  51 edge         Diagonal (↗) Edge (43°), Grayscale
+  52 texture      Color Texture (G-B (Blue-Yellow) opponent, high-freq)
+
+
+Top5_Run20 (Retention=94.1%): [2, 9, 19, 20, 28, 49, 55, 58]
+  Active: 6/8 channels
+  Ch Type         Summary
+---- ------------ ----------------------------------------
+   2 DEAD         (no output)
+   9 DEAD         (no output)
+  19 edge         Diagonal (↘) Edge (140°), Grayscale
+  20 edge         Vertical Edge (105°), Grayscale
+  28 texture      Color Texture (R-G opponent, high-freq)
+  49 edge         Diagonal (↗) Edge (44°), Grayscale
+  55 edge         Diagonal (↘) Edge (130°), Grayscale
+  58 texture      Grayscale Texture (medium-freq)
+
