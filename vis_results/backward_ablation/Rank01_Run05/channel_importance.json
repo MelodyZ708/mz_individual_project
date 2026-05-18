@@ -1,0 +1,33 @@
+{
+  "combo_name": "Rank01_Run05",
+  "starting_channels": [
+    6,
+    7,
+    12,
+    15,
+    36,
+    45,
+    58,
+    62
+  ],
+  "importance_ranking": [
+    15,
+    58,
+    12,
+    62,
+    36,
+    7,
+    6,
+    45
+  ],
+  "removal_order": [
+    45,
+    6,
+    7,
+    36,
+    62,
+    12,
+    58
+  ],
+  "last_survivor": 15
+}

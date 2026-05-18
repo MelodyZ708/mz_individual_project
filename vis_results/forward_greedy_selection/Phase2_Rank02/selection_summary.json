@@ -1,0 +1,75 @@
+{
+  "phase_name": "Phase2_Rank02",
+  "search_mode": "greedy_with_lookahead",
+  "original_pool": [
+    8,
+    22,
+    23,
+    27,
+    28,
+    42,
+    48,
+    60
+  ],
+  "dead_removed": [
+    48
+  ],
+  "alive_pool": [
+    8,
+    22,
+    23,
+    27,
+    28,
+    42,
+    60
+  ],
+  "alpha": 0.7,
+  "frame_indices": [
+    41,
+    306,
+    512
+  ],
+  "best_path_idx": 1,
+  "best_final_channels": [
+    23
+  ],
+  "best_final_score": 0.087459,
+  "all_paths_summary": [
+    {
+      "path_idx": 1,
+      "seed": [
+        23
+      ],
+      "final_channels": [
+        23
+      ],
+      "final_score": 0.087459,
+      "n_steps": 1
+    },
+    {
+      "path_idx": 2,
+      "seed": [
+        42
+      ],
+      "final_channels": [
+        23,
+        42
+      ],
+      "final_score": 0.07304589148130874,
+      "n_steps": 2
+    },
+    {
+      "path_idx": 3,
+      "seed": [
+        60
+      ],
+      "final_channels": [
+        23,
+        42,
+        60
+      ],
+      "final_score": 0.059584970163815,
+      "n_steps": 3
+    }
+  ]
+}

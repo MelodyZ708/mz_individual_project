@@ -1,0 +1,73 @@
+{
+  "phase_name": "Phase1_Rank01",
+  "original_pool": [
+    6,
+    7,
+    12,
+    15,
+    36,
+    45,
+    58,
+    62
+  ],
+  "dead_removed": [
+    7,
+    12,
+    36,
+    58,
+    62
+  ],
+  "alive_pool": [
+    6,
+    15,
+    45
+  ],
+  "alpha": 0.7,
+  "frame_indices": [
+    41,
+    306,
+    512
+  ],
+  "best_path_idx": 1,
+  "best_final_channels": [
+    15
+  ],
+  "best_final_score": 0.11357635501221647,
+  "all_paths_summary": [
+    {
+      "path_idx": 1,
+      "seed": [
+        15
+      ],
+      "final_channels": [
+        15
+      ],
+      "final_score": 0.11357635501221647,
+      "n_steps": 1
+    },
+    {
+      "path_idx": 2,
+      "seed": [
+        6
+      ],
+      "final_channels": [
+        6,
+        15
+      ],
+      "final_score": 0.08361348145420909,
+      "n_steps": 2
+    },
+    {
+      "path_idx": 3,
+      "seed": [
+        45
+      ],
+      "final_channels": [
+        15,
+        45
+      ],
+      "final_score": 0.06302440471406309,
+      "n_steps": 2
+    }
+  ]
+}

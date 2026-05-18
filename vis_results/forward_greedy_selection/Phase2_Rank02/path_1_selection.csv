@@ -1,0 +1,2 @@
+step,n_channels,channel_str,added_channel,composite_score,local_clean_mean,local_50_mean,ret50_mean,ret50_std,ret50_min,ret30_mean,cn_clean_mean,cn50_mean,n_survive_50,survival_rate
+0,,23,,0.087459,0.083955,0.088961,106.7,,,,1.41,1.37,,100.0

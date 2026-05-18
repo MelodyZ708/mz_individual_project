@@ -1,0 +1,386 @@
+[
+  {
+    "ch": 0,
+    "type": "Edge (Horizontal)",
+    "gamma": 0.2348727434873581,
+    "detail": "gx=0.1074 gy=0.2876 rg=-0.0000 rb=0.0000 gb=-0.0000"
+  },
+  {
+    "ch": 1,
+    "type": "Edge (Horizontal)",
+    "gamma": 0.2662579417228699,
+    "detail": "gx=0.0306 gy=0.1114 rg=0.0000 rb=0.0000 gb=0.0000"
+  },
+  {
+    "ch": 2,
+    "type": "Dead",
+    "gamma": -5.1095959463509644e-08,
+    "detail": "gamma=-0.0000"
+  },
+  {
+    "ch": 3,
+    "type": "Luminance/Low-pass",
+    "gamma": 0.5186997056007385,
+    "detail": "gx=0.0275 gy=0.0263 rg=0.0002 rb=0.0000 gb=0.0000"
+  },
+  {
+    "ch": 4,
+    "type": "Dead",
+    "gamma": 3.4404019633171856e-09,
+    "detail": "gamma=0.0000"
+  },
+  {
+    "ch": 5,
+    "type": "Mixed/Complex",
+    "gamma": 0.22238528728485107,
+    "detail": "gx=0.0172 gy=0.0121 rg=-0.0000 rb=0.0000 gb=-0.0000"
+  },
+  {
+    "ch": 6,
+    "type": "Color-Opp (R-G)",
+    "gamma": 0.42288705706596375,
+    "detail": "gx=0.0123 gy=0.0111 rg=-0.0031 rb=0.0023 gb=-0.0078"
+  },
+  {
+    "ch": 7,
+    "type": "Dead",
+    "gamma": 1.3153240274732525e-07,
+    "detail": "gamma=0.0000"
+  },
+  {
+    "ch": 8,
+    "type": "Edge (Vertical)",
+    "gamma": 0.25093165040016174,
+    "detail": "gx=0.2768 gy=0.0921 rg=-0.0000 rb=-0.0000 gb=0.0000"
+  },
+  {
+    "ch": 9,
+    "type": "Dead",
+    "gamma": 1.5152025980569306e-06,
+    "detail": "gamma=0.0000"
+  },
+  {
+    "ch": 10,
+    "type": "Edge (Horizontal)",
+    "gamma": 0.31687164306640625,
+    "detail": "gx=0.0542 gy=0.1571 rg=0.0000 rb=0.0000 gb=0.0000"
+  },
+  {
+    "ch": 11,
+    "type": "Edge (Diagonal/Mixed)",
+    "gamma": 0.25049182772636414,
+    "detail": "gx=0.1165 gy=0.1056 rg=0.0000 rb=0.0000 gb=0.0000"
+  },
+  {
+    "ch": 12,
+    "type": "Luminance/Low-pass",
+    "gamma": 0.3789260983467102,
+    "detail": "gx=0.0154 gy=0.0407 rg=0.0000 rb=0.0000 gb=0.0002"
+  },
+  {
+    "ch": 13,
+    "type": "Dead",
+    "gamma": 1.0861835107789375e-05,
+    "detail": "gamma=0.0000"
+  },
+  {
+    "ch": 14,
+    "type": "Edge (Vertical)",
+    "gamma": 0.2752639949321747,
+    "detail": "gx=0.0634 gy=0.0263 rg=0.0000 rb=-0.0000 gb=-0.0000"
+  },
+  {
+    "ch": 15,
+    "type": "Mixed/Complex",
+    "gamma": 0.23674103617668152,
+    "detail": "gx=0.0114 gy=0.0135 rg=-0.0000 rb=0.0000 gb=-0.0000"
+  },
+  {
+    "ch": 16,
+    "type": "Color-Opp (R-G)",
+    "gamma": 0.24202176928520203,
+    "detail": "gx=0.0151 gy=0.0162 rg=-0.0023 rb=0.0013 gb=-0.0015"
+  },
+  {
+    "ch": 17,
+    "type": "Mixed/Complex",
+    "gamma": 0.3953148126602173,
+    "detail": "gx=0.0130 gy=0.0130 rg=0.0002 rb=-0.0001 gb=-0.0000"
+  },
+  {
+    "ch": 18,
+    "type": "Edge (Diagonal/Mixed)",
+    "gamma": 0.469346284866333,
+    "detail": "gx=0.0307 gy=0.0301 rg=-0.0001 rb=-0.0000 gb=0.0002"
+  },
+  {
+    "ch": 19,
+    "type": "Edge (Diagonal/Mixed)",
+    "gamma": 0.2908957004547119,
+    "detail": "gx=0.0342 gy=0.0406 rg=0.0003 rb=0.0001 gb=0.0002"
+  },
+  {
+    "ch": 20,
+    "type": "Edge (Vertical)",
+    "gamma": 0.2726841866970062,
+    "detail": "gx=0.1041 gy=0.0452 rg=0.0001 rb=0.0000 gb=0.0000"
+  },
+  {
+    "ch": 21,
+    "type": "Luminance/Low-pass",
+    "gamma": 0.278028279542923,
+    "detail": "gx=0.0166 gy=0.0271 rg=0.0003 rb=0.0000 gb=0.0000"
+  },
+  {
+    "ch": 22,
+    "type": "Edge (Vertical)",
+    "gamma": 0.2906920909881592,
+    "detail": "gx=0.0837 gy=0.0195 rg=0.0000 rb=0.0000 gb=0.0001"
+  },
+  {
+    "ch": 23,
+    "type": "Luminance/Low-pass",
+    "gamma": 0.20692749321460724,
+    "detail": "gx=0.0118 gy=0.0119 rg=0.0000 rb=0.0000 gb=0.0000"
+  },
+  {
+    "ch": 24,
+    "type": "Edge (Horizontal)",
+    "gamma": 0.2589903771877289,
+    "detail": "gx=0.1808 gy=0.2876 rg=0.0000 rb=-0.0000 gb=-0.0000"
+  },
+  {
+    "ch": 25,
+    "type": "Edge (Vertical)",
+    "gamma": 0.27871057391166687,
+    "detail": "gx=0.0686 gy=0.0394 rg=0.0000 rb=-0.0000 gb=-0.0000"
+  },
+  {
+    "ch": 26,
+    "type": "Edge (Horizontal)",
+    "gamma": 0.2911495268344879,
+    "detail": "gx=0.0281 gy=0.0691 rg=-0.0000 rb=0.0000 gb=-0.0000"
+  },
+  {
+    "ch": 27,
+    "type": "Color-Opp (R-G)",
+    "gamma": 0.31601375341415405,
+    "detail": "gx=0.0188 gy=0.0216 rg=-0.0054 rb=-0.0011 gb=0.0009"
+  },
+  {
+    "ch": 28,
+    "type": "Color-Opp (R-G)",
+    "gamma": 0.3888914883136749,
+    "detail": "gx=0.0079 gy=0.0074 rg=-0.0072 rb=-0.0012 gb=0.0010"
+  },
+  {
+    "ch": 29,
+    "type": "Edge (Diagonal/Mixed)",
+    "gamma": 0.30411189794540405,
+    "detail": "gx=0.0363 gy=0.0513 rg=0.0001 rb=0.0000 gb=0.0000"
+  },
+  {
+    "ch": 30,
+    "type": "Edge (Horizontal)",
+    "gamma": 0.26775720715522766,
+    "detail": "gx=0.0550 gy=0.1686 rg=-0.0000 rb=0.0000 gb=-0.0000"
+  },
+  {
+    "ch": 31,
+    "type": "Luminance/Low-pass",
+    "gamma": 0.2109251618385315,
+    "detail": "gx=0.0181 gy=0.0232 rg=0.0000 rb=0.0000 gb=0.0000"
+  },
+  {
+    "ch": 32,
+    "type": "Color-Opp (R-B)",
+    "gamma": 0.2870841324329376,
+    "detail": "gx=0.0164 gy=0.0194 rg=0.0005 rb=-0.0022 gb=-0.0009"
+  },
+  {
+    "ch": 33,
+    "type": "Color-Opp (R-G)",
+    "gamma": 0.33242642879486084,
+    "detail": "gx=0.0106 gy=0.0139 rg=-0.0047 rb=0.0019 gb=-0.0037"
+  },
+  {
+    "ch": 34,
+    "type": "Mixed/Complex",
+    "gamma": 0.4267280399799347,
+    "detail": "gx=0.0249 gy=0.0280 rg=0.0000 rb=-0.0003 gb=-0.0000"
+  },
+  {
+    "ch": 35,
+    "type": "Mixed/Complex",
+    "gamma": 0.3732605576515198,
+    "detail": "gx=0.0277 gy=0.0139 rg=-0.0002 rb=-0.0008 gb=0.0004"
+  },
+  {
+    "ch": 36,
+    "type": "Dead",
+    "gamma": 7.480375785462456e-08,
+    "detail": "gamma=0.0000"
+  },
+  {
+    "ch": 37,
+    "type": "Mixed/Complex",
+    "gamma": 0.19067811965942383,
+    "detail": "gx=0.0180 gy=0.0160 rg=-0.0002 rb=0.0003 gb=-0.0005"
+  },
+  {
+    "ch": 38,
+    "type": "Dead",
+    "gamma": 1.4740125564571827e-08,
+    "detail": "gamma=0.0000"
+  },
+  {
+    "ch": 39,
+    "type": "Edge (Diagonal/Mixed)",
+    "gamma": 0.22302982211112976,
+    "detail": "gx=0.2131 gy=0.2659 rg=0.0000 rb=-0.0000 gb=-0.0000"
+  },
+  {
+    "ch": 40,
+    "type": "Edge (Diagonal/Mixed)",
+    "gamma": 0.17907941341400146,
+    "detail": "gx=0.2184 gy=0.1981 rg=0.0000 rb=-0.0000 gb=-0.0000"
+  },
+  {
+    "ch": 41,
+    "type": "Edge (Vertical)",
+    "gamma": 0.2486007660627365,
+    "detail": "gx=0.2103 gy=0.0587 rg=0.0000 rb=0.0000 gb=0.0000"
+  },
+  {
+    "ch": 42,
+    "type": "Edge (Horizontal)",
+    "gamma": 0.2739952802658081,
+    "detail": "gx=0.0742 gy=0.2154 rg=0.0000 rb=0.0000 gb=0.0000"
+  },
+  {
+    "ch": 43,
+    "type": "Edge (Diagonal/Mixed)",
+    "gamma": 0.2592286467552185,
+    "detail": "gx=0.1075 gy=0.0959 rg=0.0000 rb=0.0000 gb=0.0000"
+  },
+  {
+    "ch": 44,
+    "type": "Edge (Vertical)",
+    "gamma": 0.29420220851898193,
+    "detail": "gx=0.1673 gy=0.0608 rg=0.0000 rb=0.0000 gb=0.0000"
+  },
+  {
+    "ch": 45,
+    "type": "Color-Opp (R-G)",
+    "gamma": 0.2992364168167114,
+    "detail": "gx=0.0171 gy=0.0148 rg=-0.0028 rb=0.0001 gb=-0.0001"
+  },
+  {
+    "ch": 46,
+    "type": "Luminance/Low-pass",
+    "gamma": 0.22368884086608887,
+    "detail": "gx=0.0152 gy=0.0265 rg=0.0001 rb=0.0000 gb=0.0000"
+  },
+  {
+    "ch": 47,
+    "type": "Edge (Diagonal/Mixed)",
+    "gamma": 0.262799471616745,
+    "detail": "gx=0.1950 gy=0.1928 rg=0.0000 rb=0.0000 gb=0.0000"
+  },
+  {
+    "ch": 48,
+    "type": "Dead",
+    "gamma": 2.2001147570449575e-08,
+    "detail": "gamma=0.0000"
+  },
+  {
+    "ch": 49,
+    "type": "Edge (Diagonal/Mixed)",
+    "gamma": 0.2660980820655823,
+    "detail": "gx=0.1218 gy=0.1378 rg=0.0000 rb=-0.0000 gb=-0.0000"
+  },
+  {
+    "ch": 50,
+    "type": "Edge (Vertical)",
+    "gamma": 0.22089029848575592,
+    "detail": "gx=0.2133 gy=0.1402 rg=0.0000 rb=-0.0000 gb=-0.0000"
+  },
+  {
+    "ch": 51,
+    "type": "Edge (Diagonal/Mixed)",
+    "gamma": 0.2842855155467987,
+    "detail": "gx=0.1418 gy=0.1527 rg=0.0001 rb=0.0000 gb=0.0001"
+  },
+  {
+    "ch": 52,
+    "type": "Color-Opp (G-B)",
+    "gamma": 0.3307233154773712,
+    "detail": "gx=0.0091 gy=0.0109 rg=-0.0003 rb=0.0003 gb=-0.0071"
+  },
+  {
+    "ch": 53,
+    "type": "Edge (Diagonal/Mixed)",
+    "gamma": 0.2268095314502716,
+    "detail": "gx=0.2325 gy=0.2049 rg=0.0000 rb=0.0000 gb=0.0000"
+  },
+  {
+    "ch": 54,
+    "type": "Luminance/Low-pass",
+    "gamma": 0.3653809130191803,
+    "detail": "gx=0.0103 gy=0.0127 rg=0.0000 rb=0.0000 gb=0.0001"
+  },
+  {
+    "ch": 55,
+    "type": "Edge (Diagonal/Mixed)",
+    "gamma": 0.21229881048202515,
+    "detail": "gx=0.2468 gy=0.1685 rg=0.0000 rb=0.0000 gb=0.0000"
+  },
+  {
+    "ch": 56,
+    "type": "Edge (Diagonal/Mixed)",
+    "gamma": 0.23965302109718323,
+    "detail": "gx=0.0726 gy=0.0517 rg=0.0000 rb=0.0000 gb=0.0000"
+  },
+  {
+    "ch": 57,
+    "type": "Edge (Horizontal)",
+    "gamma": 0.2494957596063614,
+    "detail": "gx=0.0239 gy=0.0703 rg=0.0001 rb=0.0000 gb=0.0000"
+  },
+  {
+    "ch": 58,
+    "type": "Edge (Diagonal/Mixed)",
+    "gamma": 0.5258306860923767,
+    "detail": "gx=0.0295 gy=0.0373 rg=0.0003 rb=-0.0001 gb=-0.0002"
+  },
+  {
+    "ch": 59,
+    "type": "Edge (Vertical)",
+    "gamma": 0.24824757874011993,
+    "detail": "gx=0.1918 gy=0.0640 rg=0.0000 rb=-0.0000 gb=-0.0000"
+  },
+  {
+    "ch": 60,
+    "type": "Edge (Diagonal/Mixed)",
+    "gamma": 0.29565274715423584,
+    "detail": "gx=0.1121 gy=0.1590 rg=0.0001 rb=0.0000 gb=0.0001"
+  },
+  {
+    "ch": 61,
+    "type": "Luminance/Low-pass",
+    "gamma": 0.2587766647338867,
+    "detail": "gx=0.0322 gy=0.0248 rg=0.0006 rb=0.0003 gb=0.0004"
+  },
+  {
+    "ch": 62,
+    "type": "Luminance/Low-pass",
+    "gamma": 0.48325639963150024,
+    "detail": "gx=0.0217 gy=0.0262 rg=0.0000 rb=0.0000 gb=0.0003"
+  },
+  {
+    "ch": 63,
+    "type": "Edge (Horizontal)",
+    "gamma": 0.2667044401168823,
+    "detail": "gx=0.0923 gy=0.1418 rg=0.0000 rb=0.0000 gb=0.0000"
+  }
+]
