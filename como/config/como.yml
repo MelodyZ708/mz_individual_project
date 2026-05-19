@@ -1,9 +1,10 @@
 mapping:
-  cnn_channel_select: all
+  cnn_channel_select: 1
   cnn_channels: 8
-  cnn_layer: layer1
-  cnn_mode: cnn_only
-  color: cnn
+  cnn_layer: conv1
+  cnn_channel_select: "d15"
+  cnn_mode: rgb_cnn
+  color: gray
   corr:
     corr_mode: logz
     corr_thresh: 0.03
@@ -49,13 +50,15 @@ mapping:
   track_ref:
     num_keyframes: 1
 name: Depth odom config
+
 tracking:
-  cnn_channel_select: all
+  cnn_channel_select: 1
   cnn_channels: 8
-  cnn_layer: layer1
-  cnn_mode: cnn_only
-  color: cnn
-  device: cuda:0
+  cnn_layer: conv1
+  cnn_mode: rgb_cnn
+  cnn_channel_select: "d15"
+  color: gray
+  device: cpu
   dtype: float
   keyframing:
     kf_depth_motion_ratio: 0.12

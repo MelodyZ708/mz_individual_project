@@ -265,16 +265,9 @@ def pose_to_camera_setup(pose, pose_init, scale):
     eye = scale * np.array([0, -0.0, -0.5])  # Camera location
 
     def rot2eul(R):
-        # [Guard] Clip to [-1, 1] to prevent arcsin domain error / NaN
-        beta = -np.arcsin(np.clip(R[2, 0], -1.0, 1.0))
-        cos_beta = np.cos(beta)
-        if abs(cos_beta) < 1e-6:
-            # Gimbal lock: set gamma=0, compute alpha only
-            alpha = np.arctan2(-R[1, 2], R[1, 1])
-            gamma = 0.0
-        else:
-            alpha = np.arctan2(R[2, 1] / cos_beta, R[2, 2] / cos_beta)
-            gamma = np.arctan2(R[1, 0] / cos_beta, R[0, 0] / cos_beta)
+        beta = -np.arcsin(R[2, 0])
+        alpha = np.arctan2(R[2, 1] / np.cos(beta), R[2, 2] / np.cos(beta))
+        gamma = np.arctan2(R[1, 0] / np.cos(beta), R[0, 0] / np.cos(beta))
         return np.array((alpha, beta, gamma))
 
     def eul2rot(theta):

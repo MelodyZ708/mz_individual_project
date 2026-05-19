@@ -140,9 +140,6 @@ class CNNFeatureExtractor(nn.Module):
         # 根据 cnn_layer 参数构建特征提取器
         if cnn_layer == "layer1":
             # conv1 + bn1 + relu + maxpool + layer1
-            # layer1 output: 64 channels, H/2 × W/2 (maxpool doesn't change spatial size 
-            # because layer1 has stride=1, but maxpool halves it further to H/4 × W/4)
-            # 
             # Actually: conv1(stride=2) → H/2, maxpool(stride=2) → H/4, layer1(stride=1) → H/4
             # So layer1 output is H/4 × W/4, need 4× upsample
             self.feature_extractor = nn.Sequential(
@@ -185,19 +182,34 @@ class CNNFeatureExtractor(nn.Module):
             self.selected_indices = all_8_indices[active_mask]
             self.actual_cnn_channels = 5
         else:
-            # 解析具体指定的通道，如 "8" 或 "2,4,5,6" (注意用户输入的是 1-based Ch编号)
+            # 解析具体指定的通道
             try:
-                ch_strs = str(channel_select).split(",")
-                # 将 1-based 的 Ch 编号转换为 0-based 索引
-                indices_to_keep = [int(ch.strip()) - 1 for ch in ch_strs if ch.strip()]
-                mask = torch.zeros(8, dtype=torch.bool, device=device)
-                for idx in indices_to_keep:
-                    if 0 <= idx < 8:
-                        mask[idx] = True
-                self.selected_indices = all_8_indices[mask]
-                self.actual_cnn_channels = mask.sum().item()
+                raw = str(channel_select).strip()
+                
+                # "d" 前缀表示直接使用原始64通道的绝对索引（0-based）
+                # 例如: "d6" → 第6个通道, "d6,d23" → 第6和第23个通道
+                if raw.lower().startswith("d"):
+                    ch_nums = [int(ch.strip().lstrip("dD")) for ch in raw.split(",")]
+                    # 验证索引范围
+                    for ch in ch_nums:
+                        if ch < 0 or ch >= 64:
+                            raise ValueError(f"Direct channel index {ch} out of range [0, 63]")
+                    self.selected_indices = torch.tensor(ch_nums, device=device, dtype=torch.long)
+                    self.actual_cnn_channels = len(ch_nums)
+                    print(f"[CNNFeatureExtractor] Direct channel mode: using absolute indices {ch_nums} from 64 channels")
+                else:
+                    # 原有逻辑：1-based Ch编号，索引到8个随机通道中
+                    # 例如: "8" → 第8个随机通道, "2,4,5,6" → 第2,4,5,6个随机通道
+                    ch_strs = raw.split(",")
+                    indices_to_keep = [int(ch.strip()) - 1 for ch in ch_strs if ch.strip()]
+                    mask = torch.zeros(8, dtype=torch.bool, device=device)
+                    for idx in indices_to_keep:
+                        if 0 <= idx < 8:
+                            mask[idx] = True
+                    self.selected_indices = all_8_indices[mask]
+                    self.actual_cnn_channels = mask.sum().item()
             except Exception as e:
-                print(f"[Error] Failed to parse channel_select '{channel_select}'. Defaulting to 'all'.")
+                print(f"[Error] Failed to parse channel_select '{channel_select}': {e}. Defaulting to 'all'.")
                 self.selected_indices = all_8_indices
                 self.actual_cnn_channels = 8
                 
@@ -235,7 +247,7 @@ class CNNFeatureExtractor(nn.Module):
         # 根据 mode 决定输出拼接 RGB 还是纯 CNN
         if self.mode == "cnn_only":
             output = upsampled_features
-        else: # "rgb_cnn"
+        else:  # "rgb_cnn"
             rgb_normalized = rgb_img.to(dtype=torch.float32)
             output = torch.cat([rgb_normalized, upsampled_features], dim=1)
 

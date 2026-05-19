@@ -378,11 +378,7 @@ class GuiWindow:
 
     def setup_camera_view(self, pose, base_pose):
         center, eye, up = pose_to_camera_setup(pose, base_pose, self.scale)
-        # [Guard] Only call look_at if all values are finite (NaN causes segfault in Filament)
-        if (not np.any(np.isnan(center)) and not np.any(np.isnan(eye)) and
-                not np.any(np.isnan(up)) and not np.any(np.isinf(center)) and
-                not np.any(np.isinf(eye)) and not np.any(np.isinf(up))):
-            self.widget3d.look_at(center, eye, up)
+        self.widget3d.look_at(center, eye, up)
 
     def get_intrinsics(self):
         return self.dataloader.dataset.intrinsics
@@ -475,8 +471,7 @@ class GuiWindow:
             P_sparse, anchor_radius, resolution=5, color=sparse_point_color
         )
         self.widget3d.scene.remove_geometry("sparse_points")
-        if len(spheres.vertices) > 0:
-            self.widget3d.scene.add_geometry("sparse_points", spheres, self.sparse_pcd_mat)
+        self.widget3d.scene.add_geometry("sparse_points", spheres, self.sparse_pcd_mat)
 
         self.frumstum_scale = self.cfg["frustum_const"] * self.scale
         # Keyframe window
@@ -523,20 +518,10 @@ class GuiWindow:
         )
         est_traj_geo.paint_uniform_color(self.cfg["tracking_color"])
         self.widget3d.scene.remove_geometry("est_traj")
-        # [Guard] Skip rendering if geometry is empty or pose has NaN/Inf
-        try:
-            if len(est_traj_geo.lines) > 0 and not np.any(np.isnan(pose_np)) and not np.any(np.isinf(pose_np)):
-                self.widget3d.scene.add_geometry("est_traj", est_traj_geo, self.line_mat)
-        except Exception:
-            pass  # Filament AABB error - skip this frame
+        self.widget3d.scene.add_geometry("est_traj", est_traj_geo, self.line_mat)
 
         if self.follow_tracking:
-            # [Guard] Skip camera view update if pose has NaN/Inf (segfault prevention)
-            try:
-                if not np.any(np.isnan(pose_np)) and not np.any(np.isinf(pose_np)):
-                    self.setup_camera_view(pose_np, self.base_pose)
-            except Exception:
-                pass  # Euler angle singularity or NaN in pose
+            self.setup_camera_view(pose_np, self.base_pose)
         else:
             pass
 

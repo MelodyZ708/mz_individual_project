@@ -66,7 +66,7 @@ from datetime import datetime
 # Configuration
 # ============================================================
 CONFIG = {
-    'rgb_dir': '/vol/bitbucket/mz325/datasets/tum/rgbd_dataset_freiburg1_desk/rgb/',
+    'rgb_dir': '/home/melody/data/tum/rgbd_dataset_freiburg2_desk/rgb/',
     'output_dir': 'vis_results/forward_greedy_selection',
     'device': 'cuda:0',
 
