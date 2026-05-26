@@ -1,0 +1,2 @@
+entity,bqs_score,basin_quality,clean_lqbs,clean_r2,clean_min_eigval,clean_symmetry,clean_width,clean_csr,clean_sharpness,shape_sim_30,shape_sim_50,sharp_ret_30,sharp_ret_50,minpos_30,minpos_50,bright_sym_30,bright_sym_50,retention_30,retention_50,retention_avg
+gray_baseline,0.360481,0.725568,0.473035,0.902823,0.002240,0.991792,8.602325,1.000000,0.024685,0.797854,0.614714,1.000000,1.000000,1.000000,0.929289,0.798054,0.706447,0.636731,0.403556,0.496826
