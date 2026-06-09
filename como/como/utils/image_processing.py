@@ -138,7 +138,22 @@ class CNNFeatureExtractor(nn.Module):
         resnet.eval()
         
         # 根据 cnn_layer 参数构建特征提取器
-        if cnn_layer == "layer1":
+        # 支持: "conv1" (64ch), "layer1" (64ch), "layer2" (128ch)
+        if cnn_layer == "layer2":
+            # conv1 + bn1 + relu + maxpool + layer1 + layer2
+            # Extraction path: conv1(stride=2) -> maxpool(stride=2) -> layer1(stride=1) -> layer2(stride=2)
+            # Layer2 output is H/8 × W/8 and has 128 channels; need 8× upsample
+            self.feature_extractor = nn.Sequential(
+                resnet.conv1,
+                resnet.bn1,
+                resnet.relu,
+                resnet.maxpool,
+                resnet.layer1,
+                resnet.layer2,
+            )
+            self.upsample_factor = 8
+            print(f"[CNNFeatureExtractor] Using layer2 features (128ch, resolution=H/8×W/8, upsample=8×)")
+        elif cnn_layer == "layer1":
             # conv1 + bn1 + relu + maxpool + layer1
             # Actually: conv1(stride=2) → H/2, maxpool(stride=2) → H/4, layer1(stride=1) → H/4
             # So layer1 output is H/4 × W/4, need 4× upsample
@@ -165,22 +180,34 @@ class CNNFeatureExtractor(nn.Module):
         for param in self.feature_extractor.parameters():
             param.requires_grad = False
             
-        # 随机选择通道的索引（固定种子保证可复现）
+        # 冻结参数已完成
+
+        # 基于所选层设定该层的总通道数（用于解析 'd' 模式和随机抽样）
+        if cnn_layer == "layer2":
+            total_layer_channels = 128
+        else:
+            # conv1 和 layer1 均为 64 通道
+            total_layer_channels = 64
+
+        # 随机选择通道的索引（固定种子保证可复现），样本数量等于 target_channels
         torch.manual_seed(42)
-        all_8_indices = torch.randperm(64)[:8].to(device)
-        
+        all_rand_indices = torch.randperm(total_layer_channels)[:target_channels].to(device)
+
         # 解析通道选择逻辑
         if str(channel_select).lower() == "all":
-            # 使用全部 8 个通道
-            self.selected_indices = all_8_indices
-            self.actual_cnn_channels = 8
+            # 使用全部 target_channels 个通道（从该层的通道空间中随机挑选）
+            self.selected_indices = all_rand_indices
+            self.actual_cnn_channels = target_channels
         elif str(channel_select).lower() == "active":
-            # 仅使用活跃通道 (Ch2, 4, 5, 6, 8 -> 编程索引 1, 3, 4, 5, 7)
-            # NOTE: "active" channels were determined for conv1. For layer1, the dead/active
-            # pattern may differ. Use "all" for layer1 experiments initially.
-            active_mask = torch.tensor([False, True, False, True, True, True, False, True], device=device)
-            self.selected_indices = all_8_indices[active_mask]
-            self.actual_cnn_channels = 5
+            # 仅在 conv1 下有预定义的 "active" 模式
+            if total_layer_channels == 64:
+                active_mask = torch.tensor([False, True, False, True, True, True, False, True], device=device)
+                self.selected_indices = all_rand_indices[active_mask]
+                self.actual_cnn_channels = self.selected_indices.numel()
+            else:
+                print(f"[CNNFeatureExtractor] 'active' channel_select is undefined for layer {cnn_layer}; defaulting to 'all'.")
+                self.selected_indices = all_rand_indices
+                self.actual_cnn_channels = target_channels
         else:
             # 解析具体指定的通道
             try:
@@ -192,21 +219,21 @@ class CNNFeatureExtractor(nn.Module):
                     ch_nums = [int(ch.strip().lstrip("dD")) for ch in raw.split(",")]
                     # 验证索引范围
                     for ch in ch_nums:
-                        if ch < 0 or ch >= 64:
-                            raise ValueError(f"Direct channel index {ch} out of range [0, 63]")
+                        if ch < 0 or ch >= total_layer_channels:
+                            raise ValueError(f"Direct channel index {ch} out of range [0, {total_layer_channels-1}]")
                     self.selected_indices = torch.tensor(ch_nums, device=device, dtype=torch.long)
                     self.actual_cnn_channels = len(ch_nums)
-                    print(f"[CNNFeatureExtractor] Direct channel mode: using absolute indices {ch_nums} from 64 channels")
+                    print(f"[CNNFeatureExtractor] Direct channel mode: using absolute indices {ch_nums} from {total_layer_channels} channels")
                 else:
                     # 原有逻辑：1-based Ch编号，索引到8个随机通道中
                     # 例如: "8" → 第8个随机通道, "2,4,5,6" → 第2,4,5,6个随机通道
                     ch_strs = raw.split(",")
                     indices_to_keep = [int(ch.strip()) - 1 for ch in ch_strs if ch.strip()]
-                    mask = torch.zeros(8, dtype=torch.bool, device=device)
+                    mask = torch.zeros(target_channels, dtype=torch.bool, device=device)
                     for idx in indices_to_keep:
-                        if 0 <= idx < 8:
+                        if 0 <= idx < target_channels:
                             mask[idx] = True
-                    self.selected_indices = all_8_indices[mask]
+                    self.selected_indices = all_rand_indices[mask]
                     self.actual_cnn_channels = mask.sum().item()
             except Exception as e:
                 print(f"[Error] Failed to parse channel_select '{channel_select}': {e}. Defaulting to 'all'.")

@@ -1,10 +1,23 @@
 mapping:
-  cnn_channel_select: 1
-  cnn_channels: 8
-  cnn_layer: conv1
-  cnn_channel_select: "d15"
-  cnn_mode: rgb_cnn
-  color: gray
+  # CNN feature extraction configuration
+  color: cnn                        # Use CNN features
+  cnn_mode: cnn                     # CNN-only or rgb_cnn mode
+  cnn_layer_name: layer2            # Which layer: conv1, layer1, layer2
+  cnn_channels: 1                   # How many channels to use
+  cnn_channel_select: "d39"     # Which channels: "d60,d2" (0-based), "all", etc.
+  cnn_layer_full_channels: 64       # Total channels in selected layer (64 for conv1/layer1, 128 for layer2)
+  
+  # EXAMPLES - uncomment to switch layer:
+  # For layer2 with channels d100 and d5:
+  #   cnn_layer_name: layer2
+  #   cnn_channels: 2
+  #   cnn_channel_select: "d100,d5"
+  #   cnn_layer_full_channels: 128
+  # For conv1 with random 8 channels:
+  #   cnn_layer_name: conv1
+  #   cnn_channels: 8
+  #   cnn_channel_select: "all"
+  #   cnn_layer_full_channels: 64
   corr:
     corr_mode: logz
     corr_thresh: 0.03
@@ -52,14 +65,22 @@ mapping:
 name: Depth odom config
 
 tracking:
-  cnn_channel_select: 1
-  cnn_channels: 8
-  cnn_layer: conv1
-  cnn_mode: rgb_cnn
-  cnn_channel_select: "d15"
-  color: gray
+  # CNN feature extraction configuration (same schema as mapping)
+  color: cnn                        # Use CNN features
+  cnn_mode: cnn                     # CNN-only or rgb_cnn mode
+  cnn_layer_name: layer2            # Which layer: conv1, layer1, layer2
+  cnn_channels: 1                   # How many channels to use
+  cnn_channel_select: "d39"     # Which channels: "d60,d2" (0-based), "all", etc.
+  cnn_layer_full_channels: 64       # Total channels in selected layer (64 for conv1/layer1, 128 for layer2)
   device: cpu
   dtype: float
+  
+  # EXAMPLES - uncomment to switch layer (see mapping section for more):
+  # For layer2 with channels d100 and d5:
+  #   cnn_layer_name: layer2
+  #   cnn_channels: 2
+  #   cnn_channel_select: "d100,d5"
+  #   cnn_layer_full_channels: 128
   keyframing:
     kf_depth_motion_ratio: 0.12
     kf_num_pixels_frac: 0.75
