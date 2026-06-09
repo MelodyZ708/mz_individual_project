@@ -1,0 +1,24 @@
+/vol/bitbucket/mz325/individual_project/vis_feature_maps_layer1.py:186: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
+  plt.tight_layout()
+/vol/bitbucket/mz325/individual_project/vis_feature_maps_layer1.py:188: UserWarning: Glyph 9888 (\N{WARNING SIGN}) missing from font(s) DejaVu Serif.
+  plt.savefig(out_path, dpi=200, bbox_inches='tight')
+Traceback (most recent call last):
+  File "/vol/bitbucket/mz325/individual_project/vis_feature_maps_layer1.py", line 369, in <module>
+    main()
+  File "/vol/bitbucket/mz325/individual_project/vis_feature_maps_layer1.py", line 355, in main
+    plot_diff_maps(feats_dict, TOP10_CHANNELS, TOP10_BQS, TOP10_KILL50,
+  File "/vol/bitbucket/mz325/individual_project/vis_feature_maps_layer1.py", line 216, in plot_diff_maps
+    f_bright = feats_dict['+50%'][ch].astype(np.float64)
+KeyError: '+50%'
+/vol/bitbucket/mz325/individual_project/vis_feature_maps_layer2.py:184: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
+  plt.tight_layout()
+/vol/bitbucket/mz325/individual_project/vis_feature_maps_layer2.py:186: UserWarning: Glyph 9888 (\N{WARNING SIGN}) missing from font(s) DejaVu Serif.
+  plt.savefig(out_path, dpi=200, bbox_inches='tight')
+Traceback (most recent call last):
+  File "/vol/bitbucket/mz325/individual_project/vis_feature_maps_layer2.py", line 414, in <module>
+    main()
+  File "/vol/bitbucket/mz325/individual_project/vis_feature_maps_layer2.py", line 393, in main
+    plot_diff_maps(feats_dict, TOP10_CHANNELS, TOP10_BQS, TOP10_KILL50,
+  File "/vol/bitbucket/mz325/individual_project/vis_feature_maps_layer2.py", line 210, in plot_diff_maps
+    f_bright = feats_dict['+50%'][ch].astype(np.float64)
+KeyError: '+50%'

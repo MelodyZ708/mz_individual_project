@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/vol/bitbucket/mz325/individual_project/forward_greedy_bqs.py", line 527, in <module>
+    main()
+  File "/vol/bitbucket/mz325/individual_project/forward_greedy_bqs.py", line 465, in main
+    bqs = evaluate_subset_bqs(
+  File "/vol/bitbucket/mz325/individual_project/forward_greedy_bqs.py", line 357, in evaluate_subset_bqs
+    grids[cond_name] = compute_cost_landscape_gpu(
+  File "/vol/bitbucket/mz325/envs/como/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/vol/bitbucket/mz325/individual_project/forward_greedy_bqs.py", line 197, in compute_cost_landscape_gpu
+    cost = diff.pow(2).mean(dim=(1, 2, 3))  # mean over C, H, W
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 12.78 GiB. GPU 0 has a total capacity of 44.42 GiB of which 1.43 GiB is free. Including non-PyTorch memory, this process has 42.98 GiB memory in use. Of the allocated memory 34.23 GiB is allocated by PyTorch, and 8.45 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

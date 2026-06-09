@@ -1,0 +1,10 @@
+/vol/bitbucket/mz325/individual_project/vis_feature_maps_layer1.py:314: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
+  plt.tight_layout()
+Traceback (most recent call last):
+  File "/vol/bitbucket/mz325/individual_project/vis_feature_maps_layer2.py", line 413, in <module>
+    main()
+  File "/vol/bitbucket/mz325/individual_project/vis_feature_maps_layer2.py", line 392, in main
+    plot_diff_maps(feats_dict, TOP10_CHANNELS, TOP10_BQS, TOP10_KILL50,
+  File "/vol/bitbucket/mz325/individual_project/vis_feature_maps_layer2.py", line 210, in plot_diff_maps
+    f_bright = feats_dict['+50%'][ch].astype(np.float64)
+KeyError: '+50%'

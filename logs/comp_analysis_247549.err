@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/vol/bitbucket/mz325/individual_project/vis_feature_maps.py", line 6, in <module>
+    from como.dataset.freiburg1_desk import Freiburg1DeskDataset
+ModuleNotFoundError: No module named 'como.dataset'
+Traceback (most recent call last):
+  File "/vol/bitbucket/mz325/individual_project/vis_gradient_field.py", line 6, in <module>
+    from como.dataset.freiburg1_desk import Freiburg1DeskDataset
+ModuleNotFoundError: No module named 'como.dataset'
+Traceback (most recent call last):
+  File "/vol/bitbucket/mz325/individual_project/vis_ablation_basin.py", line 6, in <module>
+    from como.dataset.freiburg1_desk import Freiburg1DeskDataset
+ModuleNotFoundError: No module named 'como.dataset'

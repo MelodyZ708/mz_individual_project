@@ -1,0 +1,5 @@
+/var/spool/slurm/d/job247570/slurm_script: line 14: /vol/bitbucket/mz325/envs/como/bin/activate: No such file or directory
+Traceback (most recent call last):
+  File "/vol/bitbucket/mz325/individual_project/visualize_basin_layer1_64ch.py", line 17, in <module>
+    import matplotlib
+ModuleNotFoundError: No module named 'matplotlib'
