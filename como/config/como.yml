@@ -2,9 +2,9 @@ mapping:
   # CNN feature extraction configuration
   color: cnn                        # Use CNN features
   cnn_mode: cnn                     # CNN-only or rgb_cnn mode
-  cnn_layer_name: layer2            # Which layer: conv1, layer1, layer2
-  cnn_channels: 1                   # How many channels to use
-  cnn_channel_select: "d39"     # Which channels: "d60,d2" (0-based), "all", etc.
+  cnn_layer_name: conv1            # Which layer: conv1, layer1, layer2
+  cnn_channels: 8                   # How many channels to use
+  cnn_channel_select: "all"     # Which channels: "d60,d2" (0-based), "all", etc.
   cnn_layer_full_channels: 64       # Total channels in selected layer (64 for conv1/layer1, 128 for layer2)
   
   # EXAMPLES - uncomment to switch layer:
@@ -68,11 +68,11 @@ tracking:
   # CNN feature extraction configuration (same schema as mapping)
   color: cnn                        # Use CNN features
   cnn_mode: cnn                     # CNN-only or rgb_cnn mode
-  cnn_layer_name: layer2            # Which layer: conv1, layer1, layer2
-  cnn_channels: 1                   # How many channels to use
-  cnn_channel_select: "d39"     # Which channels: "d60,d2" (0-based), "all", etc.
+  cnn_layer_name: "all"            # Which layer: conv1, layer1, layer2
+  cnn_channels: 8                   # How many channels to use
+  cnn_channel_select: "all"     # Which channels: "d60,d2" (0-based), "all", etc.
   cnn_layer_full_channels: 64       # Total channels in selected layer (64 for conv1/layer1, 128 for layer2)
-  device: cpu
+  device: cuda:0
   dtype: float
   
   # EXAMPLES - uncomment to switch layer (see mapping section for more):

@@ -135,6 +135,8 @@ class Tracking:
     def init_kf_vars(self):
         self.T_curr_kf = torch.eye(4, device=self.device, dtype=self.dtype).unsqueeze(0)
         self.aff_curr_kf = torch.zeros((1, 2, 1), device=self.device, dtype=self.dtype)
+
+        self.aff_w_kf = torch.zeros((1, 2, 1), device=self.device, dtype=self.dtype)
         self.last_one_way_num_pixels = self.img_size[-1] * self.img_size[-2]
 
         self.last_kf_sent_ts = torch.zeros(1, device=self.device, dtype=self.dtype)
@@ -228,7 +230,9 @@ class Tracking:
             self.T_curr_kf = get_rel_pose(self.T_w_f, kf_pose[num_kf - 1 : num_kf])
 
             self.aff_w_f = get_aff_w_curr(self.aff_w_kf, self.aff_curr_kf)
-            self.aff_curr_kf = get_rel_aff(self.aff_w_f, kf_aff[num_kf - 1 : num_kf])
+            #update!
+            if self.cfg["color"] != "cnn":
+                self.aff_curr_kf = get_rel_aff(self.aff_w_f, kf_aff[num_kf - 1 : num_kf])
 
             # Don't have this info but assume full image
             self.reset_one_way_vars()
@@ -239,6 +243,17 @@ class Tracking:
 
         # Completely new keyframe, update photometric vars
         if timestamps[-1] != self.kf_received_ts:
+
+            # update: debug!
+            print(f"[KF aff received] ts={float(timestamps[-1]):.4f} | "
+                  f"kf_aff scale (a): {kf_aff[:, 0, :].flatten().tolist()} | "
+                  f"kf_aff bias  (b): {kf_aff[:, 1, :].flatten().tolist()}")
+            
+            aff_a = kf_aff[:, 0, :].abs().max().item()
+            aff_b = kf_aff[:, 1, :].abs().max().item()
+            if aff_a > 0.5 or aff_b > 0.3:
+                print(f"[WARNING] Crazy affine detected! max|a|={aff_a:.4f}, max|b|={aff_b:.4f}")
+
             # Photometric
             img_pyr = self.prep_tracking_img(kf_rgb)
             self.coords_pyr = []
@@ -340,7 +355,9 @@ class Tracking:
         num_kf = kf_pose.shape[0]
         self.kf_received_ts = timestamps[-1]
         self.T_w_kf = kf_pose[num_kf - 1 : num_kf]
-        self.aff_w_kf = kf_aff[num_kf - 1 : num_kf]
+        #update!
+        if self.cfg["color"] != "cnn":
+            self.aff_w_kf = kf_aff[num_kf - 1 : num_kf]
 
     def handle_frame(self, data):
         timestamp, rgb = data

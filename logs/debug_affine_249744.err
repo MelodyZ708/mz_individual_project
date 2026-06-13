@@ -1,0 +1,14 @@
+/vol/bitbucket/mz325/envs/como/lib/python3.10/site-packages/lightning_lite/utilities/cloud_io.py:48: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  return torch.load(f, map_location=map_location)
+/vol/bitbucket/mz325/individual_project/como/como/geometry/lie_algebra.py:168: UserWarning: Using torch.cross without specifying the dim arg is deprecated.
+Please either pass the dim explicitly or simply use torch.linalg.cross.
+The default value of dim will change to agree with that of linalg.cross in a future release. (Triggered internally at /opt/conda/conda-bld/pytorch_1729647382455/work/aten/src/ATen/native/Cross.cpp:62.)
+  wnorm_x_t = torch.cross(w_norm, t)
+Traceback (most recent call last):
+  File "/vol/bitbucket/mz325/individual_project/como/como_dataset_headless.py", line 117, in <module>
+    main(dataset, slam_cfg)
+  File "/vol/bitbucket/mz325/individual_project/como/como_dataset_headless.py", line 63, in main
+    tracking.update_kf_reference(kf_ref_data)
+  File "/vol/bitbucket/mz325/individual_project/como/como/odom/Tracking.py", line 224, in update_kf_reference
+    if timestamps[-1] > self.kf_received_ts and self.mapping_init:
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!

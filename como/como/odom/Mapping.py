@@ -196,6 +196,10 @@ class Mapping:
         return
 
     def add_keyframe(self, rgb, kf_pose_init, kf_aff_init, timestamp):
+        # update!
+        if self.cfg["color"] == "cnn":
+            kf_aff_init = torch.zeros_like(kf_aff_init)
+
         img_and_grads = self.get_img_and_grads(rgb)
         cov_params_img = self.run_model(rgb)
 
@@ -272,6 +276,10 @@ class Mapping:
         return
 
     def add_one_way_frame(self, rgb, pose_init, aff_init, timestamp):
+        # update!
+        if self.cfg["color"] == "cnn":
+            aff_init = torch.zeros_like(aff_init)
+            
         img_and_grads = self.get_img_and_grads(rgb)
 
         recent_ind = self.get_recent_start_window_ind()
@@ -842,6 +850,20 @@ class Mapping:
             use_affine=(self.cfg["color"] != "cnn"), # update!
         )
 
+        # update: debug!
+        import os
+        os.makedirs("vis_results", exist_ok=True)
+        photo_err_val = mean_sq_photo_err.item() if hasattr(mean_sq_photo_err, 'item') else float(mean_sq_photo_err)
+        print(f"[Mapping iter={self.iter}] photo_err={photo_err_val:.6f} | "
+              f"num_kf={self.kf_poses.shape[0]} | "
+              f"aff_max|a|={self.kf_aff_params[:, 0, :].abs().max().item():.4f} | "
+              f"aff_max|b|={self.kf_aff_params[:, 1, :].abs().max().item():.4f}")
+        
+        with open("vis_results/mapping_photo_err.txt", "a") as f:
+            f.write(f"{self.iter},{photo_err_val:.6f},"
+                    f"{self.kf_aff_params[:, 0, :].abs().max().item():.6f},"
+                    f"{self.kf_aff_params[:, 1, :].abs().max().item():.6f}\n")
+
         # Small prior to be close to median depth (mostly for pixels that have no overlap)
         log_median_depths = torch.log(self.median_depths[:, None, None])
         gp_prior_error = gp_ml_cost(
@@ -973,6 +995,10 @@ class Mapping:
         # 求解与更新
         # Solve and update
         delta = lin_sys.solve_system(H, g)
+
+        # update!
+        if self.cfg["color"] == "cnn":
+            delta[aff_diag_inds] = 0.0
 
         (
             self.kf_poses,
