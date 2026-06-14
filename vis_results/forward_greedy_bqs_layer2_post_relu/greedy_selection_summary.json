@@ -1,0 +1,56 @@
+{
+    "layer": "layer2",
+    "relu_mode": "post",
+    "formula": "new (corrcoef, GPU)",
+    "best_subset": [
+        120,
+        66,
+        39
+    ],
+    "best_bqs": 0.69739,
+    "frames": [
+        306
+    ],
+    "beam_size": 3,
+    "min_improvement": 0.0001,
+    "total_time_min": 4.67,
+    "all_beam_paths": [
+        {
+            "seed_channel": 39,
+            "subset": [
+                39,
+                123
+            ],
+            "bqs_history": [
+                0.6746666686746674,
+                0.6924117717381316
+            ]
+        },
+        {
+            "seed_channel": 66,
+            "subset": [
+                66,
+                39,
+                120
+            ],
+            "bqs_history": [
+                0.6415016615270568,
+                0.690015454843541,
+                0.6973903626406854
+            ]
+        },
+        {
+            "seed_channel": 120,
+            "subset": [
+                120,
+                66,
+                39
+            ],
+            "bqs_history": [
+                0.6388217005013835,
+                0.6796283687541067,
+                0.6973904126545173
+            ]
+        }
+    ]
+}

@@ -1,0 +1,2 @@
+/var/spool/slurm/d/job249815/slurm_script: line 18: /homes/mz325/miniconda3/bin/activate: No such file or directory
+/var/spool/slurm/d/job249815/slurm_script: line 19: conda: command not found
