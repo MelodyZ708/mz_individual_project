@@ -56,6 +56,30 @@ class TumOdometryDataset(OdometryDataset):
         dataset_ind = int(match.group(1))
         self.setup_camera_vars(dataset_ind)
 
+    def generate_brightness_curve(self, total_frames):
+        USE_BRIGHTNESS_AUG = True
+        # 模拟符合实际的渐进式光照变化（例如经过窗户或阴影）
+        curve = np.ones(total_frames)
+        
+        # 1. 模拟经过亮区（如窗户）：亮度逐渐上升到1.5倍，然后缓慢回落
+        start1, peak1, end1 = 100, 175, 250
+        if total_frames > end1:
+            x_up = np.linspace(0, np.pi, peak1 - start1)
+            curve[start1:peak1] = 1.0 + 0.5 * (1 - np.cos(x_up)) / 2
+            x_down = np.linspace(0, np.pi, end1 - peak1)
+            curve[peak1:end1] = 1.0 + 0.5 * (1 + np.cos(x_down)) / 2
+
+        # 2. 模拟经过暗区（如阴影）：亮度逐渐下降到0.6倍，然后缓慢回升
+        start2, peak2, end2 = 400, 475, 550
+        if total_frames > end2:
+            x_up = np.linspace(0, np.pi, peak2 - start2)
+            curve[start2:peak2] = 1.0 - 0.4 * (1 - np.cos(x_up)) / 2
+            x_down = np.linspace(0, np.pi, end2 - peak2)
+            curve[peak2:end2] = 1.0 - 0.4 * (1 + np.cos(x_down)) / 2
+            
+        return curve
+
+
     def setup_camera_vars(self, dataset_ind):
         size_orig = torch.tensor([480, 640])
         image_scale_factors = torch.tensor(self.img_size) / size_orig
@@ -127,6 +151,14 @@ class TumOdometryDataset(OdometryDataset):
         )
 
         rgb = TF.to_tensor(rgb_np_resized)
+        
+        if not hasattr(self, 'brightness_curve'):
+            self.brightness_curve = self.generate_brightness_curve(self.data_len)
+            
+        multiplier = self.brightness_curve[idx]
+        if multiplier != 1.0:
+            rgb = torch.clamp(rgb * multiplier, 0.0, 1.0)
+
         return rgb
 
     def load_depth(self, idx):

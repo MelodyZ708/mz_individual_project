@@ -81,6 +81,47 @@ class Tracking:
             # 计算总通道数 c
             c = actual_cnn_ch if cnn_mode == "cnn_only" else 3 + actual_cnn_ch
 
+        elif self.cfg["color"] == "cnn_c2f":
+            # Coarse 提取器（Layer2）
+            self.feature_extractor_coarse = CNNFeatureExtractor(
+                target_channels=self.cfg.get("cnn_channels_coarse", 3),
+                device=self.device,
+                mode="cnn_only",
+                channel_select=self.cfg.get("cnn_channel_select_coarse", "d120,d66,d39"),
+                cnn_layer=self.cfg.get("cnn_layer_coarse", "layer2"),
+            )
+            c_coarse = self.feature_extractor_coarse.actual_cnn_channels
+
+            # Fine 提取器（Conv1）
+            self.feature_extractor_fine = CNNFeatureExtractor(
+                target_channels=self.cfg.get("cnn_channels_fine", 6),
+                device=self.device,
+                mode="cnn_only",
+                channel_select=self.cfg.get("cnn_channel_select_fine", "d6,d28,d34,d50,d39,d16"),
+                cnn_layer=self.cfg.get("cnn_layer_fine", "conv1"),
+            )
+            c_fine = self.feature_extractor_fine.actual_cnn_channels
+
+            # 两个独立的金字塔模块（通道数不同，必须分开）
+            self.img_pyr_module_coarse = ImagePyramidModule(
+                c_coarse, start_level, end_level, self.device, dtype=self.dtype
+            )
+            self.img_pyr_module_fine = ImagePyramidModule(
+                c_fine, start_level, end_level, self.device, dtype=self.dtype
+            )
+
+            # 两个独立的梯度模块
+            self.gradient_module_coarse = ImageGradientModule(
+                channels=c_coarse, device=self.device, dtype=self.dtype
+            )
+            self.gradient_module_fine = ImageGradientModule(
+                channels=c_fine, device=self.device, dtype=self.dtype
+            )
+
+            # c 设为 fine 的通道数（最高分辨率层用 fine，决定最终精度）
+            # 注意：这里 c 只用于后面 print，不再用于初始化单一 module
+            c = c_fine
+
         print(f"[Tracking] color={self.cfg['color']}, channels c={c}")
 
         self.gradient_module = ImageGradientModule(
@@ -92,6 +133,7 @@ class Tracking:
         self.depth_pyr_module = DepthPyramidModule(
             start_level, end_level, depth_interp_mode, self.device
         )
+
 
     def reset_one_way_vars(self):
         self.num_one_way_since_kf = 0
@@ -118,6 +160,15 @@ class Tracking:
         # update!
         elif self.cfg["color"] == "cnn":
             img_tracking = self.feature_extractor(rgb)
+
+        elif self.cfg["color"] == "cnn_c2f":
+            pyr_coarse = self.img_pyr_module_coarse(self.feature_extractor_coarse(rgb))
+            pyr_fine   = self.img_pyr_module_fine(self.feature_extractor_fine(rgb))
+            # pyr[0]=最低分辨率, pyr[-1]=最高分辨率
+            # 前 (num_levels-1) 层用 coarse，最后一层用 fine
+            num_levels = len(pyr_coarse)
+            mixed_pyr = pyr_coarse[:num_levels - 1] + [pyr_fine[-1]]
+            return mixed_pyr
 
         img_pyr = self.img_pyr_module(img_tracking)
         return img_pyr
@@ -230,8 +281,9 @@ class Tracking:
             self.T_curr_kf = get_rel_pose(self.T_w_f, kf_pose[num_kf - 1 : num_kf])
 
             self.aff_w_f = get_aff_w_curr(self.aff_w_kf, self.aff_curr_kf)
+
             #update!
-            if self.cfg["color"] != "cnn":
+            if self.cfg["color"] not in ("cnn", "cnn_c2f"):
                 self.aff_curr_kf = get_rel_aff(self.aff_w_f, kf_aff[num_kf - 1 : num_kf])
 
             # Don't have this info but assume full image
@@ -259,8 +311,15 @@ class Tracking:
             self.coords_pyr = []
             self.vals_pyr = []
             self.img_grads_pyr = []
+            
             for i in range(len(img_pyr)):
-                gx, gy = self.gradient_module(img_pyr[i])
+                if self.cfg["color"] == "cnn_c2f":
+                    # 最后一层用 fine 梯度模块，其余用 coarse
+                    grad_mod = self.gradient_module_fine if i == len(img_pyr) - 1 \
+                            else self.gradient_module_coarse
+                    gx, gy = grad_mod(img_pyr[i])
+                else:
+                    gx, gy = self.gradient_module(img_pyr[i])   # 原有逻辑不动
 
                 num_kf = img_pyr[i].shape[0]
                 test_coords = get_test_coords(
@@ -355,8 +414,9 @@ class Tracking:
         num_kf = kf_pose.shape[0]
         self.kf_received_ts = timestamps[-1]
         self.T_w_kf = kf_pose[num_kf - 1 : num_kf]
+
         #update!
-        if self.cfg["color"] != "cnn":
+        if self.cfg["color"] not in ("cnn", "cnn_c2f"):
             self.aff_w_kf = kf_aff[num_kf - 1 : num_kf]
 
     def handle_frame(self, data):

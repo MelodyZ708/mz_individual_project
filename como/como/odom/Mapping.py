@@ -197,7 +197,7 @@ class Mapping:
 
     def add_keyframe(self, rgb, kf_pose_init, kf_aff_init, timestamp):
         # update!
-        if self.cfg["color"] == "cnn":
+        if self.cfg["color"] in ("cnn", "cnn_c2f"):
             kf_aff_init = torch.zeros_like(kf_aff_init)
 
         img_and_grads = self.get_img_and_grads(rgb)
@@ -277,9 +277,9 @@ class Mapping:
 
     def add_one_way_frame(self, rgb, pose_init, aff_init, timestamp):
         # update!
-        if self.cfg["color"] == "cnn":
+        if self.cfg["color"] in ("cnn", "cnn_c2f"):
             aff_init = torch.zeros_like(aff_init)
-            
+
         img_and_grads = self.get_img_and_grads(rgb)
 
         recent_ind = self.get_recent_start_window_ind()
