@@ -988,13 +988,18 @@ class Mapping:
 
 
         # update!
+        # update!
         if self.cfg["color"] == "cnn":
             aff_diag_inds = torch.cat([kf_aff_inds.flatten(), recent_inds[:, 6:].flatten() if recent_inds.numel() > 0 else torch.empty(0, dtype=torch.long, device=self.device)])
             H[aff_diag_inds, aff_diag_inds] += 1.0 # 固定仿射参数，等效于强先验
+            # LM damping: stabilise Gauss-Newton for CNN features
+            # lambda_lm = 0.1
+            # H.diagonal().add_(lambda_lm)
 
         # 求解与更新
         # Solve and update
         delta = lin_sys.solve_system(H, g)
+
 
         # update!
         if self.cfg["color"] == "cnn":

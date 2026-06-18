@@ -55,9 +55,9 @@ class TumOdometryDataset(OdometryDataset):
         match = re.search("freiburg(\d+)", seq_path)
         dataset_ind = int(match.group(1))
         self.setup_camera_vars(dataset_ind)
+        self.USE_BRIGHTNESS_AUG = False
 
     def generate_brightness_curve(self, total_frames):
-        USE_BRIGHTNESS_AUG = True
         # 模拟符合实际的渐进式光照变化（例如经过窗户或阴影）
         curve = np.ones(total_frames)
         
@@ -156,7 +156,8 @@ class TumOdometryDataset(OdometryDataset):
             self.brightness_curve = self.generate_brightness_curve(self.data_len)
             
         multiplier = self.brightness_curve[idx]
-        if multiplier != 1.0:
+
+        if self.USE_BRIGHTNESS_AUG and multiplier != 1.0:
             rgb = torch.clamp(rgb * multiplier, 0.0, 1.0)
 
         return rgb
