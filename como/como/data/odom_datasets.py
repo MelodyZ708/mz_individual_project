@@ -53,8 +53,21 @@ class TumOdometryDataset(OdometryDataset):
         self.data_len = len(self.rgb_list)
 
         match = re.search("freiburg(\d+)", seq_path)
-        dataset_ind = int(match.group(1))
-        self.setup_camera_vars(dataset_ind)
+        if match:
+            dataset_ind = int(match.group(1))
+            self.setup_camera_vars(dataset_ind)
+        else:
+            # fallback for self-recorded data (e.g. RealSense D435i 640x480)
+            from como.geometry.camera import resize_intrinsics
+            size_orig = torch.tensor([480, 640])
+            image_scale_factors = torch.tensor(self.img_size) / size_orig
+            intrinsics_orig = torch.tensor([
+                [615.0,   0.0, 320.0],
+                [  0.0, 615.0, 240.0],
+                [  0.0,   0.0,   1.0]
+            ])
+            self.intrinsics = resize_intrinsics(intrinsics_orig, image_scale_factors)
+            self.distortion = None
         self.USE_BRIGHTNESS_AUG = False
 
     def generate_brightness_curve(self, total_frames):
@@ -140,7 +153,7 @@ class TumOdometryDataset(OdometryDataset):
 
         # Undistort/resize
         # Use precalculated initUndistortRectifyMap for faster dataloading
-        if self.map1 is not None:
+        if hasattr(self, "map1") and self.map1 is not None:
             rgb_np_u = cv2.remap(rgb_np, self.map1, self.map2, cv2.INTER_LINEAR)
         else:
             rgb_np_u = rgb_np

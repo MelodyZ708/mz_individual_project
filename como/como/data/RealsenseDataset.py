@@ -5,7 +5,7 @@ import torchvision.transforms.functional as TF
 import cv2
 import pyrealsense2 as rs
 import numpy as np
-
+import os
 import time
 
 from como.geometry.camera import resize_intrinsics
@@ -21,6 +21,22 @@ class RealsenseDataset(IterableDataset):
         timestr = time.strftime("%Y%m%d-%H%M%S")
         self.save_traj_name = "realsense_" + timestr
 
+        # 录制相关初始化
+        self.save_recording = cfg.get("save_recording", False)
+        if self.save_recording:
+            base_dir = cfg.get("save_dir", "recordings")
+            self.record_dir = os.path.join(base_dir, timestr)
+            self.rgb_dir = os.path.join(self.record_dir, "rgb")
+            self.depth_dir = os.path.join(self.record_dir, "depth")
+            os.makedirs(self.rgb_dir, exist_ok=True)
+            os.makedirs(self.depth_dir, exist_ok=True)
+            self.rgb_txt = open(os.path.join(self.record_dir, "rgb.txt"), "w")
+            self.depth_txt = open(os.path.join(self.record_dir, "depth.txt"), "w")
+            self.rgb_txt.write("# timestamp filename\n")
+            self.depth_txt.write("# timestamp filename\n")
+            self._frame_idx = 0
+            print(f"[RealSense] Recording to: {self.record_dir}")
+
         self.start()
 
     def start(self):
@@ -31,8 +47,17 @@ class RealsenseDataset(IterableDataset):
             height=self.cfg["height"],
             framerate=self.cfg["fps"],
         )
+        # 新增：开启 depth 流（和 RGB 同分辨率）
+        config.enable_stream(
+            stream_type=rs.stream.depth,
+            width=self.cfg["width"],
+            height=self.cfg["height"],
+            framerate=self.cfg["fps"],
+        )
 
         self.pipeline = rs.pipeline()
+        # 新增：对齐 depth 到 RGB 坐标系
+        self.align = rs.align(rs.stream.color)
         profile = self.pipeline.start(config)
 
         rgb_sensor = profile.get_device().query_sensors()[1]
@@ -79,6 +104,11 @@ class RealsenseDataset(IterableDataset):
 
     def shutdown(self):
         self.pipeline.stop()
+        # 新增：关闭录制文件
+        if self.save_recording:
+            self.rgb_txt.close()
+            self.depth_txt.close()
+            print(f"[RealSense] Recording saved to: {self.record_dir}")
 
     def __len__(self):
         return 1.0e10
@@ -88,12 +118,19 @@ class RealsenseDataset(IterableDataset):
 
     def __next__(self):
         frameset = self.pipeline.wait_for_frames()
+        # 新增：对齐 depth 到 RGB
+        aligned = self.align.process(frameset)
 
         timestamp = frameset.get_timestamp()
         timestamp /= 1000.0  # original in ms
 
-        rgb_frame = frameset.get_color_frame()
+        # 改为从 aligned 取 RGB 帧
+        rgb_frame = aligned.get_color_frame()
         rgb_np = np.asanyarray(rgb_frame.get_data())
+
+        # 新增：取 depth 帧（uint16，单位 mm）
+        depth_frame = aligned.get_depth_frame()
+        depth_np = np.asanyarray(depth_frame.get_data())
 
         # Undistort
         if self.map1 is not None:
@@ -104,6 +141,28 @@ class RealsenseDataset(IterableDataset):
         rgb_np_resized = cv2.resize(
             rgb_np_u, new_img_size, interpolation=cv2.INTER_LINEAR
         )
+        # 新增：depth resize 用 NEAREST 避免深度值插值失真
+        depth_np_resized = cv2.resize(
+            depth_np, new_img_size, interpolation=cv2.INTER_NEAREST
+        )
+
+        # 新增：保存到磁盘（TUM 格式）
+        if self.save_recording:
+            ts_str = f"{timestamp:.6f}"
+            rgb_fname = f"rgb/{ts_str}.png"
+            depth_fname = f"depth/{ts_str}.png"
+            cv2.imwrite(
+                os.path.join(self.record_dir, rgb_fname),
+                rgb_np_resized[:, :, ::-1]  # RGB → BGR for cv2
+            )
+            cv2.imwrite(
+                os.path.join(self.record_dir, depth_fname),
+                depth_np_resized  # uint16 PNG，cv2 直接支持
+            )
+            self.rgb_txt.write(f"{ts_str} {rgb_fname}\n")
+            self.depth_txt.write(f"{ts_str} {depth_fname}\n")
+            self._frame_idx += 1
+
         rgb = TF.to_tensor(rgb_np_resized)
 
         return timestamp, rgb
