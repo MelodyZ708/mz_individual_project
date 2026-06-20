@@ -279,3 +279,94 @@ class CNNFeatureExtractor(nn.Module):
             output = torch.cat([rgb_normalized, upsampled_features], dim=1)
 
         return output.to(dtype=orig_dtype)
+    
+
+# ===== P3新增：UNet特征提取器（Zero-cost Feature Injection） =====
+class UNetFeatureExtractor(nn.Module):
+    """
+    从 DepthCovModule 的 U-Net 中提取 Encoder 浅层特征，
+    用于 Tracking 端的光度残差计算。
+    
+    不运行独立的神经网络，而是直接读取 U-Net forward() 时缓存的
+    中间特征（_cached_enc0 / _cached_enc1），实现零额外推理开销。
+    
+    使用方式：
+        extractor = UNetFeatureExtractor(
+            unet=mapping.model.gaussian_cov_net,
+            enc_level=1,           # 0=16ch全分辨率, 1=32ch H/2
+            channel_select="all",  # "all" 或 "d0,d5,d12" 等直接索引
+            device="cpu",
+        )
+        features = extractor.get_cached(rgb_shape)
+    """
+
+    def __init__(self, unet, enc_level=1, channel_select="all", device="cpu"):
+        super().__init__()
+        self.unet = unet          # DepthCovModule.gaussian_cov_net
+        self.enc_level = enc_level
+        self.device = device
+
+        # 确定该层的通道数
+        # enc_level=0 -> base输出 -> base_feature_channels=16
+        # enc_level=1 -> down_convs[0]输出 -> 32ch
+        # enc_level=k -> 16 * 2^k
+        total_ch = 16 * (2 ** enc_level)
+
+        # 解析通道选择
+        if str(channel_select).lower() == "all":
+            self.selected_indices = list(range(total_ch))
+        else:
+            raw = str(channel_select).strip()
+            if raw.lower().startswith("d"):
+                self.selected_indices = [int(c.strip().lstrip("dD")) for c in raw.split(",")]
+            else:
+                self.selected_indices = [int(c.strip()) for c in raw.split(",")]
+        
+        self.actual_channels = len(self.selected_indices)
+        self._idx_tensor = torch.tensor(self.selected_indices, dtype=torch.long, device=device)
+
+        print(f"[UNetFeatureExtractor] enc_level={enc_level}, "
+              f"total_ch={total_ch}, selected={self.actual_channels}, "
+              f"channel_select={channel_select}")
+
+    def get_cached(self, target_hw):
+        """
+        从 U-Net 的缓存中读取特征，上采样到 target_hw 分辨率。
+        
+        Args:
+            target_hw: (H, W) tuple，目标分辨率（即当前帧的图像尺寸）
+        
+        Returns:
+            Tensor, shape (1, actual_channels, H, W)，dtype=float32
+        """
+        import torch.nn.functional as F
+
+        if self.enc_level == 0:
+            cached = getattr(self.unet, "_cached_enc0", None)
+        else:
+            cached = getattr(self.unet, "_cached_enc1", None)
+
+        if cached is None:
+            raise RuntimeError(
+                "[UNetFeatureExtractor] U-Net 尚未运行过 forward()，缓存为空。\n"
+                "请确保 Mapping 端已处理过至少一帧（run_model 被调用过）。"
+            )
+
+        # 移动到 Tracking 设备
+        feat = cached.to(self.device)
+
+        # 选择通道
+        idx = self._idx_tensor.to(feat.device)
+        feat = feat[:, idx, :, :]
+
+        # 上采样到目标分辨率
+        if feat.shape[-2:] != target_hw:
+            feat = F.interpolate(
+                feat.float(),
+                size=target_hw,
+                mode="bilinear",
+                align_corners=False,
+            )
+
+        return feat
+# ===== P3新增结束 =====

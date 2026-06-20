@@ -122,6 +122,28 @@ class Tracking:
             # 注意：这里 c 只用于后面 print，不再用于初始化单一 module
             c = c_fine
 
+
+        # ===== P3新增：unet模式 =====
+        elif self.cfg["color"] == "unet":
+            # enc_level: 0=16ch全分辨率, 1=32ch H/2（推荐）
+            enc_level = self.cfg.get("unet_enc_level", 1)
+            channel_select = self.cfg.get("unet_channel_select", "all")
+            # 通道数：enc_level=0->16, enc_level=1->32, enc_level=k->16*2^k
+            total_ch = 16 * (2 ** enc_level)
+            if str(channel_select).lower() == "all":
+                c = total_ch
+            else:
+                raw = str(channel_select).strip()
+                if raw.lower().startswith("d"):
+                    c = len([x for x in raw.split(",") if x.strip()])
+                else:
+                    c = len([x for x in raw.split(",") if x.strip()])
+            # UNetFeatureExtractor 在 set_unet() 中初始化（需要 unet 对象引用）
+            # 这里仅记录通道数，extractor 在 set_unet() 中创建
+            self._unet_enc_level = enc_level
+            self._unet_channel_select = channel_select
+            self._unet_feature_extractor = None  # 占位，set_unet()中赋值
+
         print(f"[Tracking] color={self.cfg['color']}, channels c={c}")
 
         self.gradient_module = ImageGradientModule(
@@ -134,6 +156,30 @@ class Tracking:
             start_level, end_level, depth_interp_mode, self.device
         )
 
+
+    # ===== P3新增：接收来自Mapping端的UNet引用 =====
+    def set_unet(self, unet):
+        """
+        由外部（como_dataset.py 或多进程协调器）在系统初始化后调用，
+        将 Mapping 端的 U-Net 对象传入，初始化 UNetFeatureExtractor。
+        
+        Args:
+            unet: DepthCovModule.gaussian_cov_net（即 UNet 实例）
+        """
+        if self.cfg["color"] != "unet":
+            return  # 非unet模式，忽略
+        
+        from como.utils.image_processing import UNetFeatureExtractor
+        self._unet_feature_extractor = UNetFeatureExtractor(
+            unet=unet,
+            enc_level=self._unet_enc_level,
+            channel_select=self._unet_channel_select,
+            device=self.device,
+        )
+        print(f"[Tracking] UNetFeatureExtractor initialized: "
+              f"enc_level={self._unet_enc_level}, "
+              f"channels={self._unet_feature_extractor.actual_channels}")
+    # ===== P3新增结束 =====
 
     def reset_one_way_vars(self):
         self.num_one_way_since_kf = 0
@@ -169,6 +215,18 @@ class Tracking:
             num_levels = len(pyr_coarse)
             mixed_pyr = pyr_coarse[:num_levels - 1] + [pyr_fine[-1]]
             return mixed_pyr
+        
+                # ===== P3新增：unet模式 =====
+        elif self.cfg["color"] == "unet":
+            if self._unet_feature_extractor is None:
+                raise RuntimeError(
+                    "[Tracking] unet模式下 set_unet() 尚未被调用！\n"
+                    "请在系统初始化后调用 tracking.set_unet(mapping.model.gaussian_cov_net)"
+                )
+            img_tracking = self._unet_feature_extractor.get_cached(
+                target_hw=tuple(rgb.shape[-2:])
+            )
+        # ===== P3新增结束 =====
 
         img_pyr = self.img_pyr_module(img_tracking)
         return img_pyr

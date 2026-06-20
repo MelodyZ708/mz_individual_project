@@ -75,4 +75,8 @@ class UNet(nn.Module):
                 f_out_level = self.output_act(self.feature_convs[i](x_dec))
                 f_out.append(f_out_level)
 
+
+        self._cached_enc0 = x_enc[0].detach()  # 16ch, H×W
+        self._cached_enc1 = x_enc[1].detach()  # 32ch, H/2×W/2
+        
         return f_out

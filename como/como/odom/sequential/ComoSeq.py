@@ -24,6 +24,11 @@ class ComoSeq(GuiWindow):
         self.tracking.setup()
         self.mapping.setup()
 
+        # ===== P3新增：将U-Net引用传给Tracking =====
+        if slam_cfg["tracking"].get("color") == "unet":
+            self.tracking.set_unet(self.mapping.model.gaussian_cov_net)
+        # ===== P3新增结束 =====
+
     def start_slam_processes(self):
         self.tracking_done = False
         self.mapping_done = False
