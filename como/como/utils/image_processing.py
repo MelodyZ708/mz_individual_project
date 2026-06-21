@@ -328,6 +328,45 @@ class UNetFeatureExtractor(nn.Module):
         print(f"[UNetFeatureExtractor] enc_level={enc_level}, "
               f"total_ch={total_ch}, selected={self.actual_channels}, "
               f"channel_select={channel_select}")
+        
+    def extract(self, rgb):
+        """
+        直接对当前帧 rgb 运行 U-Net encoder 的前几层，提取特征。
+        修复时序 bug：原 get_cached() 读取的是上一帧的缓存，导致 keyframe 不触发。
+        """
+        import torch.nn.functional as F
+        target_hw = tuple(rgb.shape[-2:])
+
+        with torch.no_grad():
+            # 归一化（与 UNet.forward 完全一致）
+            x_norm = self.unet.normalize(rgb.float())
+
+            # base conv（16ch，全分辨率）
+            enc0 = self.unet.base(x_norm)
+
+            if self.enc_level == 0:
+                feat = enc0
+            else:
+                enc1 = self.unet.down_convs[0](enc0)
+                feat = enc1
+                for i in range(1, self.enc_level):
+                    feat = self.unet.down_convs[i](feat)
+
+        # 选择通道
+        idx = self._idx_tensor.to(feat.device)
+        feat = feat[:, idx, :, :]
+
+        # 上采样到原始分辨率
+        if feat.shape[-2:] != target_hw:
+            feat = F.interpolate(
+                feat.float(),
+                size=target_hw,
+                mode="bilinear",
+                align_corners=False,
+            )
+
+        return feat.to(device=self.device)
+
 
     def get_cached(self, target_hw):
         """

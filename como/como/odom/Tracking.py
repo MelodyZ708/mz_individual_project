@@ -223,9 +223,9 @@ class Tracking:
                     "[Tracking] unet模式下 set_unet() 尚未被调用！\n"
                     "请在系统初始化后调用 tracking.set_unet(mapping.model.gaussian_cov_net)"
                 )
-            img_tracking = self._unet_feature_extractor.get_cached(
-                target_hw=tuple(rgb.shape[-2:])
-            )
+            # 修复：直接对当前帧运行 encoder，而非读取存在时序bug的缓存
+            img_tracking = self._unet_feature_extractor.extract(rgb)
+
         # ===== P3新增结束 =====
 
         img_pyr = self.img_pyr_module(img_tracking)

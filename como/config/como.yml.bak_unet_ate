@@ -82,5 +82,5 @@ tracking:
     grad_norm: 1.0
     max_iter: 50
     rel_tol: 0.001
-  unet_channel_select: d4
+  unet_channel_select: d4,d15,d9
   unet_enc_level: 1
