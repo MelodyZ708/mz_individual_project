@@ -347,10 +347,10 @@ class UNetFeatureExtractor(nn.Module):
             cached = getattr(self.unet, "_cached_enc1", None)
 
         if cached is None:
-            raise RuntimeError(
-                "[UNetFeatureExtractor] U-Net 尚未运行过 forward()，缓存为空。\n"
-                "请确保 Mapping 端已处理过至少一帧（run_model 被调用过）。"
-            )
+            # 缓存为空时返回全零 tensor，避免 tracking 崩溃
+            import torch
+            H, W = target_hw
+            return torch.zeros(1, self.actual_channels, H, W, device=self.device)
 
         # 移动到 Tracking 设备
         feat = cached.to(self.device)

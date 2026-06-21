@@ -61,10 +61,13 @@ BQS_CONFIG = {
     },
     'convexity_scale':          0.002,
     'dead_threshold':           1e-8,
-    # Normalisation bounds from ResNet Conv1 single-channel analysis
-    # (reuse same bounds for fair comparison)
-    'MAX_LQBS':  0.55,
-    'MAX_WIDTH': 10.0,
+    # Normalisation bounds — global empirical ceiling across all experiments
+    # (enc0, enc1, ResNet Conv1), so BQS scores are directly comparable.
+    #   MAX_LQBS  = ResNet Conv1 Ch45 actual max LQBS = 0.5257
+    #   MAX_WIDTH = enc1 Ch04 actual max valid Width  = 8.944
+    # Using the cross-experiment maximum ensures a single ruler for all layers.
+    'MAX_LQBS':  0.5257,
+    'MAX_WIDTH': 8.944,
     # Retention weights
     'ret_w30': 0.4,
     'ret_w50': 0.6,
@@ -445,10 +448,12 @@ def main():
     parser.add_argument('--device',      type=str, default='cuda:0')
     parser.add_argument('--resnet_csv',  type=str, default=None,
                         help='Path to ResNet Conv1 channel_ranking.csv for comparison plot')
+    parser.add_argument('--out_dir', type=str, default=None,
+                        help='Output directory (default: vis_results/bqs_unet_enc{N})')
     args = parser.parse_args()
 
     enc_level  = args.enc_level
-    output_dir = f'vis_results/bqs_unet_enc{enc_level}'
+    output_dir = args.out_dir if args.out_dir else f'vis_results/bqs_unet_enc{enc_level}'
     os.makedirs(output_dir, exist_ok=True)
 
     print('=' * 60)
@@ -494,6 +499,10 @@ def main():
     dx_vals = np.arange(-cfg['grid_range'], cfg['grid_range'] + 1, cfg['grid_step'])
     dy_vals = np.arange(-cfg['grid_range'], cfg['grid_range'] + 1, cfg['grid_step'])
 
+    print(f'[INFO] Normalisation bounds (global empirical ceiling):')
+    print(f'       MAX_LQBS  = {cfg["MAX_LQBS"]:.6f}')
+    print(f'       MAX_WIDTH = {cfg["MAX_WIDTH"]:.6f}')
+
     # ── Evaluate each channel ──
     all_rows = []
     for ch in range(num_channels):
@@ -505,7 +514,6 @@ def main():
             grids[cond_name] = compute_cost_landscape_gpu(
                 feat_ref, feat_tgt, dx_vals, dy_vals, args.device
             )
-
         metrics = compute_channel_bqs(grids, dx_vals, dy_vals)
         metrics['channel'] = ch
         all_rows.append(metrics)
