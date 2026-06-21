@@ -55,7 +55,16 @@ mkdir -p "${RESULTS_DIR}"
 mkdir -p "$(dirname ${SBATCH_OUTPUT:-/vol/bitbucket/mz325/individual_project/logs/placeholder})"
 
 cp "${CONFIG_FILE}" "${CONFIG_BACKUP}"
-trap "echo 'Restoring original config...'; cp '${CONFIG_BACKUP}' '${CONFIG_FILE}'" EXIT
+
+# ── 启动 Xvfb（整个 job 共用一个 DISPLAY，避免每次重启导致冲突）──
+DISP_NUM=$((${SLURM_JOB_ID:-$$} % 200 + 100))
+Xvfb :${DISP_NUM} -screen 0 1920x1080x24 &
+XVFB_PID=$!
+sleep 2
+export DISPLAY=:${DISP_NUM}
+echo "Xvfb started on DISPLAY=:${DISP_NUM} (PID=${XVFB_PID})"
+
+trap "echo 'Restoring original config...'; cp '${CONFIG_BACKUP}' '${CONFIG_FILE}'; kill ${XVFB_PID} 2>/dev/null || true" EXIT
 
 cd "${PROJECT_DIR}"
 
@@ -81,15 +90,11 @@ PYEOF
 
     for RUN in $(seq 1 ${NUM_RUNS}); do
         echo "  ── Run ${RUN}/${NUM_RUNS} ──"
-        local DISP_NUM=$((300 + RUN))
-        Xvfb :${DISP_NUM} -screen 0 1920x1080x24 &
-        local XVFB_PID=$!; sleep 1; export DISPLAY=:${DISP_NUM}
 
-        timeout 300 python como/como_dataset.py \
+        timeout 500 python como/como_dataset.py \
             --dataset_type=tum \
             --dataset_dir="${DATASET_DIR}" || true
 
-        kill ${XVFB_PID} 2>/dev/null || true
         sleep 5
 
         local TRAJ="${PROJECT_DIR}/results/tum_rgbd_dataset_freiburg1_desk.txt"

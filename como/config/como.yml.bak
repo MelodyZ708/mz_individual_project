@@ -62,8 +62,8 @@ tracking:
   cnn_layer_full_channels: 128
   cnn_layer_name: conv1
   cnn_mode: cnn_only
-  color: cnn
-  device: cpu
+  color: gray
+  device: cuda:0
   dtype: float
   keyframing:
     kf_depth_motion_ratio: 0.12
