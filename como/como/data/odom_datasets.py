@@ -7,6 +7,7 @@ import cv2
 import os
 import re
 import glob
+from pathlib import Path
 
 from como.geometry.camera import resize_intrinsics
 
@@ -52,22 +53,26 @@ class TumOdometryDataset(OdometryDataset):
 
         self.data_len = len(self.rgb_list)
 
+        intrinsics_path = Path(seq_path) / "intrinsics.txt"
         match = re.search("freiburg(\d+)", seq_path)
-        if match:
+
+        if intrinsics_path.exists():
+            self.setup_camera_vars_from_intrinsics_file(intrinsics_path)
+        elif match:
             dataset_ind = int(match.group(1))
             self.setup_camera_vars(dataset_ind)
         else:
-            # fallback for self-recorded data (e.g. RealSense D435i 640x480)
-            from como.geometry.camera import resize_intrinsics
-            size_orig = torch.tensor([480, 640])
-            image_scale_factors = torch.tensor(self.img_size) / size_orig
+            # fallback for self-recorded data when no intrinsics.txt is available
+            size_orig = torch.tensor([480, 640], dtype=torch.float32)
+            image_scale_factors = torch.tensor(self.img_size, dtype=torch.float32) / size_orig
             intrinsics_orig = torch.tensor([
                 [615.0,   0.0, 320.0],
                 [  0.0, 615.0, 240.0],
                 [  0.0,   0.0,   1.0]
-            ])
+            ], dtype=torch.float32)
             self.intrinsics = resize_intrinsics(intrinsics_orig, image_scale_factors)
             self.distortion = None
+            self.map1, self.map2 = None, None
         self.USE_BRIGHTNESS_AUG = False
 
     def generate_brightness_curve(self, total_frames):
@@ -91,7 +96,39 @@ class TumOdometryDataset(OdometryDataset):
             curve[peak2:end2] = 1.0 - 0.4 * (1 + np.cos(x_down)) / 2
             
         return curve
+    
+    def setup_camera_vars_from_intrinsics_file(self, intrinsics_path):
+        with open(intrinsics_path, "r") as f:
+            line = f.readline().strip()
 
+        parts = line.split()
+        if len(parts) < 6:
+            raise ValueError(
+                f"intrinsics.txt format invalid: expected at least 6 values, got {len(parts)}"
+            )
+
+        width = float(parts[0])
+        height = float(parts[1])
+        fx = float(parts[2])
+        fy = float(parts[3])
+        cx = float(parts[4])
+        cy = float(parts[5])
+
+        size_orig = torch.tensor([height, width], dtype=torch.float32)
+        image_scale_factors = torch.tensor(self.img_size, dtype=torch.float32) / size_orig
+
+        intrinsics_orig = torch.tensor(
+            [
+                [fx, 0.0, cx],
+                [0.0, fy, cy],
+                [0.0, 0.0, 1.0],
+            ],
+            dtype=torch.float32,
+        )
+
+        self.intrinsics = resize_intrinsics(intrinsics_orig, image_scale_factors)
+        self.distortion = None
+        self.map1, self.map2 = None, None
 
     def setup_camera_vars(self, dataset_ind):
         size_orig = torch.tensor([480, 640])
