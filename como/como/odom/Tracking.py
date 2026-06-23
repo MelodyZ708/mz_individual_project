@@ -547,6 +547,13 @@ class Tracking:
         num_valid_reproj_depth = torch.count_nonzero(valid_depth_mask)
         median_depth = torch.median(reproj_depth[valid_depth_mask])
 
+
+        print(f"  [KF check] kf_dist={torch.linalg.norm(self.T_curr_kf[:, :3, 3]).item():.6f} | "
+              f"median_depth={median_depth.item():.4f} | "
+              f"num_valid={num_valid_reproj_depth.item()} | "
+              f"num_kf_pixels={self.vals_pyr[-1].shape[1]} | "
+              f"thresh={self.cfg['keyframing']['kf_depth_motion_ratio'] * median_depth.item():.6f}")
+
         new_kf = self.check_keyframe(
             median_depth, num_valid_reproj_depth, self.T_curr_kf
         )
