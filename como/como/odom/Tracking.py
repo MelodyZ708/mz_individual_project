@@ -16,7 +16,7 @@ from como.utils.image_processing import (
 from como.utils.coords import swap_coords_xy, get_test_coords, fill_image
 
 from como.utils.multiprocessing import init_gpu
-from como.utils.image_processing import CNNFeatureExtractor
+from como.utils.image_processing import CNNFeatureExtractor, UNetFeatureExtractor
 
 
 class Tracking:
@@ -159,26 +159,20 @@ class Tracking:
 
     # ===== P3新增：接收来自Mapping端的UNet引用 =====
     def set_unet(self, unet):
-        """
-        由外部（como_dataset.py 或多进程协调器）在系统初始化后调用，
-        将 Mapping 端的 U-Net 对象传入，初始化 UNetFeatureExtractor。
-        
-        Args:
-            unet: DepthCovModule.gaussian_cov_net（即 UNet 实例）
-        """
         if self.cfg["color"] != "unet":
-            return  # 非unet模式，忽略
+            return
         
-        from como.utils.image_processing import UNetFeatureExtractor
+        import copy
+        unet_cpu = copy.deepcopy(unet).to("cpu").eval()   # ← 新增这两行
+        
         self._unet_feature_extractor = UNetFeatureExtractor(
-            unet=unet,
+            unet=unet_cpu,                                 # ← 从 unet 改为 unet_cpu
             enc_level=self._unet_enc_level,
             channel_select=self._unet_channel_select,
             device=self.device,
         )
-        print(f"[Tracking] UNetFeatureExtractor initialized: "
-              f"enc_level={self._unet_enc_level}, "
-              f"channels={self._unet_feature_extractor.actual_channels}")
+        print(f"[Tracking] UNetFeatureExtractor initialized: ...")
+
     # ===== P3新增结束 =====
 
     def reset_one_way_vars(self):
@@ -366,6 +360,7 @@ class Tracking:
 
             # Photometric
             img_pyr = self.prep_tracking_img(kf_rgb)
+
             self.coords_pyr = []
             self.vals_pyr = []
             self.img_grads_pyr = []

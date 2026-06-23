@@ -53,10 +53,10 @@ mapping:
   unet_enc_level: 1
 name: Depth odom config
 tracking:
-  cnn_channel_select: d6,d28,d34,d50,d39,d16
+  cnn_channel_select: d6,d28,d34,d62,d12
   cnn_channel_select_coarse: d120,d66,d39
   cnn_channel_select_fine: d6,d28,d34,d50,d39,d16
-  cnn_channels: 6
+  cnn_channels: 5
   cnn_channels_coarse: 3
   cnn_channels_fine: 2
   cnn_layer_coarse: layer2

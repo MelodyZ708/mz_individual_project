@@ -302,7 +302,7 @@ class UNetFeatureExtractor(nn.Module):
 
     def __init__(self, unet, enc_level=1, channel_select="all", device="cpu"):
         super().__init__()
-        self.unet = unet          # 不移动设备，保持 U-Net 在原来的 GPU 上
+        self.unet = unet          # 不加 .to(device)，传进来已经是 CPU 版了
         self.enc_level = enc_level
         self.device = device
 
@@ -340,8 +340,7 @@ class UNetFeatureExtractor(nn.Module):
 
         with torch.no_grad():
             # 归一化（与 UNet.forward 完全一致）
-            device = next(self.unet.parameters()).device
-            x_norm = self.unet.normalize(rgb.float().to(next(self.unet.parameters()).device))
+            x_norm = self.unet.normalize(rgb.float().to(self.device))
 
             # base conv（16ch，全分辨率）
             enc0 = self.unet.base(x_norm)
