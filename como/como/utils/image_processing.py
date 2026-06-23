@@ -302,7 +302,7 @@ class UNetFeatureExtractor(nn.Module):
 
     def __init__(self, unet, enc_level=1, channel_select="all", device="cpu"):
         super().__init__()
-        self.unet = unet          # DepthCovModule.gaussian_cov_net
+        self.unet = unet          # 不移动设备，保持 U-Net 在原来的 GPU 上
         self.enc_level = enc_level
         self.device = device
 
@@ -321,13 +321,14 @@ class UNetFeatureExtractor(nn.Module):
                 self.selected_indices = [int(c.strip().lstrip("dD")) for c in raw.split(",")]
             else:
                 self.selected_indices = [int(c.strip()) for c in raw.split(",")]
-        
+
         self.actual_channels = len(self.selected_indices)
         self._idx_tensor = torch.tensor(self.selected_indices, dtype=torch.long, device=device)
 
         print(f"[UNetFeatureExtractor] enc_level={enc_level}, "
               f"total_ch={total_ch}, selected={self.actual_channels}, "
               f"channel_select={channel_select}")
+
         
     def extract(self, rgb):
         """
@@ -339,7 +340,8 @@ class UNetFeatureExtractor(nn.Module):
 
         with torch.no_grad():
             # 归一化（与 UNet.forward 完全一致）
-            x_norm = self.unet.normalize(rgb.float())
+            device = next(self.unet.parameters()).device
+            x_norm = self.unet.normalize(rgb.float().to(next(self.unet.parameters()).device))
 
             # base conv（16ch，全分辨率）
             enc0 = self.unet.base(x_norm)
@@ -365,7 +367,7 @@ class UNetFeatureExtractor(nn.Module):
                 align_corners=False,
             )
 
-        return feat.to(device=self.device)
+        return feat.to(self.device)
 
 
     def get_cached(self, target_hw):

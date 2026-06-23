@@ -65,7 +65,7 @@ tracking:
   cnn_layer_name: conv1
   cnn_mode: cnn_only
   color: unet
-  device: cuda:0
+  device: cpu
   dtype: float
   keyframing:
     kf_depth_motion_ratio: 0.12
