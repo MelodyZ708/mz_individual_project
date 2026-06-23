@@ -219,6 +219,7 @@ class TumOdometryDataset(OdometryDataset):
             rgb_np_u = rgb_np
 
         new_img_size = [self.img_size[1], self.img_size[0]]
+        print(new_img_size)
         rgb_np_resized = cv2.resize(
             rgb_np_u, new_img_size, interpolation=cv2.INTER_LINEAR
         )
