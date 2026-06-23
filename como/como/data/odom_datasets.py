@@ -98,21 +98,44 @@ class TumOdometryDataset(OdometryDataset):
         return curve
     
     def setup_camera_vars_from_intrinsics_file(self, intrinsics_path):
+        numeric_lines = []
+
         with open(intrinsics_path, "r") as f:
-            line = f.readline().strip()
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
 
-        parts = line.split()
-        if len(parts) < 6:
+                parts = line.split()
+                try:
+                    values = [float(x) for x in parts]
+                    numeric_lines.append(values)
+                except ValueError:
+                    continue
+
+        if len(numeric_lines) == 0:
+            raise ValueError(f"No numeric intrinsics found in {intrinsics_path}")
+
+        first = numeric_lines[0]
+
+        if len(first) >= 6:
+            width = float(first[0])
+            height = float(first[1])
+            fx = float(first[2])
+            fy = float(first[3])
+            cx = float(first[4])
+            cy = float(first[5])
+        elif len(first) == 4:
+            fx = float(first[0])
+            fy = float(first[1])
+            cx = float(first[2])
+            cy = float(first[3])
+            width = 640.0
+            height = 480.0
+        else:
             raise ValueError(
-                f"intrinsics.txt format invalid: expected at least 6 values, got {len(parts)}"
+                f"intrinsics.txt format invalid: expected 4 or at least 6 numeric values, got {len(first)}"
             )
-
-        width = float(parts[0])
-        height = float(parts[1])
-        fx = float(parts[2])
-        fy = float(parts[3])
-        cx = float(parts[4])
-        cy = float(parts[5])
 
         size_orig = torch.tensor([height, width], dtype=torch.float32)
         image_scale_factors = torch.tensor(self.img_size, dtype=torch.float32) / size_orig
@@ -129,7 +152,7 @@ class TumOdometryDataset(OdometryDataset):
         self.intrinsics = resize_intrinsics(intrinsics_orig, image_scale_factors)
         self.distortion = None
         self.map1, self.map2 = None, None
-
+        
     def setup_camera_vars(self, dataset_ind):
         size_orig = torch.tensor([480, 640])
         image_scale_factors = torch.tensor(self.img_size) / size_orig
