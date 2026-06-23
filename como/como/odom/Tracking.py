@@ -162,16 +162,14 @@ class Tracking:
         if self.cfg["color"] != "unet":
             return
         
-        import copy
-        unet_cpu = copy.deepcopy(unet).to("cpu").eval()   # ← 新增这两行
-        
+        # 不 deepcopy，直接持有 GPU 原始 U-Net 的引用
         self._unet_feature_extractor = UNetFeatureExtractor(
-            unet=unet_cpu,                                 # ← 从 unet 改为 unet_cpu
+            unet=unet,   # ← 原始 GPU 模型
             enc_level=self._unet_enc_level,
             channel_select=self._unet_channel_select,
-            device=self.device,
+            device=self.device,  # tracking device = cpu
         )
-        print(f"[Tracking] UNetFeatureExtractor initialized: ...")
+
 
     # ===== P3新增结束 =====
 
