@@ -326,7 +326,7 @@ class Tracking:
         # Update curr frame to kf variables
         if timestamps[-1] > self.kf_received_ts and self.mapping_init:
             num_kf = kf_pose.shape[0]
-
+            #notes!!!
             self.T_w_f = get_T_w_curr(self.T_w_kf, self.T_curr_kf)
             self.T_curr_kf = get_rel_pose(self.T_w_f, kf_pose[num_kf - 1 : num_kf])
 

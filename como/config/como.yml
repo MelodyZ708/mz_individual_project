@@ -1,10 +1,10 @@
 mapping:
-  cnn_channel_select: d39
+  cnn_channel_select: d6
   cnn_channels: 1
-  cnn_layer_full_channels: 128
-  cnn_layer_name: layer2
+  cnn_layer_full_channels: 64
+  cnn_layer_name: conv1
   cnn_mode: cnn_only
-  color: gray
+  color: cnn
   corr:
     corr_mode: logz
     corr_thresh: 0.03
@@ -53,20 +53,20 @@ mapping:
   unet_enc_level: 1
 name: Depth odom config
 tracking:
-  cnn_channel_select: d6,d28,d34,d62,d12
+  cnn_channel_select: d6
   cnn_channel_select_coarse: d120,d66,d39
   cnn_channel_select_fine: d6,d28,d34,d50,d39,d16
-  cnn_channels: 5
+  cnn_channels: 1
   cnn_channels_coarse: 3
   cnn_channels_fine: 2
   cnn_layer_coarse: layer2
   cnn_layer_fine: conv1
-  cnn_layer_full_channels: 128
+  cnn_layer_full_channels: 64
   cnn_layer_name: conv1
   cnn_mode: cnn_only
-  color: gray
+  color: cnn
 
-  device: cuda:0
+  device: cpu
   dtype: float
   keyframing:
     kf_depth_motion_ratio: 0.12

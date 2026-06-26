@@ -129,7 +129,7 @@ def batch_photo_cost(
         r_photo = vals_target - vals_i  # 目标帧投影点的特征值 减去 参考帧采样点的特征值
         #print(f"[FM] std={r_photo.std().item():.4f}, vals_target has NaN: {torch.isnan(vals_target).any().item()}, vals_i has NaN: {torch.isnan(vals_i).any().item()}")
         
-        #r_photo = r_photo / (r_photo.std() + 1e-8) # 归一化
+        # r_photo = r_photo / (r_photo.std() + 1e-8) # 归一化
         dI_daffi = torch.zeros((*vals_i.shape, 2), device=vals_i.device, dtype=vals_i.dtype)
         dI_daffj = torch.zeros_like(dI_daffi)
 
