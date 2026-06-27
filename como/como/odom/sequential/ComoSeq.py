@@ -195,7 +195,7 @@ class ComoSeq(GuiWindow):
     def iter_sensor_tracking_only(self, timestamp, rgb, depth):
         # 先照常更新当前图像显示
         gui.Application.instance.post_to_main_thread(
-            self.window, lambda: self.update_tracking_only_traj_render(tracked_pose)
+            self.window, lambda: self.update_curr_image_render(rgb)
         )
 
         # 第一帧：直接作为 reference keyframe
@@ -215,7 +215,7 @@ class ComoSeq(GuiWindow):
 
         track_data_viz, track_data_map = self.tracking.track(track_data_in)
 
-        # 先保留 tracking device 上的 pose，后面刷新 reference 直接复用
+        # 先保留 tracking device 上的 pose，后面如需 debug / refresh 可复用
         tracked_timestamp_tracking, tracked_pose_tracking = track_data_viz
 
         # 如果 tracking 已经数值发散，直接跳过当前帧
@@ -231,7 +231,7 @@ class ComoSeq(GuiWindow):
         self.est_poses = np.concatenate((self.est_poses, tracked_pose))
 
         gui.Application.instance.post_to_main_thread(
-            self.window, lambda: self.update_pose_render(tracked_pose)
+            self.window, lambda: self.update_tracking_only_traj_render(tracked_pose)
         )
 
         # tracking-only 模式下先不走 Phong 渲染
