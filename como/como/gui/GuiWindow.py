@@ -18,7 +18,9 @@ from como.utils.o3d import (
     torch_to_o3d_spheres,
     frustum_lineset,
     get_one_way_lineset,
+    get_traj_lineset,
 )
+
 from como.utils.io import save_traj
 from como.utils.config import str_to_dtype
 
@@ -173,6 +175,7 @@ class GuiWindow:
 
         self.scale = 1.0
         self.base_pose = torch.eye(4)
+        self.tracking_only_pose_history = []
 
         # Start processes
         torch.multiprocessing.set_start_method("spawn")
@@ -524,6 +527,28 @@ class GuiWindow:
             self.setup_camera_view(pose_np, self.base_pose)
         else:
             pass
+
+    def update_tracking_only_traj_render(self, tracked_pose):
+        pose_np = tracked_pose[0, :, :].numpy()
+        self.tracking_only_pose_history.append(pose_np.copy())
+
+        poses_np = np.stack(self.tracking_only_pose_history, axis=0)
+
+        traj_geo = get_traj_lineset(
+            poses_np,
+            self.get_intrinsics(),
+            self.get_img_size(),
+            self.cfg["tracking_color"],
+            self.frumstum_scale,
+            frustum_mode="last",
+            pose_lines=True,
+        )
+
+        self.widget3d.scene.remove_geometry("tracking_only_traj")
+        self.widget3d.scene.add_geometry("tracking_only_traj", traj_geo, self.line_mat)
+
+        if self.follow_tracking:
+            self.setup_camera_view(pose_np, self.base_pose)
 
     def update_main(self):
         self.start_slam_processes()

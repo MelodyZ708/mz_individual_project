@@ -195,7 +195,7 @@ class ComoSeq(GuiWindow):
     def iter_sensor_tracking_only(self, timestamp, rgb, depth):
         # 先照常更新当前图像显示
         gui.Application.instance.post_to_main_thread(
-            self.window, lambda: self.update_curr_image_render(rgb)
+            self.window, lambda: self.update_tracking_only_traj_render(tracked_pose)
         )
 
         # 第一帧：直接作为 reference keyframe
