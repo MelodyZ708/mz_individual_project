@@ -488,6 +488,17 @@ class Tracking:
             self.cfg["term_criteria"],
         )
 
+        if not torch.isfinite(self.T_curr_kf).all():
+            print("[DEBUG] T_curr_kf became non-finite immediately after photo_tracking_pyr")
+            print(self.T_curr_kf)
+        elif not torch.allclose(
+            self.T_curr_kf[:, :3, :3] @ self.T_curr_kf[:, :3, :3].transpose(-1, -2),
+            torch.eye(3, device=self.T_curr_kf.device, dtype=self.T_curr_kf.dtype).unsqueeze(0),
+            atol=1e-1,
+        ):
+            print("[DEBUG] T_curr_kf rotation block is no longer close to orthonormal")
+            print(self.T_curr_kf)
+
         # === 新增代码开始 (保存残差用于可视化) ===
         if not hasattr(self, '_vis_frame_count'):
             self._vis_frame_count = 0
@@ -538,7 +549,33 @@ class Tracking:
         reproj_depth = self.get_reproj_last_kf(self.T_curr_kf)
         valid_depth_mask = ~torch.isnan(reproj_depth)
         num_valid_reproj_depth = torch.count_nonzero(valid_depth_mask)
-        median_depth = torch.median(reproj_depth[valid_depth_mask])
+        self.last_num_valid_reproj_depth = int(num_valid_reproj_depth.item())
+
+        if (
+            self.last_num_valid_reproj_depth < 10000
+            and not hasattr(self, "first_low_valid_reported")
+        ):
+            self.first_low_valid_reported = True
+            print(
+                "[DEBUG first_low_valid] "
+                f"num_valid={self.last_num_valid_reproj_depth}, "
+                f"T_curr_kf=\n{self.T_curr_kf}"
+            )
+
+        if (
+            self.last_num_valid_reproj_depth == 0
+            and not hasattr(self, "first_zero_valid_reported")
+        ):
+            self.first_zero_valid_reported = True
+            print("[DEBUG first_zero_valid] reprojection completely failed")
+            print(f"T_curr_kf=\n{self.T_curr_kf}")
+
+        if self.last_num_valid_reproj_depth == 0:
+            median_depth = torch.tensor(
+                1.0, device=reproj_depth.device, dtype=reproj_depth.dtype
+            )
+        else:
+            median_depth = torch.median(reproj_depth[valid_depth_mask])
 
 
         print(f"  [KF check] kf_dist={torch.linalg.norm(self.T_curr_kf[:, :3, 3]).item():.6f} | "

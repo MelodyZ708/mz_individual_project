@@ -531,8 +531,8 @@ class GuiWindow:
         # Initialize rendering
         gui.Application.instance.post_to_main_thread(self.window, self._on_start)
         it = iter(self.dataloader)
-        timestamp, rgb = next(it)
-        self.timestamp = timestamp  # For real-tme handling
+        timestamp, rgb, depth = next(it)
+        self.timestamp = timestamp
         self.idx = 1
         gui.Application.instance.post_to_main_thread(
             self.window, lambda: self.init_render(rgb)
@@ -575,8 +575,8 @@ class GuiWindow:
             if get_new_frame:
                 # RGB data
                 if self.idx < self.dataloader.dataset.__len__():
-                    timestamp, rgb = self.load_data(it)
-                    self.iter(timestamp, rgb)
+                    timestamp, rgb, depth = self.load_data(it)
+                    self.iter(timestamp, rgb, depth)
                     self.idx += 1
                 elif self.idx == self.dataloader.dataset.__len__():
                     # Signal end for exit
@@ -613,5 +613,5 @@ class GuiWindow:
     def load_data(self, it):
         raise NotImplementedError
 
-    def iter(self, timestamp, rgb):
+    def iter(self, timestamp, rgb, depth):
         raise NotImplementedError

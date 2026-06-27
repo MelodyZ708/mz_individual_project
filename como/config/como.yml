@@ -52,6 +52,8 @@ mapping:
   unet_channel_select: d4
   unet_enc_level: 1
 name: Depth odom config
+
+
 tracking:
   cnn_channel_select: d6
   cnn_channel_select_coarse: d120,d66,d39
@@ -64,7 +66,7 @@ tracking:
   cnn_layer_full_channels: 64
   cnn_layer_name: conv1
   cnn_mode: cnn_only
-  color: cnn
+  color: gray
 
   device: cpu
   dtype: float
@@ -85,3 +87,6 @@ tracking:
     rel_tol: 0.001
   unet_channel_select: d4,d15,d9,d10,d30
   unet_enc_level: 1
+
+  # update!
+  sensor_tracking_only: true

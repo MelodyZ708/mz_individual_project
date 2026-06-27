@@ -15,7 +15,14 @@ from como.geometry.camera import resize_intrinsics
 # Assuming one by one loading
 def odom_collate_fn(batch):
     assert len(batch) == 1
-    return (batch[0][0], batch[0][1].unsqueeze(0))
+
+    timestamp, rgb, depth = batch[0]
+    rgb = rgb.unsqueeze(0)
+
+    if depth is not None:
+        depth = depth.unsqueeze(0)
+
+    return (timestamp, rgb, depth)
 
 
 class OdometryDataset(Dataset):
@@ -29,7 +36,13 @@ class OdometryDataset(Dataset):
     def __getitem__(self, idx):
         timestamp = self.load_timestamp(idx)
         rgb = self.load_rgb(idx)
-        return timestamp, rgb
+
+        if getattr(self, "has_depth", False):
+            depth = self.load_depth(idx)
+        else:
+            depth = None
+
+        return timestamp, rgb, depth
 
 
 class TumOdometryDataset(OdometryDataset):
@@ -42,14 +55,44 @@ class TumOdometryDataset(OdometryDataset):
         self.save_traj_name = tmp[1] + "_" + tmp[2]
 
         # RGB only
-        rgb_file = open(seq_path + "rgb.txt")
-        lines = rgb_file.readlines()
+        rgb_index_path = os.path.join(seq_path, "matched_rgb.txt")
+        if not os.path.exists(rgb_index_path):
+            rgb_index_path = os.path.join(seq_path, "rgb.txt")
+
+        depth_index_path = os.path.join(seq_path, "matched_depth.txt")
+        if not os.path.exists(depth_index_path):
+            fallback_depth = os.path.join(seq_path, "depth.txt")
+            depth_index_path = fallback_depth if os.path.exists(fallback_depth) else None
+
         self.ts_list = []
         self.rgb_list = []
-        for i in range(3, len(lines)):  # Skip info from first 3 lines
+        self.depth_list = []
+        self.has_depth = depth_index_path is not None
+
+        with open(rgb_index_path, "r") as rgb_file:
+            lines = rgb_file.readlines()
+        for i in range(3, len(lines)):
             line_list = lines[i].split()
             self.ts_list.append(float(line_list[0]))
             self.rgb_list.append(os.path.join(seq_path, line_list[1]))
+
+        if self.has_depth:
+            depth_ts_list = []
+            with open(depth_index_path, "r") as depth_file:
+                lines = depth_file.readlines()
+            for i in range(3, len(lines)):
+                line_list = lines[i].split()
+                depth_ts_list.append(float(line_list[0]))
+                self.depth_list.append(os.path.join(seq_path, line_list[1]))
+
+            assert len(self.rgb_list) == len(self.depth_list), (
+                f"RGB/depth length mismatch: {len(self.rgb_list)} vs {len(self.depth_list)}"
+            )
+
+            for rgb_ts, depth_ts in zip(self.ts_list, depth_ts_list):
+                assert abs(rgb_ts - depth_ts) < 1e-4, (
+                    f"RGB/depth timestamp mismatch: {rgb_ts} vs {depth_ts}"
+                )
 
         self.data_len = len(self.rgb_list)
 
@@ -74,6 +117,9 @@ class TumOdometryDataset(OdometryDataset):
             self.distortion = None
             self.map1, self.map2 = None, None
         self.USE_BRIGHTNESS_AUG = False
+
+        print(f"[TumOdometryDataset] has_depth={self.has_depth}")
+        print(f"[TumOdometryDataset] num_rgb={len(self.rgb_list)}, num_depth={len(self.depth_list) if self.has_depth else 0}")
 
     def generate_brightness_curve(self, total_frames):
         # 模拟符合实际的渐进式光照变化（例如经过窗户或阴影）
@@ -219,7 +265,7 @@ class TumOdometryDataset(OdometryDataset):
             rgb_np_u = rgb_np
 
         new_img_size = [self.img_size[1], self.img_size[0]]
-        print(new_img_size)
+        
         rgb_np_resized = cv2.resize(
             rgb_np_u, new_img_size, interpolation=cv2.INTER_LINEAR
         )
@@ -260,6 +306,7 @@ class TumOdometryDataset(OdometryDataset):
 
 class ScanNetOdometryDataset(OdometryDataset):
     def __init__(self, seq_path, img_size, crop_size):
+        self.has_depth = True
         super().__init__(img_size)
 
         self.seq_path = seq_path
@@ -370,6 +417,7 @@ class ScanNetOdometryDataset(OdometryDataset):
 
 class ReplicaDataset(OdometryDataset):
     def __init__(self, seq_path, img_size):
+        self.has_depth = True
         super().__init__(img_size)
 
         self.seq_path = seq_path
@@ -429,6 +477,7 @@ class EurocOdometryDataset(OdometryDataset):
                 data.csv       # (optional, not used)
     """
     def __init__(self, seq_path, img_size):
+        self.has_depth = False
         super().__init__(img_size)
 
         self.seq_path = seq_path
