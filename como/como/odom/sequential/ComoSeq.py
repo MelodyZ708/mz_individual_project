@@ -19,7 +19,12 @@ class ComoSeq(GuiWindow):
         intrinsics = self.get_intrinsics()
         img_size = self.get_img_size()
 
-        self.sensor_tracking_only = slam_cfg["tracking"].get("sensor_tracking_only", False)
+        self.sensor_tracking_only = slam_cfg["tracking"].get(
+            "sensor_tracking_only", False
+        )
+        self.mapping_use_sensor_depth = slam_cfg["mapping"].get(
+            "use_sensor_depth", False
+        )
 
         self.tracking = TrackingSeq(slam_cfg["tracking"], intrinsics, img_size)
         self.tracking.setup()
@@ -55,6 +60,11 @@ class ComoSeq(GuiWindow):
         if self.sensor_tracking_only:
             self.iter_sensor_tracking_only(timestamp, rgb, depth)
             return
+        
+        if self.mapping_use_sensor_depth:
+            self.iter_with_sensor_depth_mapping(timestamp, rgb, depth)
+            return
+        
         # Send input data to tracking and visualization
         gui.Application.instance.post_to_main_thread(
             self.window, lambda: self.update_curr_image_render(rgb)
@@ -108,6 +118,113 @@ class ComoSeq(GuiWindow):
                 one_way_pairs,
             ) = kf_viz_data
             # Storing variables to save later
+            self.update_kf_vars(kf_timestamps, kf_rgbs, kf_depths, kf_poses, P_sparse)
+
+            pcd = None
+            kf_normals = None
+            if self.render_val == "Point Cloud":
+                pcd, kf_normals = rgb_depth_to_pcd(
+                    kf_rgbs,
+                    kf_depths,
+                    kf_poses,
+                    self.get_intrinsics(),
+                    self.cfg["cos_thresh"],
+                )
+
+            gui.Application.instance.post_to_main_thread(
+                self.window,
+                lambda: self.update_keyframe_render(
+                    kf_timestamps,
+                    kf_rgbs,
+                    kf_poses,
+                    kf_depths,
+                    kf_sparse_coords,
+                    P_sparse,
+                    obs_ref_mask,
+                    one_way_poses,
+                    kf_pairs,
+                    one_way_pairs,
+                    pcd,
+                    kf_normals,
+                ),
+            )
+
+        return
+    
+    def iter_with_sensor_depth_mapping(self, timestamp, rgb, depth):
+        # Send input data to tracking and visualization
+        gui.Application.instance.post_to_main_thread(
+            self.window, lambda: self.update_curr_image_render(rgb)
+        )
+
+        # Track if init, otherwise send raw RGB-D data to mapping for initialization
+        if self.mapping.is_init:
+            track_data_in = (timestamp, rgb.clone())
+            track_data_in = transfer_data(
+                track_data_in, self.tracking.device, self.tracking.dtype
+            )
+            track_data_viz, track_data_map = self.tracking.track(track_data_in)
+
+            # Handle tracking viz data
+            track_data_viz = transfer_data(track_data_viz, self.device, self.dtype)
+            tracked_timestamp, tracked_pose = track_data_viz
+
+            # Record data
+            self.timestamps.append(tracked_timestamp)
+            self.est_poses = np.concatenate((self.est_poses, tracked_pose))
+
+            # Visualize tracked pose
+            gui.Application.instance.post_to_main_thread(
+                self.window, lambda: self.update_pose_render(tracked_pose)
+            )
+
+            # Visualize background using shaders if using
+            if self.render_val == "Phong":
+                gui.Application.instance.post_to_main_thread(
+                    self.window, lambda: self.render_o3d_image()
+                )
+
+            # Repack keyframe data so mapping can store sensor depth
+            if track_data_map is not None and track_data_map[0] == "keyframe":
+                _, rgb_kf, pose_curr_kf, aff_curr_kf, kf_timestamp, curr_timestamp = track_data_map
+                track_data_map = (
+                    "keyframe_sensor_depth",
+                    rgb_kf,
+                    depth.clone(),
+                    pose_curr_kf,
+                    aff_curr_kf,
+                    kf_timestamp,
+                    curr_timestamp,
+                )
+        else:
+            track_data_map = ("init_sensor_depth", timestamp, rgb.clone(), depth.clone())
+
+        # Handle tracking->mapping data with sensor-depth mapping path
+        kf_viz_data, kf_ref_data = self.mapping.map_sensor_depth(track_data_map)
+
+        # Update tracking keyframe reference
+        if kf_ref_data is not None:
+            kf_ref_data = transfer_data(
+                kf_ref_data, self.tracking.device, self.tracking.dtype
+            )
+            self.tracking.update_kf_reference(kf_ref_data)
+
+        # Visualization and bookkeeping
+        if kf_viz_data is not None:
+            kf_viz_data = transfer_data(kf_viz_data, self.device, self.dtype)
+            (
+                kf_timestamps,
+                kf_rgbs,
+                kf_poses,
+                kf_depths,
+                kf_sparse_coords,
+                P_sparse,
+                obs_ref_mask,
+                one_way_poses,
+                kf_pairs,
+                one_way_pairs,
+            ) = kf_viz_data
+
             self.update_kf_vars(kf_timestamps, kf_rgbs, kf_depths, kf_poses, P_sparse)
 
             pcd = None

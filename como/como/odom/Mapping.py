@@ -148,6 +148,7 @@ class Mapping:
 
         # Storing certain variables for fast queries/visualization
         self.depth_imgs = None
+        self.sensor_depth_imgs = torch.empty((0), device=self.device, dtype=self.dtype)
 
     def init_prior_vals(self):
         self.window_full = False
@@ -548,6 +549,20 @@ class Mapping:
         depth_img = self.depth_imgs[ind:end_ind, ...]
 
         return timestamp, rgb, pose, aff, depth_img
+    
+    def get_kf_ref_data_sensor_depth(self, ind=-1):
+        end_ind = self.kf_poses.shape[0]
+
+        ind = max(0, self.kf_poses.shape[0] - self.cfg["track_ref"]["num_keyframes"])
+
+        timestamp = self.kf_timestamps[ind:end_ind]
+        rgb = self.rgb[ind:end_ind, :, :, :]
+        pose = self.kf_poses[ind:end_ind, ...]
+        aff = self.kf_aff_params[ind:end_ind, ...]
+
+        depth_img = self.sensor_depth_imgs[ind:end_ind, ...]
+
+        return timestamp, rgb, pose, aff, depth_img
 
     # NOTE: Cloning all variables so returned tensors are unaffected by new keyframes
     def get_kf_viz_data(self, ind=-1):
@@ -581,6 +596,97 @@ class Mapping:
             kf_pairs,
             one_way_pairs,
         )
+    
+    def get_kf_viz_data_sensor_depth(self, ind=-1):
+        timestamps = self.kf_timestamps.copy()
+        rgbs = self.rgb.clone()
+        poses = self.kf_poses.clone()
+
+        depth_imgs = self.sensor_depth_imgs.clone()
+
+        rec_poses = self.recent_poses.clone()
+        kf_pairs = [[], []]
+        one_way_pairs = [[], []]
+
+        num_kf = poses.shape[0]
+
+        sparse_coords = torch.zeros((num_kf, 1, 2), device=self.device, dtype=self.dtype)
+        P_sparse = torch.zeros((1, 3), device=self.device, dtype=self.dtype)
+        obs_ref_mask = torch.zeros((num_kf, 1), device=self.device, dtype=torch.bool)  
+
+        self.last_kf_send_time = time.time()
+
+        return (
+            timestamps,
+            rgbs,
+            poses,
+            depth_imgs,
+            sparse_coords,
+            P_sparse,
+            obs_ref_mask,
+            rec_poses,
+            kf_pairs,
+            one_way_pairs,
+        )
+
+
+    def init_keyframe_from_sensor_depth(self, timestamp, rgb, depth):
+        pose_init = torch.eye(4, device=self.device, dtype=self.dtype).unsqueeze(0)
+        aff_init = torch.zeros((1, 2, 1), device=self.device, dtype=self.dtype)
+
+        img_and_grads = self.get_img_and_grads(rgb)
+
+        cov_params_img = torch.zeros(
+            (1, 1, rgb.shape[-2], rgb.shape[-1]),
+            device=self.device,
+            dtype=self.dtype,
+        )
+
+        self.initialize_pose_vars(pose_init, aff_init)
+        self.initialize_kf_img_vars_vars(rgb, img_and_grads, cov_params_img)
+
+        self.kf_timestamps = [timestamp]
+
+        self.sensor_depth_imgs = depth.clone()
+        self.depth_imgs = depth.clone()
+
+        self.kf_pairs = []
+        self.one_way_pairs = []
+
+        self.is_init = True
+        self.converged = True
+
+        return True
+
+    def add_keyframe_from_sensor_depth(
+        self, rgb, depth, kf_pose_init, kf_aff_init, timestamp
+    ):
+        if self.cfg["color"] in ("cnn", "cnn_c2f"):
+            kf_aff_init = torch.zeros_like(kf_aff_init)
+
+        img_and_grads = self.get_img_and_grads(rgb)
+
+        cov_params_img = torch.zeros(
+            (1, 1, rgb.shape[-2], rgb.shape[-1]),
+            device=self.device,
+            dtype=self.dtype,
+        )
+
+        self.window_cat_helper_list(
+            self.kf_timestamps, timestamp, self.get_kf_start_window_ind()
+        )
+        self.initialize_pose_vars(kf_pose_init, kf_aff_init)
+        self.initialize_kf_img_vars_vars(rgb, img_and_grads, cov_params_img)
+
+        kf_start_ind = self.get_kf_start_window_ind()
+        self.window_cat_helper_tensor(self.sensor_depth_imgs, depth, kf_start_ind)
+        self.depth_imgs = self.sensor_depth_imgs.clone()
+
+        self.reset_iteration_vars(new_kf=True, converged=True)
+
+        self.prune_one_way()
+
+        return
 
     def attempt_two_frame_init(self, timestamp, rgb):
         (
@@ -635,6 +741,25 @@ class Mapping:
             pose_w_init = self.get_curr_world_pose(pose_curr_kf, kf_ind)
             aff_w_init = self.get_curr_world_aff(aff_curr_kf, kf_ind)
             self.add_keyframe(rgb, pose_w_init, aff_w_init, timestamp)
+            kf_updated = True
+
+        return kf_viz_data, kf_updated
+    
+    def handle_tracking_data_sensor_depth(self, data):
+        kf_viz_data = None
+        kf_updated = False
+
+        if data[0] == "keyframe_sensor_depth":
+            kf_viz_data = self.get_kf_viz_data_sensor_depth()
+
+            rgb, depth, pose_curr_kf, aff_curr_kf, kf_timestamp, timestamp = data[1:]
+            kf_ind = self.find_kf_from_timestamp(kf_timestamp)
+            pose_w_init = self.get_curr_world_pose(pose_curr_kf, kf_ind)
+            aff_w_init = self.get_curr_world_aff(aff_curr_kf, kf_ind)
+
+            self.add_keyframe_from_sensor_depth(
+                rgb, depth, pose_w_init, aff_w_init, timestamp
+            )
             kf_updated = True
 
         return kf_viz_data, kf_updated
