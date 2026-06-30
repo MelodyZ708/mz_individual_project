@@ -605,7 +605,7 @@ class Mapping:
         depth_imgs = self.sensor_depth_imgs.clone()
 
         rec_poses = self.recent_poses.clone()
-        kf_pairs = [[], []]
+        kf_pairs = [list(self.kf_pairs[0]), list(self.kf_pairs[1])]
         one_way_pairs = [[], []]
 
         num_kf = poses.shape[0]
@@ -650,8 +650,8 @@ class Mapping:
         self.sensor_depth_imgs = depth.clone()
         self.depth_imgs = depth.clone()
 
-        self.kf_pairs = []
-        self.one_way_pairs = []
+        self.kf_pairs = [[], []]
+        self.one_way_pairs = [[], []]
 
         self.is_init = True
         self.converged = True
@@ -683,6 +683,12 @@ class Mapping:
         self.depth_imgs = self.sensor_depth_imgs.clone()
 
         self.reset_iteration_vars(new_kf=True, converged=True)
+
+        # 新增：维护关键帧之间的顺序连线，用于可视化轨迹
+        num_kf = self.kf_poses.shape[0]
+        src = list(range(num_kf - 1))
+        dst = list(range(1, num_kf))
+        self.kf_pairs = [src, dst]
 
         self.prune_one_way()
 
