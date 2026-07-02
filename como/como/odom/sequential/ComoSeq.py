@@ -198,7 +198,7 @@ class ComoSeq(GuiWindow):
             dtype=self.tracking.dtype,
         )
 
-        # First GT frame defines the GT world origin
+        # Align GT poses so first GT frame is identity
         if not hasattr(self, "gt_pose_world0"):
             self.gt_pose_world0 = pose_gt_tracking.clone()
 
@@ -219,7 +219,7 @@ class ComoSeq(GuiWindow):
             self.window, lambda: self.update_pose_render(tracked_pose)
         )
 
-        # First call: let mapping initialize, then start our own GT keyframe state
+        # First frame still uses original init path
         if not self.mapping.is_init:
             track_data_map = ("init", timestamp, rgb.clone())
             kf_viz_data, kf_ref_data = self.mapping.map(track_data_map)
@@ -230,8 +230,6 @@ class ComoSeq(GuiWindow):
                 )
                 self.tracking.update_kf_reference(kf_ref_data)
 
-                self.gt_kf_pose_w = pose_gt_aligned.clone()
-                self.gt_kf_timestamp = timestamp
                 self.gt_frame_count = 0
 
             if kf_viz_data is not None:
@@ -281,37 +279,28 @@ class ComoSeq(GuiWindow):
                 )
             return
 
-        if not hasattr(self, "gt_kf_pose_w"):
-            self.gt_kf_pose_w = pose_gt_aligned.clone()
-            self.gt_kf_timestamp = timestamp
+        if not hasattr(self, "gt_frame_count"):
             self.gt_frame_count = 0
 
-        # Relative pose is now computed only inside GT-aligned world frame
-        T_curr_kf = get_rel_pose(self.gt_kf_pose_w, pose_gt_aligned)
+        self.gt_frame_count += 1
+        keyframe_interval = 10
 
-        aff_curr_kf = torch.zeros(
+        if self.gt_frame_count < keyframe_interval:
+            return
+
+        aff_w_init = torch.zeros(
             (1, 2, 1),
             device=self.tracking.device,
             dtype=self.tracking.dtype,
         )
 
-        # Fixed keyframe interval for clean mapping-only experiment
-        self.gt_frame_count += 1
-        keyframe_interval = 10
-
-        track_data_map = None
-        if self.gt_frame_count >= keyframe_interval:
-            track_data_map = (
-                "keyframe",
-                rgb.clone(),
-                T_curr_kf,
-                aff_curr_kf,
-                self.gt_kf_timestamp,
-                timestamp,
-            )
-
-        if track_data_map is None:
-            return
+        track_data_map = (
+            "keyframe_world",
+            rgb.clone(),
+            pose_gt_aligned.clone(),
+            aff_w_init,
+            timestamp,
+        )
 
         kf_viz_data, kf_ref_data = self.mapping.map(track_data_map)
 
@@ -320,10 +309,6 @@ class ComoSeq(GuiWindow):
                 kf_ref_data, self.tracking.device, self.tracking.dtype
             )
             self.tracking.update_kf_reference(kf_ref_data)
-
-            # IMPORTANT: only move GT keyframe anchor after mapping accepts the keyframe
-            self.gt_kf_pose_w = pose_gt_aligned.clone()
-            self.gt_kf_timestamp = timestamp
             self.gt_frame_count = 0
 
         if kf_viz_data is not None:

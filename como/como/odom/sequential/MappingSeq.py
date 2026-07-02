@@ -22,8 +22,12 @@ class MappingSeq(Mapping):
                 if data[0] == "init":
                     timestamp, rgb = data[1:]
                     kf_updated = self.attempt_two_frame_init(timestamp, rgb)
+                    
             else:
-                kf_viz_data, kf_updated = self.handle_tracking_data(data)
+                if data[0] == "keyframe_world":
+                    kf_viz_data, kf_updated = self.handle_world_pose_data(data)
+                else:
+                    kf_viz_data, kf_updated = self.handle_tracking_data(data)
 
         # Mapping iteration
         if self.is_init and not self.converged:

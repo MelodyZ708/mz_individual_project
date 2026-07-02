@@ -751,6 +751,21 @@ class Mapping:
 
         return kf_viz_data, kf_updated
     
+    def handle_world_pose_data(self, data):
+        kf_viz_data = None
+        kf_updated = False
+
+        if data[0] == "keyframe_world":
+            # Send current window to visualization before inserting new KF
+            kf_viz_data = self.get_kf_viz_data()
+
+            rgb, pose_w_init, aff_w_init, timestamp = data[1:]
+
+            self.add_keyframe(rgb, pose_w_init, aff_w_init, timestamp)
+            kf_updated = True
+
+        return kf_viz_data, kf_updated
+    
     def handle_tracking_data_sensor_depth(self, data):
         kf_viz_data = None
         kf_updated = False
