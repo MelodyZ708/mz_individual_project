@@ -190,9 +190,6 @@ class ComoSeq(GuiWindow):
             assert len(pose_gt) == 1
             pose_gt = pose_gt[0]
 
-        if pose_gt is None:
-            raise ValueError("pose_source is 'groundtruth' but pose_gt is None.")
-
         if pose_gt.dim() == 2:
             pose_gt = pose_gt.unsqueeze(0)
 
@@ -201,7 +198,7 @@ class ComoSeq(GuiWindow):
             dtype=self.tracking.dtype,
         )
 
-        # Align GT poses so the first GT frame defines the world origin.
+        # First GT frame defines the GT world origin
         if not hasattr(self, "gt_pose_world0"):
             self.gt_pose_world0 = pose_gt_tracking.clone()
 
@@ -210,21 +207,20 @@ class ComoSeq(GuiWindow):
             pose_gt_tracking,
         )
 
-        # First frame: let mapping initialize, but keep the aligned GT pose for visualization.
+        tracked_pose = pose_gt_aligned.clone().to(
+            device=self.device,
+            dtype=self.dtype,
+        )
+
+        self.timestamps.append(timestamp)
+        self.est_poses = np.concatenate((self.est_poses, tracked_pose))
+
+        gui.Application.instance.post_to_main_thread(
+            self.window, lambda: self.update_pose_render(tracked_pose)
+        )
+
+        # First call: let mapping initialize, then start our own GT keyframe state
         if not self.mapping.is_init:
-            tracked_timestamp = timestamp
-            tracked_pose = pose_gt_aligned.clone().to(
-                device=self.device,
-                dtype=self.dtype,
-            )
-
-            self.timestamps.append(tracked_timestamp)
-            self.est_poses = np.concatenate((self.est_poses, tracked_pose))
-
-            gui.Application.instance.post_to_main_thread(
-                self.window, lambda: self.update_pose_render(tracked_pose)
-            )
-
             track_data_map = ("init", timestamp, rgb.clone())
             kf_viz_data, kf_ref_data = self.mapping.map(track_data_map)
 
@@ -233,6 +229,10 @@ class ComoSeq(GuiWindow):
                     kf_ref_data, self.tracking.device, self.tracking.dtype
                 )
                 self.tracking.update_kf_reference(kf_ref_data)
+
+                self.gt_kf_pose_w = pose_gt_aligned.clone()
+                self.gt_kf_timestamp = timestamp
+                self.gt_frame_count = 0
 
             if kf_viz_data is not None:
                 kf_viz_data = transfer_data(kf_viz_data, self.device, self.dtype)
@@ -281,13 +281,13 @@ class ComoSeq(GuiWindow):
                 )
             return
 
-        # IMPORTANT:
-        # tracking.T_w_kf lives in COMO's internal world frame created by initialization.
-        # gt_pose_aligned lives in "first-GT-frame = identity" frame.
-        # For this experiment, we intentionally use the aligned GT pose as the world pose
-        # we want to visualize and compare, but still compute relative motion wrt current
-        # tracking keyframe reference.
-        T_curr_kf = get_rel_pose(self.tracking.T_w_kf, pose_gt_aligned)
+        if not hasattr(self, "gt_kf_pose_w"):
+            self.gt_kf_pose_w = pose_gt_aligned.clone()
+            self.gt_kf_timestamp = timestamp
+            self.gt_frame_count = 0
+
+        # Relative pose is now computed only inside GT-aligned world frame
+        T_curr_kf = get_rel_pose(self.gt_kf_pose_w, pose_gt_aligned)
 
         aff_curr_kf = torch.zeros(
             (1, 2, 1),
@@ -295,62 +295,20 @@ class ComoSeq(GuiWindow):
             dtype=self.tracking.dtype,
         )
 
-        tracked_timestamp = timestamp
-        tracked_pose = pose_gt_aligned.clone().to(
-            device=self.device,
-            dtype=self.dtype,
-        )
-
-        self.timestamps.append(tracked_timestamp)
-        self.est_poses = np.concatenate((self.est_poses, tracked_pose))
-
-        gui.Application.instance.post_to_main_thread(
-            self.window, lambda: self.update_pose_render(tracked_pose)
-        )
-
-        if self.render_val == "Phong":
-            gui.Application.instance.post_to_main_thread(
-                self.window, lambda: self.render_o3d_image()
-            )
-
-        reproj_depth = self.tracking.get_reproj_last_kf(T_curr_kf)
-        valid_depth_mask = ~torch.isnan(reproj_depth)
-        num_valid_reproj_depth = torch.count_nonzero(valid_depth_mask)
-
-        if num_valid_reproj_depth == 0:
-            return
-
-        median_depth = torch.median(reproj_depth[valid_depth_mask])
-
-        new_kf = self.tracking.check_keyframe(
-            median_depth, num_valid_reproj_depth, T_curr_kf
-        )
+        # Fixed keyframe interval for clean mapping-only experiment
+        self.gt_frame_count += 1
+        keyframe_interval = 10
 
         track_data_map = None
-        if new_kf:
+        if self.gt_frame_count >= keyframe_interval:
             track_data_map = (
                 "keyframe",
                 rgb.clone(),
                 T_curr_kf,
                 aff_curr_kf,
-                self.tracking.kf_received_ts,
+                self.gt_kf_timestamp,
                 timestamp,
             )
-            self.tracking.last_kf_sent_ts = timestamp
-        else:
-            T_w_curr = pose_gt_aligned
-            new_one_way_frame = self.tracking.check_one_way_frame(
-                median_depth, num_valid_reproj_depth, T_curr_kf, T_w_curr
-            )
-            if new_one_way_frame:
-                track_data_map = (
-                    "one-way",
-                    rgb.clone(),
-                    T_curr_kf,
-                    aff_curr_kf,
-                    self.tracking.kf_received_ts,
-                    timestamp,
-                )
 
         if track_data_map is None:
             return
@@ -362,6 +320,11 @@ class ComoSeq(GuiWindow):
                 kf_ref_data, self.tracking.device, self.tracking.dtype
             )
             self.tracking.update_kf_reference(kf_ref_data)
+
+            # IMPORTANT: only move GT keyframe anchor after mapping accepts the keyframe
+            self.gt_kf_pose_w = pose_gt_aligned.clone()
+            self.gt_kf_timestamp = timestamp
+            self.gt_frame_count = 0
 
         if kf_viz_data is not None:
             kf_viz_data = transfer_data(kf_viz_data, self.device, self.dtype)
