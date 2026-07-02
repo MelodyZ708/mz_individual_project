@@ -9,6 +9,7 @@ from como.odom.sequential.MappingSeq import MappingSeq
 from como.utils.o3d import rgb_depth_to_pcd
 import torch
 from como.geometry.transforms import get_rel_pose
+from como.geometry.lie_algebra import invertSE3
 
 
 class ComoSeq(GuiWindow):
@@ -181,14 +182,49 @@ class ComoSeq(GuiWindow):
         if self.mapping is None:
             raise ValueError("Groundtruth-pose mode requires mapping to be enabled.")
 
-        # Show current RGB
         gui.Application.instance.post_to_main_thread(
             self.window, lambda: self.update_curr_image_render(rgb)
         )
 
-        # First frame: still let mapping initialize itself
-        # This keeps old logic untouched as much as possible.
+        if isinstance(pose_gt, (tuple, list)):
+            assert len(pose_gt) == 1
+            pose_gt = pose_gt[0]
+
+        if pose_gt is None:
+            raise ValueError("pose_source is 'groundtruth' but pose_gt is None.")
+
+        if pose_gt.dim() == 2:
+            pose_gt = pose_gt.unsqueeze(0)
+
+        pose_gt_tracking = pose_gt.to(
+            device=self.tracking.device,
+            dtype=self.tracking.dtype,
+        )
+
+        # Align GT poses so the first GT frame defines the world origin.
+        if not hasattr(self, "gt_pose_world0"):
+            self.gt_pose_world0 = pose_gt_tracking.clone()
+
+        pose_gt_aligned = torch.matmul(
+            invertSE3(self.gt_pose_world0),
+            pose_gt_tracking,
+        )
+
+        # First frame: let mapping initialize, but keep the aligned GT pose for visualization.
         if not self.mapping.is_init:
+            tracked_timestamp = timestamp
+            tracked_pose = pose_gt_aligned.clone().to(
+                device=self.device,
+                dtype=self.dtype,
+            )
+
+            self.timestamps.append(tracked_timestamp)
+            self.est_poses = np.concatenate((self.est_poses, tracked_pose))
+
+            gui.Application.instance.post_to_main_thread(
+                self.window, lambda: self.update_pose_render(tracked_pose)
+            )
+
             track_data_map = ("init", timestamp, rgb.clone())
             kf_viz_data, kf_ref_data = self.mapping.map(track_data_map)
 
@@ -245,38 +281,22 @@ class ComoSeq(GuiWindow):
                 )
             return
 
-        # pose_gt may come wrapped depending on collate / dataloader path
-        if isinstance(pose_gt, (tuple, list)):
-            assert len(pose_gt) == 1
-            pose_gt = pose_gt[0]
+        # IMPORTANT:
+        # tracking.T_w_kf lives in COMO's internal world frame created by initialization.
+        # gt_pose_aligned lives in "first-GT-frame = identity" frame.
+        # For this experiment, we intentionally use the aligned GT pose as the world pose
+        # we want to visualize and compare, but still compute relative motion wrt current
+        # tracking keyframe reference.
+        T_curr_kf = get_rel_pose(self.tracking.T_w_kf, pose_gt_aligned)
 
-        if pose_gt is None:
-            raise ValueError(
-                "pose_source is 'groundtruth' but pose_gt is None."
-            )
-
-        # Ensure shape is (1, 4, 4)
-        if pose_gt.dim() == 2:
-            pose_gt = pose_gt.unsqueeze(0)
-
-        pose_gt_tracking = pose_gt.to(
-            device=self.tracking.device,
-            dtype=self.tracking.dtype,
-        )
-
-        # Relative pose from current reference keyframe to current GT pose
-        T_curr_kf = get_rel_pose(self.tracking.T_w_kf, pose_gt_tracking)
-
-        # Affine stays zero in this fixed-pose experiment
         aff_curr_kf = torch.zeros(
             (1, 2, 1),
             device=self.tracking.device,
             dtype=self.tracking.dtype,
         )
 
-        # Visualized current pose is directly GT pose
         tracked_timestamp = timestamp
-        tracked_pose = pose_gt_tracking.clone().to(
+        tracked_pose = pose_gt_aligned.clone().to(
             device=self.device,
             dtype=self.dtype,
         )
@@ -293,7 +313,6 @@ class ComoSeq(GuiWindow):
                 self.window, lambda: self.render_o3d_image()
             )
 
-        # Use the same keyframe policy as normal tracking
         reproj_depth = self.tracking.get_reproj_last_kf(T_curr_kf)
         valid_depth_mask = ~torch.isnan(reproj_depth)
         num_valid_reproj_depth = torch.count_nonzero(valid_depth_mask)
@@ -319,7 +338,7 @@ class ComoSeq(GuiWindow):
             )
             self.tracking.last_kf_sent_ts = timestamp
         else:
-            T_w_curr = pose_gt_tracking
+            T_w_curr = pose_gt_aligned
             new_one_way_frame = self.tracking.check_one_way_frame(
                 median_depth, num_valid_reproj_depth, T_curr_kf, T_w_curr
             )
