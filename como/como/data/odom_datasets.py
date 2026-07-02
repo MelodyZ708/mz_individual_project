@@ -1,13 +1,14 @@
-import torch
-from torch.utils.data import Dataset
-import torchvision.transforms.functional as TF
-import numpy as np
-import cv2
-
 import os
 import re
 import glob
 from pathlib import Path
+
+import cv2
+import numpy as np
+import torch
+from scipy.spatial.transform import Rotation
+from torch.utils.data import Dataset
+import torchvision.transforms.functional as TF
 
 from como.geometry.camera import resize_intrinsics
 
@@ -16,19 +17,24 @@ from como.geometry.camera import resize_intrinsics
 def odom_collate_fn(batch):
     assert len(batch) == 1
 
-    timestamp, rgb, depth = batch[0]
+    timestamp, rgb, depth, pose = batch[0]
     rgb = rgb.unsqueeze(0)
 
     if depth is not None:
         depth = depth.unsqueeze(0)
 
-    return (timestamp, rgb, depth)
+    if pose is not None:
+        pose = pose.unsqueeze(0)
+
+    return (timestamp, rgb, depth, pose)
 
 
 class OdometryDataset(Dataset):
     def __init__(self, img_size):
         self.is_live = False
         self.img_size = img_size
+        self.has_depth = False
+        self.has_pose = False
 
     def __len__(self):
         return self.data_len
@@ -42,19 +48,24 @@ class OdometryDataset(Dataset):
         else:
             depth = None
 
-        return timestamp, rgb, depth
+        if getattr(self, "has_pose", False):
+            pose = self.load_pose(idx)
+        else:
+            pose = None
+
+        return timestamp, rgb, depth, pose
 
 
 class TumOdometryDataset(OdometryDataset):
-    def __init__(self, seq_path, img_size):
+    def __init__(self, seq_path, img_size, gt_tolerance=0.03):
         super().__init__(img_size)
 
         self.seq_path = seq_path
+        self.gt_tolerance = gt_tolerance
 
-        tmp = self.seq_path.rsplit("/", 3)
+        tmp = self.seq_path.rstrip("/").rsplit("/", 3)
         self.save_traj_name = tmp[1] + "_" + tmp[2]
 
-        # RGB only
         rgb_index_path = os.path.join(seq_path, "matched_rgb.txt")
         if not os.path.exists(rgb_index_path):
             rgb_index_path = os.path.join(seq_path, "rgb.txt")
@@ -67,7 +78,10 @@ class TumOdometryDataset(OdometryDataset):
         self.ts_list = []
         self.rgb_list = []
         self.depth_list = []
+        self.pose_list = []
+
         self.has_depth = depth_index_path is not None
+        self.has_pose = False
 
         with open(rgb_index_path, "r") as rgb_file:
             lines = rgb_file.readlines()
@@ -94,10 +108,16 @@ class TumOdometryDataset(OdometryDataset):
                     f"RGB/depth timestamp mismatch: {rgb_ts} vs {depth_ts}"
                 )
 
+        gt_path = os.path.join(seq_path, "groundtruth.txt")
+        if os.path.exists(gt_path):
+            self.pose_list = self.load_and_match_groundtruth(gt_path, self.ts_list)
+            self.has_pose = True
+            assert len(self.pose_list) == len(self.ts_list)
+
         self.data_len = len(self.rgb_list)
 
         intrinsics_path = Path(seq_path) / "intrinsics.txt"
-        match = re.search("freiburg(\d+)", seq_path)
+        match = re.search(r"freiburg(\d+)", seq_path)
 
         if intrinsics_path.exists():
             self.setup_camera_vars_from_intrinsics_file(intrinsics_path)
@@ -105,27 +125,33 @@ class TumOdometryDataset(OdometryDataset):
             dataset_ind = int(match.group(1))
             self.setup_camera_vars(dataset_ind)
         else:
-            # fallback for self-recorded data when no intrinsics.txt is available
             size_orig = torch.tensor([480, 640], dtype=torch.float32)
             image_scale_factors = torch.tensor(self.img_size, dtype=torch.float32) / size_orig
-            intrinsics_orig = torch.tensor([
-                [615.0,   0.0, 320.0],
-                [  0.0, 615.0, 240.0],
-                [  0.0,   0.0,   1.0]
-            ], dtype=torch.float32)
+            intrinsics_orig = torch.tensor(
+                [
+                    [615.0, 0.0, 320.0],
+                    [0.0, 615.0, 240.0],
+                    [0.0, 0.0, 1.0],
+                ],
+                dtype=torch.float32,
+            )
             self.intrinsics = resize_intrinsics(intrinsics_orig, image_scale_factors)
             self.distortion = None
             self.map1, self.map2 = None, None
+
         self.USE_BRIGHTNESS_AUG = False
 
         print(f"[TumOdometryDataset] has_depth={self.has_depth}")
-        print(f"[TumOdometryDataset] num_rgb={len(self.rgb_list)}, num_depth={len(self.depth_list) if self.has_depth else 0}")
+        print(f"[TumOdometryDataset] has_pose={self.has_pose}")
+        print(
+            f"[TumOdometryDataset] num_rgb={len(self.rgb_list)}, "
+            f"num_depth={len(self.depth_list) if self.has_depth else 0}, "
+            f"num_pose={len(self.pose_list) if self.has_pose else 0}"
+        )
 
     def generate_brightness_curve(self, total_frames):
-        # 模拟符合实际的渐进式光照变化（例如经过窗户或阴影）
         curve = np.ones(total_frames)
-        
-        # 1. 模拟经过亮区（如窗户）：亮度逐渐上升到1.5倍，然后缓慢回落
+
         start1, peak1, end1 = 100, 175, 250
         if total_frames > end1:
             x_up = np.linspace(0, np.pi, peak1 - start1)
@@ -133,16 +159,15 @@ class TumOdometryDataset(OdometryDataset):
             x_down = np.linspace(0, np.pi, end1 - peak1)
             curve[peak1:end1] = 1.0 + 0.5 * (1 + np.cos(x_down)) / 2
 
-        # 2. 模拟经过暗区（如阴影）：亮度逐渐下降到0.6倍，然后缓慢回升
         start2, peak2, end2 = 400, 475, 550
         if total_frames > end2:
             x_up = np.linspace(0, np.pi, peak2 - start2)
             curve[start2:peak2] = 1.0 - 0.4 * (1 - np.cos(x_up)) / 2
             x_down = np.linspace(0, np.pi, end2 - peak2)
             curve[peak2:end2] = 1.0 - 0.4 * (1 + np.cos(x_down)) / 2
-            
+
         return curve
-    
+
     def setup_camera_vars_from_intrinsics_file(self, intrinsics_path):
         numeric_lines = []
 
@@ -198,16 +223,10 @@ class TumOdometryDataset(OdometryDataset):
         self.intrinsics = resize_intrinsics(intrinsics_orig, image_scale_factors)
         self.distortion = None
         self.map1, self.map2 = None, None
-        
+
     def setup_camera_vars(self, dataset_ind):
         size_orig = torch.tensor([480, 640])
         image_scale_factors = torch.tensor(self.img_size) / size_orig
-
-        ## ROS Default
-        # intrinsics_orig = torch.tensor([ [ 525.0,    0.0,  319.5],
-        #                                   [   0.0,  525.0,  239.5],
-        #                                   [   0.0,    0.0,    1.0]] )
-        # distortion = None
 
         if dataset_ind == 1:
             intrinsics_orig = torch.tensor(
@@ -227,54 +246,105 @@ class TumOdometryDataset(OdometryDataset):
         else:
             raise ValueError(
                 "TumOdometryDataset with dataset ind "
-                + dataset_ind
+                + str(dataset_ind)
                 + " is not a valid dataset."
             )
 
-        ## NOTE: With 0 distortion, getOptimalNewCameraMatrix gives different K,
-        # and initUndistortRectifyMap will have a map with values at the borders...
-
-        # Setup distortion
         if distortion is not None:
             orig_img_size = [size_orig[1].item(), size_orig[0].item()]
             K = intrinsics_orig.numpy()
-            # alpha = 0.0 means invalid pixels are cropped, while 1.0 means all original pixels are present in new image
-            K_u, validPixROI = cv2.getOptimalNewCameraMatrix(
+            K_u, _ = cv2.getOptimalNewCameraMatrix(
                 K, distortion, orig_img_size, alpha=0, newImgSize=orig_img_size
             )
-            # TODO: What type to use for maps?
             self.map1, self.map2 = cv2.initUndistortRectifyMap(
                 K, distortion, None, K_u, orig_img_size, cv2.CV_32FC1
             )
             intrinsics_orig = torch.from_numpy(K_u)
         else:
             self.map1, self.map2 = None, None
-            intrinsics_orig = intrinsics_orig
 
         self.intrinsics = resize_intrinsics(intrinsics_orig, image_scale_factors)
+
+    def tum_tq_to_pose(self, tx, ty, tz, qx, qy, qz, qw):
+        pose = np.eye(4, dtype=np.float32)
+        R = Rotation.from_quat([qx, qy, qz, qw]).as_matrix().astype(np.float32)
+        pose[:3, :3] = R
+        pose[:3, 3] = np.array([tx, ty, tz], dtype=np.float32)
+        return torch.from_numpy(pose).to(torch.get_default_dtype())
+
+    def load_and_match_groundtruth(self, gt_path, rgb_ts_list):
+        gt_entries = []
+
+        with open(gt_path, "r") as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+
+                parts = line.split()
+                if len(parts) < 8:
+                    continue
+
+                ts = float(parts[0])
+                tx, ty, tz = map(float, parts[1:4])
+                qx, qy, qz, qw = map(float, parts[4:8])
+
+                pose = self.tum_tq_to_pose(tx, ty, tz, qx, qy, qz, qw)
+                gt_entries.append((ts, pose))
+
+        if len(gt_entries) == 0:
+            raise ValueError(f"No valid groundtruth poses found in {gt_path}")
+
+        gt_ts = np.array([x[0] for x in gt_entries], dtype=np.float64)
+        gt_poses = [x[1] for x in gt_entries]
+
+        pose_list = []
+        for ts in rgb_ts_list:
+            idx = np.searchsorted(gt_ts, ts)
+
+            candidates = []
+            if idx < len(gt_ts):
+                candidates.append(idx)
+            if idx > 0:
+                candidates.append(idx - 1)
+
+            best_idx = None
+            best_dt = float("inf")
+            for cand in candidates:
+                dt = abs(gt_ts[cand] - ts)
+                if dt < best_dt:
+                    best_dt = dt
+                    best_idx = cand
+
+            if best_idx is None or best_dt > self.gt_tolerance:
+                raise ValueError(
+                    f"No matched groundtruth pose for rgb timestamp {ts:.6f} "
+                    f"within tolerance {self.gt_tolerance:.3f}s"
+                )
+
+            pose_list.append(gt_poses[best_idx])
+
+        return pose_list
 
     def load_rgb(self, idx):
         bgr_np = cv2.imread(self.rgb_list[idx])
         rgb_np = cv2.cvtColor(bgr_np, cv2.COLOR_BGR2RGB)
 
-        # Undistort/resize
-        # Use precalculated initUndistortRectifyMap for faster dataloading
         if hasattr(self, "map1") and self.map1 is not None:
             rgb_np_u = cv2.remap(rgb_np, self.map1, self.map2, cv2.INTER_LINEAR)
         else:
             rgb_np_u = rgb_np
 
         new_img_size = [self.img_size[1], self.img_size[0]]
-        
         rgb_np_resized = cv2.resize(
             rgb_np_u, new_img_size, interpolation=cv2.INTER_LINEAR
         )
 
         rgb = TF.to_tensor(rgb_np_resized)
-        
-        if not hasattr(self, 'brightness_curve'):
+
+        if not hasattr(self, "brightness_curve"):
             self.brightness_curve = self.generate_brightness_curve(self.data_len)
-            
+
         multiplier = self.brightness_curve[idx]
 
         if self.USE_BRIGHTNESS_AUG and multiplier != 1.0:
@@ -287,7 +357,6 @@ class TumOdometryDataset(OdometryDataset):
         depth_np = depth_np.astype(np.float32) / 5000.0
         depth = torch.from_numpy(depth_np)
         depth = depth.unsqueeze(0)
-        h, w = depth.shape[-2:]
         depth_r = TF.resize(
             depth,
             self.img_size,
@@ -323,7 +392,7 @@ class ScanNetOdometryDataset(OdometryDataset):
                 rgb_list.append(os.path.join(rgb_path, file_name))
 
         self.rgb_list = sorted(
-            rgb_list, key=lambda x: int(re.findall("\d+", x.rsplit("/", 1)[-1])[0])
+            rgb_list, key=lambda x: int(re.findall(r"\d+", x.rsplit("/", 1)[-1])[0])
         )
 
         info_file = open(seq_path + scene_id + ".txt")
@@ -347,20 +416,14 @@ class ScanNetOdometryDataset(OdometryDataset):
             [[fx[0], 0.0, cx[0]], [0.0, fy[0], cy[0]], [0.0, 0.0, 1.0]]
         )
 
-        image_scale_factors = (
-            torch.tensor([480, 640]) / size_orig
-        )  # Images saved as this size
+        image_scale_factors = torch.tensor([480, 640]) / size_orig
         self.intrinsics = resize_intrinsics(intrinsics_orig, image_scale_factors)
         self.intrinsics[0, 2] -= self.crop_size
         self.intrinsics[1, 2] -= self.crop_size
-        print(self.intrinsics)
         image_scale_factors = torch.tensor(self.img_size) / torch.tensor(
             [480 - 2 * crop_size, 640 - 2 * crop_size]
         )
         self.intrinsics = resize_intrinsics(self.intrinsics, image_scale_factors)
-
-        print(intrinsics_orig)
-        print(self.intrinsics)
 
         self.data_len = len(self.rgb_list)
 
@@ -410,7 +473,6 @@ class ScanNetOdometryDataset(OdometryDataset):
         pose_mat = pose_mat.to(torch.get_default_dtype())
         return pose_mat
 
-    # TODO: Is ScanNet always 30 FPS?
     def load_timestamp(self, idx):
         return idx / 30.0
 
@@ -439,11 +501,8 @@ class ReplicaDataset(OdometryDataset):
             [[600.0, 0.0, 599.5], [0.0, 600.0, 339.5], [0.0, 0.0, 1.0]]
         )
 
-        # Resize - different aspect ratio but keeps all image content
         image_scale_factors = torch.tensor(self.img_size) / size_orig
         self.intrinsics = resize_intrinsics(intrinsics_orig, image_scale_factors)
-
-        print(self.intrinsics)
 
     def load_rgb(self, idx):
         bgr_np = cv2.imread(self.rgb_list[idx])
@@ -455,41 +514,38 @@ class ReplicaDataset(OdometryDataset):
         )
 
         rgb = TF.to_tensor(rgb_np_resized)
-
         return rgb
 
     def load_timestamp(self, idx):
         return idx / 30.0
 
 
-# update!
 class EurocOdometryDataset(OdometryDataset):
     """
     Loader for TUM-VI / EuRoC format datasets.
     Expected directory structure:
         dataset_dir/
-            cam0/
-                data/          # images named as <timestamp_ns>.png
-                data.csv       # timestamp_ns, filename
-            mocap0/
-                data.csv       # timestamp_ns, p_x, p_y, p_z, q_w, q_x, q_y, q_z
-            imu0/
-                data.csv       # (optional, not used)
+            mav0/
+                cam0/
+                    data/
+                    data.csv
+                mocap0/
+                    data.csv
     """
+
     def __init__(self, seq_path, img_size):
         self.has_depth = False
         super().__init__(img_size)
 
         self.seq_path = seq_path
 
-        # Save trajectory name from path
         tmp = seq_path.rstrip("/").rsplit("/", 1)
         self.save_traj_name = tmp[-1]
 
-        # Load image list from cam0/data.csv
         cam0_csv = os.path.join(seq_path, "mav0", "cam0", "data.csv")
         self.ts_list = []
         self.rgb_list = []
+
         with open(cam0_csv, "r") as f:
             for line in f:
                 line = line.strip()
@@ -498,20 +554,22 @@ class EurocOdometryDataset(OdometryDataset):
                 parts = line.split(",")
                 ts_ns = int(parts[0])
                 fname = parts[1].strip()
-                self.ts_list.append(ts_ns / 1e9)  # nanoseconds -> seconds
-                self.rgb_list.append(os.path.join(seq_path, "mav0", "cam0", "data", fname))
+                self.ts_list.append(ts_ns / 1e9)
+                self.rgb_list.append(
+                    os.path.join(seq_path, "mav0", "cam0", "data", fname)
+                )
 
         self.data_len = len(self.rgb_list)
         self.setup_camera_vars()
 
     def setup_camera_vars(self):
-        # TUM-VI cam0 intrinsics (512x512, fisheye undistorted to pinhole)
-        # From official calibration: https://cvg.cit.tum.de/data/datasets/visual-inertial-dataset
-        size_orig = torch.tensor([512, 512] )
+        size_orig = torch.tensor([512, 512])
         intrinsics_orig = torch.tensor(
-            [[190.97847715128717, 0.0, 254.93170605935475],
-             [0.0, 190.9733070521226, 256.8974428996504],
-             [0.0, 0.0, 1.0]]
+            [
+                [190.97847715128717, 0.0, 254.93170605935475],
+                [0.0, 190.9733070521226, 256.8974428996504],
+                [0.0, 0.0, 1.0],
+            ]
         )
         image_scale_factors = torch.tensor(self.img_size) / size_orig
         self.intrinsics = resize_intrinsics(intrinsics_orig, image_scale_factors)
@@ -521,7 +579,9 @@ class EurocOdometryDataset(OdometryDataset):
         bgr_np = cv2.imread(self.rgb_list[idx])
         rgb_np = cv2.cvtColor(bgr_np, cv2.COLOR_BGR2RGB)
         new_img_size = [self.img_size[1], self.img_size[0]]
-        rgb_np_resized = cv2.resize(rgb_np, new_img_size, interpolation=cv2.INTER_LINEAR)
+        rgb_np_resized = cv2.resize(
+            rgb_np, new_img_size, interpolation=cv2.INTER_LINEAR
+        )
         rgb = TF.to_tensor(rgb_np_resized)
         return rgb
 

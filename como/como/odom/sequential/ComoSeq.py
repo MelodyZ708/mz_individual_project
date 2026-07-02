@@ -8,6 +8,7 @@ from como.odom.sequential.TrackingSeq import TrackingSeq
 from como.odom.sequential.MappingSeq import MappingSeq
 from como.utils.o3d import rgb_depth_to_pcd
 import torch
+from como.geometry.transforms import get_rel_pose
 
 
 class ComoSeq(GuiWindow):
@@ -19,12 +20,9 @@ class ComoSeq(GuiWindow):
         intrinsics = self.get_intrinsics()
         img_size = self.get_img_size()
 
-        self.sensor_tracking_only = slam_cfg["tracking"].get(
-            "sensor_tracking_only", False
-        )
-        self.mapping_use_sensor_depth = slam_cfg["mapping"].get(
-            "use_sensor_depth", False
-        )
+        self.sensor_tracking_only = slam_cfg["tracking"].get("sensor_tracking_only", False)
+        self.mapping_use_sensor_depth = slam_cfg["mapping"].get("use_sensor_depth", False)
+        self.pose_source = slam_cfg["tracking"].get("pose_source", "tracking")
 
         self.tracking = TrackingSeq(slam_cfg["tracking"], intrinsics, img_size)
         self.tracking.setup()
@@ -34,7 +32,6 @@ class ComoSeq(GuiWindow):
             self.mapping = MappingSeq(slam_cfg["mapping"], intrinsics)
             self.mapping.setup()
 
-        # 如果你有这段额外逻辑，也要只在 mapping 存在时执行
         if (
             self.mapping is not None
             and slam_cfg["tracking"].get("color") == "unet"
@@ -53,22 +50,40 @@ class ComoSeq(GuiWindow):
         self.mapping_done = True
 
     def load_data(self, it):
-        timestamp, rgb, depth = next(it)
-        return timestamp, rgb, depth
+        data = next(it)
 
-    def iter(self, timestamp, rgb, depth):
+        if len(data) == 4:
+            timestamp, rgb, depth, pose_gt = data
+        elif len(data) == 3:
+            timestamp, rgb, depth = data
+            pose_gt = None
+        elif len(data) == 2:
+            timestamp, rgb = data
+            depth = None
+            pose_gt = None
+        else:
+            raise ValueError(f"Unexpected dataset output length: {len(data)}")
+
+        return timestamp, rgb, depth, pose_gt
+
+    def iter(self, timestamp, rgb, depth=None, pose_gt=None):
+        if self.pose_source == "groundtruth":
+            self.iter_groundtruth_pose(timestamp, rgb, depth, pose_gt)
+            return
+
         if self.sensor_tracking_only:
             self.iter_sensor_tracking_only(timestamp, rgb, depth)
             return
-        
+
         if self.mapping_use_sensor_depth:
             self.iter_with_sensor_depth_mapping(timestamp, rgb, depth)
             return
-        
+
         # Send input data to tracking and visualization
         gui.Application.instance.post_to_main_thread(
             self.window, lambda: self.update_curr_image_render(rgb)
         )
+
         # Track if init, otherwise send raw data to mapping for initialization
         if self.mapping.is_init:
             track_data_in = (timestamp, rgb.clone())
@@ -76,16 +91,20 @@ class ComoSeq(GuiWindow):
                 track_data_in, self.tracking.device, self.tracking.dtype
             )
             track_data_viz, track_data_map = self.tracking.track(track_data_in)
+
             # Handle tracking viz data
             track_data_viz = transfer_data(track_data_viz, self.device, self.dtype)
             tracked_timestamp, tracked_pose = track_data_viz
+
             # Record data
             self.timestamps.append(tracked_timestamp)
             self.est_poses = np.concatenate((self.est_poses, tracked_pose))
+
             # Visualize tracked pose
             gui.Application.instance.post_to_main_thread(
                 self.window, lambda: self.update_pose_render(tracked_pose)
             )
+
             # Visualize background using shaders if using
             if self.render_val == "Phong":
                 gui.Application.instance.post_to_main_thread(
@@ -96,12 +115,14 @@ class ComoSeq(GuiWindow):
 
         ## Handle tracking map data
         kf_viz_data, kf_ref_data = self.mapping.map(track_data_map)
+
         # Update tracking kf ref
         if kf_ref_data is not None:
             kf_ref_data = transfer_data(
                 kf_ref_data, self.tracking.device, self.tracking.dtype
             )
             self.tracking.update_kf_reference(kf_ref_data)
+
         # Visualization and bookkeeping
         if kf_viz_data is not None:
             kf_viz_data = transfer_data(kf_viz_data, self.device, self.dtype)
@@ -117,7 +138,212 @@ class ComoSeq(GuiWindow):
                 kf_pairs,
                 one_way_pairs,
             ) = kf_viz_data
-            # Storing variables to save later
+
+            self.update_kf_vars(kf_timestamps, kf_rgbs, kf_depths, kf_poses, P_sparse)
+
+            pcd = None
+            kf_normals = None
+            if self.render_val == "Point Cloud":
+                pcd, kf_normals = rgb_depth_to_pcd(
+                    kf_rgbs,
+                    kf_depths,
+                    kf_poses,
+                    self.get_intrinsics(),
+                    self.cfg["cos_thresh"],
+                )
+
+            gui.Application.instance.post_to_main_thread(
+                self.window,
+                lambda: self.update_keyframe_render(
+                    kf_timestamps,
+                    kf_rgbs,
+                    kf_poses,
+                    kf_depths,
+                    kf_sparse_coords,
+                    P_sparse,
+                    obs_ref_mask,
+                    one_way_poses,
+                    kf_pairs,
+                    one_way_pairs,
+                    pcd,
+                    kf_normals,
+                ),
+            )
+
+        return
+    
+    def iter_groundtruth_pose(self, timestamp, rgb, depth, pose_gt):
+        if pose_gt is None:
+            raise ValueError(
+                "pose_source is 'groundtruth' but dataset did not provide pose_gt."
+            )
+
+        if self.mapping is None:
+            raise ValueError("Groundtruth-pose mode requires mapping to be enabled.")
+
+        # Show current RGB
+        gui.Application.instance.post_to_main_thread(
+            self.window, lambda: self.update_curr_image_render(rgb)
+        )
+
+        # First frame: still let mapping initialize itself
+        # This keeps old logic untouched as much as possible.
+        if not self.mapping.is_init:
+            track_data_map = ("init", timestamp, rgb.clone())
+            kf_viz_data, kf_ref_data = self.mapping.map(track_data_map)
+
+            if kf_ref_data is not None:
+                kf_ref_data = transfer_data(
+                    kf_ref_data, self.tracking.device, self.tracking.dtype
+                )
+                self.tracking.update_kf_reference(kf_ref_data)
+
+            if kf_viz_data is not None:
+                kf_viz_data = transfer_data(kf_viz_data, self.device, self.dtype)
+                (
+                    kf_timestamps,
+                    kf_rgbs,
+                    kf_poses,
+                    kf_depths,
+                    kf_sparse_coords,
+                    P_sparse,
+                    obs_ref_mask,
+                    one_way_poses,
+                    kf_pairs,
+                    one_way_pairs,
+                ) = kf_viz_data
+
+                self.update_kf_vars(kf_timestamps, kf_rgbs, kf_depths, kf_poses, P_sparse)
+
+                pcd = None
+                kf_normals = None
+                if self.render_val == "Point Cloud":
+                    pcd, kf_normals = rgb_depth_to_pcd(
+                        kf_rgbs,
+                        kf_depths,
+                        kf_poses,
+                        self.get_intrinsics(),
+                        self.cfg["cos_thresh"],
+                    )
+
+                gui.Application.instance.post_to_main_thread(
+                    self.window,
+                    lambda: self.update_keyframe_render(
+                        kf_timestamps,
+                        kf_rgbs,
+                        kf_poses,
+                        kf_depths,
+                        kf_sparse_coords,
+                        P_sparse,
+                        obs_ref_mask,
+                        one_way_poses,
+                        kf_pairs,
+                        one_way_pairs,
+                        pcd,
+                        kf_normals,
+                    ),
+                )
+            return
+
+        # Convert GT pose onto tracking device/dtype
+        pose_gt_tracking = transfer_data(
+            pose_gt.clone(), self.tracking.device, self.tracking.dtype
+        )
+
+        # Relative pose from current reference keyframe to current GT pose
+        T_curr_kf = get_rel_pose(self.tracking.T_w_kf, pose_gt_tracking)
+
+        # Affine stays zero in this fixed-pose experiment
+        aff_curr_kf = torch.zeros(
+            (1, 2, 1),
+            device=self.tracking.device,
+            dtype=self.tracking.dtype,
+        )
+
+        # Visualized current pose is directly GT pose
+        tracked_timestamp = timestamp
+        tracked_pose = transfer_data(
+            pose_gt_tracking.clone(), self.device, self.dtype
+        )
+
+        self.timestamps.append(tracked_timestamp)
+        self.est_poses = np.concatenate((self.est_poses, tracked_pose))
+
+        gui.Application.instance.post_to_main_thread(
+            self.window, lambda: self.update_pose_render(tracked_pose)
+        )
+
+        if self.render_val == "Phong":
+            gui.Application.instance.post_to_main_thread(
+                self.window, lambda: self.render_o3d_image()
+            )
+
+        # Use the same keyframe policy as normal tracking
+        reproj_depth = self.tracking.get_reproj_last_kf(T_curr_kf)
+        valid_depth_mask = ~torch.isnan(reproj_depth)
+        num_valid_reproj_depth = torch.count_nonzero(valid_depth_mask)
+
+        if num_valid_reproj_depth == 0:
+            return
+
+        median_depth = torch.median(reproj_depth[valid_depth_mask])
+
+        new_kf = self.tracking.check_keyframe(
+            median_depth, num_valid_reproj_depth, T_curr_kf
+        )
+
+        track_data_map = None
+        if new_kf:
+            track_data_map = (
+                "keyframe",
+                rgb.clone(),
+                T_curr_kf,
+                aff_curr_kf,
+                self.tracking.kf_received_ts,
+                timestamp,
+            )
+            self.tracking.last_kf_sent_ts = timestamp
+        else:
+            T_w_curr = pose_gt_tracking
+            new_one_way_frame = self.tracking.check_one_way_frame(
+                median_depth, num_valid_reproj_depth, T_curr_kf, T_w_curr
+            )
+            if new_one_way_frame:
+                track_data_map = (
+                    "one-way",
+                    rgb.clone(),
+                    T_curr_kf,
+                    aff_curr_kf,
+                    self.tracking.kf_received_ts,
+                    timestamp,
+                )
+
+        if track_data_map is None:
+            return
+
+        kf_viz_data, kf_ref_data = self.mapping.map(track_data_map)
+
+        if kf_ref_data is not None:
+            kf_ref_data = transfer_data(
+                kf_ref_data, self.tracking.device, self.tracking.dtype
+            )
+            self.tracking.update_kf_reference(kf_ref_data)
+
+        if kf_viz_data is not None:
+            kf_viz_data = transfer_data(kf_viz_data, self.device, self.dtype)
+            (
+                kf_timestamps,
+                kf_rgbs,
+                kf_poses,
+                kf_depths,
+                kf_sparse_coords,
+                P_sparse,
+                obs_ref_mask,
+                one_way_poses,
+                kf_pairs,
+                one_way_pairs,
+            ) = kf_viz_data
+
             self.update_kf_vars(kf_timestamps, kf_rgbs, kf_depths, kf_poses, P_sparse)
 
             pcd = None

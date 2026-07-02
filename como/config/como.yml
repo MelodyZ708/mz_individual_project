@@ -51,15 +51,13 @@ mapping:
     num_keyframes: 1
   unet_channel_select: d4
   unet_enc_level: 1
-  use_sensor_depth: true
+  use_sensor_depth: false
 
 name: Depth odom config
 
 
 tracking:
-  # cnn_channel_select: d6,d28,d34,d50,d39,d16
-  cnn_channel_select: d120, d66, d54
-
+  cnn_channel_select: d120,d66,d54
   cnn_channel_select_coarse: d120,d66,d39
   cnn_channel_select_fine: d6,d28,d34,d50,d39,d16
   cnn_channels: 3
@@ -92,6 +90,6 @@ tracking:
   unet_channel_select: d4,d15,d9,d10,d30
   unet_enc_level: 1
 
-  # update!
   sensor_tracking_only: false
-  debug_tracking_diagnostics: true
+  debug_tracking_diagnostics: false
+  pose_source: groundtruth
