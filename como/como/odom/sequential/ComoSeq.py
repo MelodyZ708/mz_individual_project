@@ -245,9 +245,23 @@ class ComoSeq(GuiWindow):
                 )
             return
 
-        # Convert GT pose onto tracking device/dtype
-        pose_gt_tracking = transfer_data(
-            pose_gt.clone(), self.tracking.device, self.tracking.dtype
+        # pose_gt may come wrapped depending on collate / dataloader path
+        if isinstance(pose_gt, (tuple, list)):
+            assert len(pose_gt) == 1
+            pose_gt = pose_gt[0]
+
+        if pose_gt is None:
+            raise ValueError(
+                "pose_source is 'groundtruth' but pose_gt is None."
+            )
+
+        # Ensure shape is (1, 4, 4)
+        if pose_gt.dim() == 2:
+            pose_gt = pose_gt.unsqueeze(0)
+
+        pose_gt_tracking = pose_gt.to(
+            device=self.tracking.device,
+            dtype=self.tracking.dtype,
         )
 
         # Relative pose from current reference keyframe to current GT pose
@@ -262,8 +276,9 @@ class ComoSeq(GuiWindow):
 
         # Visualized current pose is directly GT pose
         tracked_timestamp = timestamp
-        tracked_pose = transfer_data(
-            pose_gt_tracking.clone(), self.device, self.dtype
+        tracked_pose = pose_gt_tracking.clone().to(
+            device=self.device,
+            dtype=self.dtype,
         )
 
         self.timestamps.append(tracked_timestamp)
