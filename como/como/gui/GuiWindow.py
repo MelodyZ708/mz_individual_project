@@ -559,27 +559,37 @@ class GuiWindow:
 
         data = next(it)
 
+        # Record Data
+        self.timestamps = []
+        self.est_poses = np.array([]).reshape(0, 4, 4)
+
+        self.timestamp = None
+        self.idx = 1
+
         if len(data) == 4:
             timestamp, rgb, depth, pose_gt = data
-            self.iter(timestamp, rgb, depth, pose_gt)
         elif len(data) == 3:
             timestamp, rgb, depth = data
-            self.iter(timestamp, rgb, depth)
+            pose_gt = None
         elif len(data) == 2:
             timestamp, rgb = data
-            self.iter(timestamp, rgb)
+            depth = None
+            pose_gt = None
         else:
             raise ValueError(f"Unexpected dataset output length: {len(data)}")
-        
+
         self.timestamp = timestamp
-        self.idx = 1
+
         gui.Application.instance.post_to_main_thread(
             self.window, lambda: self.init_render(rgb)
         )
 
-        # Record Data
-        self.timestamps = []
-        self.est_poses = np.array([]).reshape(0, 4, 4)
+        if pose_gt is not None:
+            self.iter(timestamp, rgb, depth, pose_gt)
+        elif depth is not None:
+            self.iter(timestamp, rgb, depth)
+        else:
+            self.iter(timestamp, rgb)
 
         # KF Data
         kf_buffer_size = 512
@@ -612,11 +622,25 @@ class GuiWindow:
                 self.advance_one_frame = False
 
             if get_new_frame:
-                # RGB data
                 if self.idx < self.dataloader.dataset.__len__():
-                    timestamp, rgb, depth = self.load_data(it)
-                    self.iter(timestamp, rgb, depth)
+                    data = self.load_data(it)
+
+                    if len(data) == 4:
+                        timestamp, rgb, depth, pose_gt = data
+                        self.iter(timestamp, rgb, depth, pose_gt)
+                    elif len(data) == 3:
+                        timestamp, rgb, depth = data
+                        self.iter(timestamp, rgb, depth)
+                    elif len(data) == 2:
+                        timestamp, rgb = data
+                        self.iter(timestamp, rgb)
+                    else:
+                        raise ValueError(
+                            f"Unexpected dataset output length: {len(data)}"
+                        )
+
                     self.idx += 1
+
                 elif self.idx == self.dataloader.dataset.__len__():
                     # Signal end for exit
                     self.signal_slam_end()
@@ -652,5 +676,5 @@ class GuiWindow:
     def load_data(self, it):
         raise NotImplementedError
 
-    def iter(self, timestamp, rgb, depth):
+    def iter(self, timestamp, rgb, depth=None, pose_gt=None):
         raise NotImplementedError
