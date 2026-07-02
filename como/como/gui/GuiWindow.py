@@ -556,7 +556,21 @@ class GuiWindow:
         # Initialize rendering
         gui.Application.instance.post_to_main_thread(self.window, self._on_start)
         it = iter(self.dataloader)
-        timestamp, rgb, depth = next(it)
+
+        data = next(it)
+
+        if len(data) == 4:
+            timestamp, rgb, depth, pose_gt = data
+            self.iter(timestamp, rgb, depth, pose_gt)
+        elif len(data) == 3:
+            timestamp, rgb, depth = data
+            self.iter(timestamp, rgb, depth)
+        elif len(data) == 2:
+            timestamp, rgb = data
+            self.iter(timestamp, rgb)
+        else:
+            raise ValueError(f"Unexpected dataset output length: {len(data)}")
+        
         self.timestamp = timestamp
         self.idx = 1
         gui.Application.instance.post_to_main_thread(
