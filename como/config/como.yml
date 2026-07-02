@@ -94,3 +94,4 @@ tracking:
 
   # update!
   sensor_tracking_only: false
+  debug_tracking_diagnostics: true

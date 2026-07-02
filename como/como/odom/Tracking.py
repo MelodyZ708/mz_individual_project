@@ -17,7 +17,7 @@ from como.utils.coords import swap_coords_xy, get_test_coords, fill_image
 
 from como.utils.multiprocessing import init_gpu
 from como.utils.image_processing import CNNFeatureExtractor, UNetFeatureExtractor
-
+import os
 
 class Tracking:
     def __init__(self, cfg, intrinsics, img_size):
@@ -472,71 +472,150 @@ class Tracking:
 
     def handle_frame(self, data):
         timestamp, rgb = data
+        timestamp_val = (
+            float(timestamp.detach().cpu().item())
+            if torch.is_tensor(timestamp)
+            else float(timestamp)
+        )
 
         # Track against reference
         img_pyr = self.prep_tracking_img(rgb)
-        self.T_curr_kf, self.aff_curr_kf = photo_tracking_pyr(
-            self.T_curr_kf,
-            self.aff_curr_kf,
-            self.vals_pyr,
-            self.P_pyr,
-            self.dI_dT_pyr,
-            self.mask_pyr,
-            self.intrinsics_pyr,
-            img_pyr,
-            self.cfg["sigmas"]["photo"],
-            self.cfg["term_criteria"],
-        )
+        tracking_debug = None
 
-        if not torch.isfinite(self.T_curr_kf).all():
-            print("[DEBUG] T_curr_kf became non-finite immediately after photo_tracking_pyr")
-            print(self.T_curr_kf)
-        elif not torch.allclose(
-            self.T_curr_kf[:, :3, :3] @ self.T_curr_kf[:, :3, :3].transpose(-1, -2),
-            torch.eye(3, device=self.T_curr_kf.device, dtype=self.T_curr_kf.dtype).unsqueeze(0),
-            atol=1e-1,
-        ):
-            print("[DEBUG] T_curr_kf rotation block is no longer close to orthonormal")
-            print(self.T_curr_kf)
+        if self.cfg.get("debug_tracking_diagnostics", False):
+            self.T_curr_kf, self.aff_curr_kf, tracking_debug = photo_tracking_pyr(
+                self.T_curr_kf,
+                self.aff_curr_kf,
+                self.vals_pyr,
+                self.P_pyr,
+                self.dI_dT_pyr,
+                self.mask_pyr,
+                self.intrinsics_pyr,
+                img_pyr,
+                self.cfg["sigmas"]["photo"],
+                self.cfg["term_criteria"],
+                return_debug=True,
+            )
+        else:
+            self.T_curr_kf, self.aff_curr_kf = photo_tracking_pyr(
+                self.T_curr_kf,
+                self.aff_curr_kf,
+                self.vals_pyr,
+                self.P_pyr,
+                self.dI_dT_pyr,
+                self.mask_pyr,
+                self.intrinsics_pyr,
+                img_pyr,
+                self.cfg["sigmas"]["photo"],
+                self.cfg["term_criteria"],
+            )
 
-        # === 新增代码开始 (保存残差用于可视化) ===
-        if not hasattr(self, '_vis_frame_count'):
+        # === 你原来保存 residual 的逻辑，保留 ===
+        if not hasattr(self, "_vis_frame_count"):
             self._vis_frame_count = 0
         self._vis_frame_count += 1
-        
-        save_interval = 100  # 每100帧保存一次
+
+        save_interval = 100
         if self._vis_frame_count % save_interval == 0 or self._vis_frame_count == 1:
-            import os
             save_dir = "vis_results/residuals"
             os.makedirs(save_dir, exist_ok=True)
-            # 用最高分辨率层计算残差
-            l = len(img_pyr) - 1  # 最高分辨率层
+
+            l = len(img_pyr) - 1
             mask_l = self.mask_pyr[l]
             vals_l = self.vals_pyr[l][None, mask_l, :]
             P_l = self.P_pyr[l][None, mask_l, :]
+
             from como.geometry.camera import transform_project
             from como.odom.frontend.photo_utils import img_interp
+
             pj, depth_j = transform_project(self.intrinsics_pyr[l], self.T_curr_kf, P_l)
             A_norm = 1.0 / torch.as_tensor(
-                (img_pyr[l].shape[-1], img_pyr[l].shape[-2]), device=img_pyr[l].device, dtype=img_pyr[l].dtype
+                (img_pyr[l].shape[-1], img_pyr[l].shape[-2]),
+                device=img_pyr[l].device,
+                dtype=img_pyr[l].dtype,
             )
             vals_target, valid_mask = img_interp(img_pyr[l], pj, A_norm)
             valid_mask = torch.logical_and(valid_mask, depth_j[..., 0] > 0)
-            
+
             vals_ref = torch.permute(vals_l, (0, 2, 1))
             tmp = torch.exp(-self.aff_curr_kf[:, None, 0]) * vals_target
             vals_target_adj = tmp + self.aff_curr_kf[:, None, 1]
             r = vals_target_adj - vals_ref
             r = torch.permute(r, (0, 2, 1))
-            
-            torch.save({
-                "r": r.detach().cpu(),
-                "valid_mask": valid_mask.detach().cpu(),
-                "frame_idx": self._vis_frame_count,
-                "timestamp": timestamp.item() if hasattr(timestamp, 'item') else float(timestamp),
-            }, os.path.join(save_dir, f"residual_frame{self._vis_frame_count:04d}.pt"))
+
+            torch.save(
+                {
+                    "r": r.detach().cpu(),
+                    "valid_mask": valid_mask.detach().cpu(),
+                    "frame_idx": self._vis_frame_count,
+                    "timestamp": timestamp_val,
+                },
+                os.path.join(
+                    save_dir, f"residual_frame{self._vis_frame_count:04d}.pt"
+                ),
+            )
             print(f"  [VIS] Saved residual for frame {self._vis_frame_count}")
-        # === 新增代码结束 ===
+
+        # === 新增：tracking 数值诊断输出 ===
+        if tracking_debug is not None:
+            final_level = tracking_debug[-1] if len(tracking_debug) > 0 else None
+            final_iter = (
+                final_level["iters"][-1]
+                if final_level is not None and len(final_level["iters"]) > 0
+                else None
+            )
+
+            if final_iter is not None:
+                suspicious = (
+                    (not final_iter["cholesky_ok"])
+                    or (not torch.isfinite(self.T_curr_kf).all().item())
+                    or final_iter["valid_ratio"] < 0.20
+                    or final_iter["h_cond"] > 1e8
+                    or (not torch.isfinite(torch.tensor(final_iter["sigma_r"])).item())
+                )
+
+                if (
+                    suspicious
+                    or self._vis_frame_count % 50 == 0
+                    or self._vis_frame_count == 1
+                ):
+                    print(
+                        "[TRACK_DIAG] "
+                        f"frame={self._vis_frame_count} "
+                        f"ts={timestamp_val:.4f} "
+                        f"level={final_level['level']} "
+                        f"iters={final_level['num_iters']} "
+                        f"stop={final_level['stop_reason']} "
+                        f"valid_ratio={final_iter['valid_ratio']:.3f} "
+                        f"sigma_r={final_iter['sigma_r']:.6f} "
+                        f"res_med={final_iter['residual_abs_median']:.6f} "
+                        f"grad_norm={final_iter['grad_norm']:.6f} "
+                        f"delta_norm={final_iter['delta_norm']:.6f} "
+                        f"h_cond={final_iter['h_cond']:.3e} "
+                        f"jac_mean={final_iter['pose_jac_abs_mean']:.6f} "
+                        f"jac_max={final_iter['pose_jac_abs_max']:.6f} "
+                        f"chol_ok={final_iter['cholesky_ok']}"
+                    )
+
+                if suspicious:
+                    diag_dir = "vis_results/tracking_diagnostics"
+                    os.makedirs(diag_dir, exist_ok=True)
+                    torch.save(
+                        {
+                            "frame_idx": self._vis_frame_count,
+                            "timestamp": timestamp_val,
+                            "tracking_debug": tracking_debug,
+                            "T_curr_kf": self.T_curr_kf.detach().cpu(),
+                            "aff_curr_kf": self.aff_curr_kf.detach().cpu(),
+                        },
+                        os.path.join(
+                            diag_dir,
+                            f"tracking_diag_frame{self._vis_frame_count:04d}.pt",
+                        ),
+                    )
+                    print(
+                        f"  [TRACK_DIAG] saved suspicious frame {self._vis_frame_count}"
+                    )
 
         # Send tracked pose
         T_w_curr = self.get_curr_world_pose()
@@ -549,40 +628,7 @@ class Tracking:
         reproj_depth = self.get_reproj_last_kf(self.T_curr_kf)
         valid_depth_mask = ~torch.isnan(reproj_depth)
         num_valid_reproj_depth = torch.count_nonzero(valid_depth_mask)
-        self.last_num_valid_reproj_depth = int(num_valid_reproj_depth.item())
-
-        if (
-            self.last_num_valid_reproj_depth < 10000
-            and not hasattr(self, "first_low_valid_reported")
-        ):
-            self.first_low_valid_reported = True
-            print(
-                "[DEBUG first_low_valid] "
-                f"num_valid={self.last_num_valid_reproj_depth}, "
-                f"T_curr_kf=\n{self.T_curr_kf}"
-            )
-
-        if (
-            self.last_num_valid_reproj_depth == 0
-            and not hasattr(self, "first_zero_valid_reported")
-        ):
-            self.first_zero_valid_reported = True
-            print("[DEBUG first_zero_valid] reprojection completely failed")
-            print(f"T_curr_kf=\n{self.T_curr_kf}")
-
-        if self.last_num_valid_reproj_depth == 0:
-            median_depth = torch.tensor(
-                1.0, device=reproj_depth.device, dtype=reproj_depth.dtype
-            )
-        else:
-            median_depth = torch.median(reproj_depth[valid_depth_mask])
-
-
-        print(f"  [KF check] kf_dist={torch.linalg.norm(self.T_curr_kf[:, :3, 3]).item():.6f} | "
-              f"median_depth={median_depth.item():.4f} | "
-              f"num_valid={num_valid_reproj_depth.item()} | "
-              f"num_kf_pixels={self.vals_pyr[-1].shape[1]} | "
-              f"thresh={self.cfg['keyframing']['kf_depth_motion_ratio'] * median_depth.item():.6f}")
+        median_depth = torch.median(reproj_depth[valid_depth_mask])
 
         new_kf = self.check_keyframe(
             median_depth, num_valid_reproj_depth, self.T_curr_kf
@@ -612,8 +658,5 @@ class Tracking:
                     self.kf_received_ts,
                     timestamp,
                 )
-
-                self.last_rec_sent_ts = timestamp
-                self.num_one_way_since_kf += 1
 
         return track_data_viz, track_data_map
