@@ -574,10 +574,14 @@ class Tracking:
                     or (not torch.isfinite(torch.tensor(final_iter["sigma_r"])).item())
                 )
 
+                diag_focus = (
+                    685390.80 <= timestamp_val <= 685391.35
+                )
+
                 if (
                     suspicious
-                    or self._vis_frame_count % 50 == 0
                     or self._vis_frame_count == 1
+                    or diag_focus
                 ):
                     print(
                         "[TRACK_DIAG] "
