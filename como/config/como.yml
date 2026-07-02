@@ -57,16 +57,18 @@ name: Depth odom config
 
 
 tracking:
-  cnn_channel_select: d6,d28,d34,d50,d39,d16
+  # cnn_channel_select: d6,d28,d34,d50,d39,d16
+  cnn_channel_select: d120, d66, d54
+
   cnn_channel_select_coarse: d120,d66,d39
   cnn_channel_select_fine: d6,d28,d34,d50,d39,d16
-  cnn_channels: 6
+  cnn_channels: 3
   cnn_channels_coarse: 3
   cnn_channels_fine: 2
   cnn_layer_coarse: layer2
   cnn_layer_fine: conv1
   cnn_layer_full_channels: 64
-  cnn_layer_name: conv1
+  cnn_layer_name: layer2
   cnn_mode: cnn_only
   color: cnn
 
