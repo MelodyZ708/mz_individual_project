@@ -219,6 +219,11 @@ class ComoSeq(GuiWindow):
             self.window, lambda: self.update_pose_render(tracked_pose)
         )
 
+        if self.render_val == "Phong":
+            gui.Application.instance.post_to_main_thread(
+                self.window, lambda: self.render_o3d_image()
+            )
+
         # First frame still uses original init path
         if not self.mapping.is_init:
             track_data_map = ("init", timestamp, rgb.clone())
@@ -229,7 +234,6 @@ class ComoSeq(GuiWindow):
                     kf_ref_data, self.tracking.device, self.tracking.dtype
                 )
                 self.tracking.update_kf_reference(kf_ref_data)
-
                 self.gt_frame_count = 0
 
             if kf_viz_data is not None:
@@ -247,11 +251,26 @@ class ComoSeq(GuiWindow):
                     one_way_pairs,
                 ) = kf_viz_data
 
-                self.update_kf_vars(kf_timestamps, kf_rgbs, kf_depths, kf_poses, P_sparse)
+                print(
+                    "[GT viz debug:init] "
+                    f"num_kf={kf_poses.shape[0]} | "
+                    f"depth_nonzero={(kf_depths > 0).sum().item()} | "
+                    f"depth_min={kf_depths.min().item():.6f} | "
+                    f"depth_max={kf_depths.max().item():.6f} | "
+                    f"P_sparse_shape={tuple(P_sparse.shape)} | "
+                    f"sparse_coords_shape={tuple(kf_sparse_coords.shape)}"
+                )
+
+                self.update_kf_vars(
+                    kf_timestamps, kf_rgbs, kf_depths, kf_poses, P_sparse
+                )
 
                 pcd = None
                 kf_normals = None
                 if self.render_val == "Point Cloud":
+                    print(
+                        f"[GT pcd debug:init] render_val={self.render_val} | building point cloud"
+                    )
                     pcd, kf_normals = rgb_depth_to_pcd(
                         kf_rgbs,
                         kf_depths,
@@ -277,6 +296,11 @@ class ComoSeq(GuiWindow):
                         kf_normals,
                     ),
                 )
+
+                if self.render_val == "Phong":
+                    gui.Application.instance.post_to_main_thread(
+                        self.window, lambda: self.render_o3d_image()
+                    )
             return
 
         if not hasattr(self, "gt_frame_count"):
@@ -326,11 +350,26 @@ class ComoSeq(GuiWindow):
                 one_way_pairs,
             ) = kf_viz_data
 
-            self.update_kf_vars(kf_timestamps, kf_rgbs, kf_depths, kf_poses, P_sparse)
+            print(
+                "[GT viz debug:kf] "
+                f"num_kf={kf_poses.shape[0]} | "
+                f"depth_nonzero={(kf_depths > 0).sum().item()} | "
+                f"depth_min={kf_depths.min().item():.6f} | "
+                f"depth_max={kf_depths.max().item():.6f} | "
+                f"P_sparse_shape={tuple(P_sparse.shape)} | "
+                f"sparse_coords_shape={tuple(kf_sparse_coords.shape)}"
+            )
+
+            self.update_kf_vars(
+                kf_timestamps, kf_rgbs, kf_depths, kf_poses, P_sparse
+            )
 
             pcd = None
             kf_normals = None
             if self.render_val == "Point Cloud":
+                print(
+                    f"[GT pcd debug:kf] render_val={self.render_val} | building point cloud"
+                )
                 pcd, kf_normals = rgb_depth_to_pcd(
                     kf_rgbs,
                     kf_depths,
@@ -356,6 +395,11 @@ class ComoSeq(GuiWindow):
                     kf_normals,
                 ),
             )
+
+            if self.render_val == "Phong":
+                gui.Application.instance.post_to_main_thread(
+                    self.window, lambda: self.render_o3d_image()
+                )
 
         return
     
