@@ -172,7 +172,7 @@ class ComoSeq(GuiWindow):
             )
 
         return
-    
+
     def iter_groundtruth_pose(self, timestamp, rgb, depth, pose_gt):
         if pose_gt is None:
             raise ValueError(
@@ -218,11 +218,6 @@ class ComoSeq(GuiWindow):
         gui.Application.instance.post_to_main_thread(
             self.window, lambda: self.update_pose_render(tracked_pose)
         )
-
-        if self.render_val == "Phong":
-            gui.Application.instance.post_to_main_thread(
-                self.window, lambda: self.render_o3d_image()
-            )
 
         # First frame still uses original init path
         if not self.mapping.is_init:
