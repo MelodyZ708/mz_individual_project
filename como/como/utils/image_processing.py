@@ -153,6 +153,33 @@ class CNNFeatureExtractor(nn.Module):
             )
             self.upsample_factor = 8
             print(f"[CNNFeatureExtractor] Using layer2 features (128ch, resolution=H/8×W/8, upsample=8×)")
+
+        elif cnn_layer == "layer3":
+            self.feature_extractor = nn.Sequential(
+                resnet.conv1,
+                resnet.bn1,
+                resnet.relu,
+                resnet.maxpool,
+                resnet.layer1,
+                resnet.layer2,
+                resnet.layer3,
+            )
+            self.upsample_factor = 16
+            print(f"[CNNFeatureExtractor] Using layer3 features (256ch, resolution=H/16×W/16, upsample=16×)")
+        elif cnn_layer == "layer4":
+            self.feature_extractor = nn.Sequential(
+                resnet.conv1,
+                resnet.bn1,
+                resnet.relu,
+                resnet.maxpool,
+                resnet.layer1,
+                resnet.layer2,
+                resnet.layer3,
+                resnet.layer4,
+            )
+            self.upsample_factor = 32
+            print(f"[CNNFeatureExtractor] Using layer4 features (512ch, resolution=H/32×W/32, upsample=32×)")
+
         elif cnn_layer == "layer1":
             # conv1 + bn1 + relu + maxpool + layer1
             # Actually: conv1(stride=2) → H/2, maxpool(stride=2) → H/4, layer1(stride=1) → H/4
@@ -183,10 +210,13 @@ class CNNFeatureExtractor(nn.Module):
         # 冻结参数已完成
 
         # 基于所选层设定该层的总通道数（用于解析 'd' 模式和随机抽样）
-        if cnn_layer == "layer2":
+        if cnn_layer == "layer4":
+            total_layer_channels = 512
+        elif cnn_layer == "layer3":
+            total_layer_channels = 256
+        elif cnn_layer == "layer2":
             total_layer_channels = 128
-        else:
-            # conv1 和 layer1 均为 64 通道
+        else:  # conv1, layer1
             total_layer_channels = 64
 
         # 随机选择通道的索引（固定种子保证可复现），样本数量等于 target_channels
