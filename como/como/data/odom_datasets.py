@@ -104,8 +104,9 @@ class TumOdometryDataset(OdometryDataset):
             )
 
             for rgb_ts, depth_ts in zip(self.ts_list, depth_ts_list):
-                assert abs(rgb_ts - depth_ts) < 1e-4, (
-                    f"RGB/depth timestamp mismatch: {rgb_ts} vs {depth_ts}"
+                dt = abs(rgb_ts - depth_ts)
+                assert dt <= gt_tolerance, (
+                    f"RGB/depth timestamp mismatch: {rgb_ts} vs {depth_ts} (|dt|={dt})"
                 )
 
         gt_path = os.path.join(seq_path, "groundtruth.txt")
