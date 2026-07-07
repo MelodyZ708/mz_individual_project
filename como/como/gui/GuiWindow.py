@@ -566,6 +566,20 @@ class GuiWindow:
         self.timestamp = None
         self.idx = 1
 
+        # KF Data must be initialized before the first self.iter(...)
+        kf_buffer_size = 512
+        h, w = self.get_img_size()
+        self.kf_timestamps = -torch.ones(
+            kf_buffer_size, device=self.device, dtype=torch.double
+        )
+        self.kf_rgb = -torch.ones((kf_buffer_size, 3, h, w), device=self.device)
+        self.kf_depth = -torch.ones((kf_buffer_size, 1, h, w), device=self.device)
+        self.kf_poses = -torch.ones(
+            (kf_buffer_size, 4, 4), device=self.device, dtype=torch.double
+        )
+        self.P = -torch.ones((0), device=self.device, dtype=torch.double)
+        self.kf_window_end_ind = None
+
         if len(data) == 4:
             timestamp, rgb, depth, pose_gt = data
         elif len(data) == 3:
@@ -590,20 +604,6 @@ class GuiWindow:
             self.iter(timestamp, rgb, depth)
         else:
             self.iter(timestamp, rgb)
-
-        # KF Data
-        kf_buffer_size = 512
-        h, w = self.get_img_size()
-        self.kf_timestamps = -torch.ones(
-            kf_buffer_size, device=self.device, dtype=torch.double
-        )
-        self.kf_rgb = -torch.ones((kf_buffer_size, 3, h, w), device=self.device)
-        self.kf_depth = -torch.ones((kf_buffer_size, 1, h, w), device=self.device)
-        self.kf_poses = -torch.ones(
-            (kf_buffer_size, 4, 4), device=self.device, dtype=torch.double
-        )
-        self.P = -torch.ones((0), device=self.device, dtype=torch.double)
-        self.kf_window_end_ind = None
 
         # Main loop
         fps_interval_len = 30
