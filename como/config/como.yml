@@ -51,7 +51,7 @@ mapping:
     num_keyframes: 1
   unet_channel_select: d4
   unet_enc_level: 1
-  use_sensor_depth: false
+  use_sensor_depth: true
 
 name: Depth odom config
 
@@ -68,7 +68,7 @@ tracking:
   cnn_layer_full_channels: 64
   cnn_layer_name: layer2
   cnn_mode: cnn_only
-  color: cnn
+  color: gray 
 
   device: cuda:0
   dtype: float
@@ -92,4 +92,3 @@ tracking:
 
   sensor_tracking_only: false
   debug_tracking_diagnostics: false
-  pose_source: groundtruth
