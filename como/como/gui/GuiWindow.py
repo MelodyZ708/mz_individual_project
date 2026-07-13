@@ -343,14 +343,28 @@ class GuiWindow:
         kf_timestamps_tensor = torch.as_tensor(kf_timestamps, dtype=torch.double)
 
         # Handle first one
+        buf_size = self.kf_timestamps.shape[0]
         if self.kf_timestamps[0] < 0.0:
             self.kf_window_start_ind = 0
-        elif kf_timestamps_tensor[0] != self.kf_timestamps[self.kf_window_start_ind]:
+        elif kf_timestamps_tensor[0] != self.kf_timestamps[min(self.kf_window_start_ind, buf_size - 1)]:
             self.kf_window_start_ind += 1
+
+        # Clamp start_ind so it never exceeds buffer
+        self.kf_window_start_ind = min(self.kf_window_start_ind, buf_size - 1)
 
         i = self.kf_window_start_ind
         self.kf_window_end_ind = i + kf_timestamps_tensor.shape[0]
         j = self.kf_window_end_ind
+
+        # Guard against buffer overflow when kf window shifts
+        max_len = self.kf_timestamps.shape[0] - i
+        if kf_timestamps_tensor.shape[0] > max_len:
+            kf_timestamps_tensor = kf_timestamps_tensor[:max_len]
+            kf_rgb = kf_rgb[:max_len]
+            kf_depth = kf_depth[:max_len]
+            kf_poses = kf_poses[:max_len]
+            j = i + max_len
+            self.kf_window_end_ind = j
 
         self.kf_timestamps[i:j] = kf_timestamps_tensor
         self.kf_rgb[i:j] = kf_rgb

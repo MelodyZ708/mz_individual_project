@@ -170,6 +170,7 @@ echo -e "Experiment\tATE_RMSE_cm\tATE_Mean_cm\tRPE_RMSE_cm\tValid_Runs" \
 cat > /tmp/snippet_c2f_a.yml <<'EOF'
 tracking:
   color: cnn_c2f
+  cnn_c2f_version: A
   cnn_layer_coarse: "layer2"
   cnn_channels_coarse: 3
   cnn_channel_select_coarse: "d120,d66,d39"

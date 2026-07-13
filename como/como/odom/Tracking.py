@@ -19,6 +19,48 @@ from como.utils.multiprocessing import init_gpu
 from como.utils.image_processing import CNNFeatureExtractor, UNetFeatureExtractor
 import os
 
+
+C2F_VERSION_TO_FINE_LEVELS = {"A": 1, "B": 2, "C": 3}
+
+
+def resolve_c2f_config(cfg):
+    """Resolve the C2F variant while supporting the legacy fine-level option."""
+    version = cfg.get("cnn_c2f_version")
+    legacy_fine_levels = cfg.get("cnn_c2f_fine_levels")
+
+    if version is None:
+        if legacy_fine_levels is None:
+            version = "A"
+        else:
+            try:
+                fine_levels = int(legacy_fine_levels)
+            except (TypeError, ValueError) as exc:
+                raise ValueError("tracking.cnn_c2f_fine_levels must be one of 1, 2, or 3") from exc
+            reverse_mapping = {levels: name for name, levels in C2F_VERSION_TO_FINE_LEVELS.items()}
+            if fine_levels not in reverse_mapping:
+                raise ValueError("tracking.cnn_c2f_fine_levels must be one of 1, 2, or 3")
+            version = reverse_mapping[fine_levels]
+    else:
+        version = str(version).strip().upper()
+        if version not in C2F_VERSION_TO_FINE_LEVELS:
+            raise ValueError("tracking.cnn_c2f_version must be one of A, B, or C")
+
+    fine_levels = C2F_VERSION_TO_FINE_LEVELS[version]
+    if legacy_fine_levels is not None:
+        try:
+            legacy_fine_levels = int(legacy_fine_levels)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("tracking.cnn_c2f_fine_levels must be one of 1, 2, or 3") from exc
+        if legacy_fine_levels != fine_levels:
+            raise ValueError(
+                "Conflicting C2F configuration: "
+                f"version {version} requires cnn_c2f_fine_levels={fine_levels}, "
+                f"but got {legacy_fine_levels}"
+            )
+
+    return version, fine_levels
+
+
 class Tracking:
     def __init__(self, cfg, intrinsics, img_size):
         super().__init__()
@@ -121,6 +163,11 @@ class Tracking:
             # c 设为 fine 的通道数（最高分辨率层用 fine，决定最终精度）
             # 注意：这里 c 只用于后面 print，不再用于初始化单一 module
             c = c_fine
+            self._c2f_version, self._c2f_fine_levels = resolve_c2f_config(self.cfg)
+            print(
+                f"[Tracking] C2F-{self._c2f_version}: "
+                f"{self._c2f_fine_levels} fine pyramid level(s)"
+            )
 
 
         # ===== P3新增：unet模式 =====
@@ -203,9 +250,20 @@ class Tracking:
             pyr_coarse = self.img_pyr_module_coarse(self.feature_extractor_coarse(rgb))
             pyr_fine   = self.img_pyr_module_fine(self.feature_extractor_fine(rgb))
             # pyr[0]=最低分辨率, pyr[-1]=最高分辨率
-            # 前 (num_levels-1) 层用 coarse，最后一层用 fine
             num_levels = len(pyr_coarse)
-            mixed_pyr = pyr_coarse[:num_levels - 1] + [pyr_fine[-1]]
+            if len(pyr_fine) != num_levels:
+                raise RuntimeError(
+                    "Coarse and fine C2F pyramids must have the same number of levels"
+                )
+            if not 1 <= self._c2f_fine_levels < num_levels:
+                raise ValueError(
+                    f"C2F-{self._c2f_version} requires "
+                    f"{self._c2f_fine_levels} fine levels, but the pyramid has "
+                    f"{num_levels} total levels"
+                )
+
+            split = num_levels - self._c2f_fine_levels
+            mixed_pyr = pyr_coarse[:split] + pyr_fine[split:]
             return mixed_pyr
         
                 # ===== P3新增：unet模式 =====
@@ -365,8 +423,8 @@ class Tracking:
             
             for i in range(len(img_pyr)):
                 if self.cfg["color"] == "cnn_c2f":
-                    # 最后一层用 fine 梯度模块，其余用 coarse
-                    grad_mod = self.gradient_module_fine if i == len(img_pyr) - 1 \
+                    # 与 prep_tracking_img 使用同一个 C2F 切换点。
+                    grad_mod = self.gradient_module_fine if i >= len(img_pyr) - self._c2f_fine_levels \
                             else self.gradient_module_coarse
                     gx, gy = grad_mod(img_pyr[i])
                 else:

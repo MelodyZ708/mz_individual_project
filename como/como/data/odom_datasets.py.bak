@@ -111,16 +111,8 @@ class TumOdometryDataset(OdometryDataset):
 
         gt_path = os.path.join(seq_path, "groundtruth.txt")
         if os.path.exists(gt_path):
-            self.pose_list, valid_indices = self.load_and_match_groundtruth(gt_path, self.ts_list)
+            self.pose_list = self.load_and_match_groundtruth(gt_path, self.ts_list)
             self.has_pose = True
-            if len(valid_indices) < len(self.ts_list):
-                skipped = len(self.ts_list) - len(valid_indices)
-                print(f"[Info] Filtered {skipped} frames with no groundtruth match. "
-                      f"Remaining: {len(valid_indices)}/{len(self.ts_list)}")
-                self.ts_list   = [self.ts_list[i]   for i in valid_indices]
-                self.rgb_list  = [self.rgb_list[i]  for i in valid_indices]
-                if hasattr(self, "depth_list") and self.depth_list:
-                    self.depth_list = [self.depth_list[i] for i in valid_indices]
             assert len(self.pose_list) == len(self.ts_list)
 
         self.data_len = len(self.rgb_list)
@@ -308,8 +300,7 @@ class TumOdometryDataset(OdometryDataset):
         gt_poses = [x[1] for x in gt_entries]
 
         pose_list = []
-        valid_indices = []
-        for i, ts in enumerate(rgb_ts_list):
+        for ts in rgb_ts_list:
             idx = np.searchsorted(gt_ts, ts)
 
             candidates = []
@@ -327,14 +318,14 @@ class TumOdometryDataset(OdometryDataset):
                     best_idx = cand
 
             if best_idx is None or best_dt > self.gt_tolerance:
-                print(f"[Warning] Skipping frame ts={ts:.6f}: no groundtruth within "
-                      f"{self.gt_tolerance:.3f}s (best_dt={best_dt:.4f}s)")
-                continue
+                raise ValueError(
+                    f"No matched groundtruth pose for rgb timestamp {ts:.6f} "
+                    f"within tolerance {self.gt_tolerance:.3f}s"
+                )
 
             pose_list.append(gt_poses[best_idx])
-            valid_indices.append(i)
 
-        return pose_list, valid_indices
+        return pose_list
 
     def load_rgb(self, idx):
         bgr_np = cv2.imread(self.rgb_list[idx])
