@@ -65,8 +65,8 @@ tracking:
   cnn_layer_fine: conv1
   cnn_layer_full_channels: 128
   cnn_layer_name: layer2
-  cnn_mode: cnn_only
-  color: cnn
+  cnn_mode: gray
+  color: gray
   debug_tracking_diagnostics: false
   device: cuda:0
   dtype: float

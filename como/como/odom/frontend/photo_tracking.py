@@ -177,7 +177,7 @@ def tracking_iter(Tji, Pi, intrinsics, img_j, aff, vals_i, dI_dT, photo_sigma, A
     debug_info = {
         "valid_count": int(valid_count.detach().cpu().item()),
         "total_count": int(total_count),
-        "valid_ratio": float(valid_count.detach().cpu().item()) / float(total_count),
+        "valid_ratio": float(valid_count.detach().cpu().item()) / float(total_count) if total_count > 0 else 0.0,
         "sigma_r": _scalar(sigma_r),
         "residual_abs_median": _scalar(med_r),
         "residual_abs_mean": _scalar(residual_abs_mean),
@@ -188,10 +188,10 @@ def tracking_iter(Tji, Pi, intrinsics, img_j, aff, vals_i, dI_dT, photo_sigma, A
         "h_diag_max": _scalar(torch.max(H_diag)),
         "h_cond": _scalar(H_cond),
         "cholesky_ok": bool((chol_info == 0).all().detach().cpu().item()),
-        "pose_jac_abs_mean": _scalar(torch.mean(torch.abs(dI_dT[..., :6]))),
-        "pose_jac_abs_max": _scalar(torch.max(torch.abs(dI_dT[..., :6]))),
-        "affine_jac_abs_mean": _scalar(torch.mean(torch.abs(dI_dT[..., 6:]))),
-        "affine_jac_abs_max": _scalar(torch.max(torch.abs(dI_dT[..., 6:]))),
+        "pose_jac_abs_mean": _scalar(torch.mean(torch.abs(dI_dT[..., :6]))) if dI_dT.numel() > 0 else 0.0,
+        "pose_jac_abs_max": _scalar(torch.max(torch.abs(dI_dT[..., :6]))) if dI_dT.numel() > 0 else 0.0,
+        "affine_jac_abs_mean": _scalar(torch.mean(torch.abs(dI_dT[..., 6:]))) if dI_dT.numel() > 0 else 0.0,
+        "affine_jac_abs_max": _scalar(torch.max(torch.abs(dI_dT[..., 6:]))) if dI_dT.numel() > 0 else 0.0,
         "depth_positive_ratio": _scalar(
             torch.count_nonzero(depth_j[..., 0] > 0) / depth_j[..., 0].numel()
         ),

@@ -59,8 +59,12 @@ class OdometryDataset(Dataset):
 class TumOdometryDataset(OdometryDataset):
     def __init__(self, seq_path, img_size, gt_tolerance=0.03):
         super().__init__(img_size)
-
         self.seq_path = seq_path
+
+        # 如果已有 matched_rgb.txt，说明已预处理，放宽 gt 容差避免重复过滤
+        if os.path.exists(os.path.join(seq_path, "matched_rgb.txt")):
+            gt_tolerance = float("inf")
+
         self.gt_tolerance = gt_tolerance
 
         tmp = self.seq_path.rstrip("/").rsplit("/", 3)

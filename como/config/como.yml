@@ -54,7 +54,7 @@ mapping:
   use_sensor_depth: true
 name: Depth odom config
 tracking:
-  cnn_c2f_version: C
+  
   cnn_channel_select: d120,d66,d54
   cnn_channel_select_coarse: d120,d66,d54
   cnn_channel_select_fine: d6,d28,d34,d50,d39,d16
@@ -66,7 +66,8 @@ tracking:
   cnn_layer_full_channels: 128
   cnn_layer_name: layer2
   cnn_mode: cnn_only
-  color: cnn
+  color: gray
+  cnn_c2f_version: B
   debug_tracking_diagnostics: false
   device: cuda:0
   dtype: float
@@ -76,7 +77,7 @@ tracking:
     one_way_freq: 3
   pyr:
     depth_interp_mode: nearest_neighbor
-    end_level: 4
+    end_level: 3
     start_level: 0
   sensor_tracking_only: false
   sigmas:
