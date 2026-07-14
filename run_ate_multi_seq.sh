@@ -9,7 +9,7 @@
 
 echo "=========================================="
 echo "Multi-Sequence ATE Evaluation"
-echo "Configs: gray | coarse | fine | c2f-a | c2f-b | c2f-c"
+echo "Configs: gray | coarse | fine | c2f-a | c2f-b"
 echo "Datasets: fr2/desk, fr3/long_office (clean + flashlight + lightswitch)"
 echo "Node: $(hostname)"
 echo "Date: $(date)"
@@ -25,7 +25,6 @@ micromamba activate /vol/bitbucket/mz325/envs/como
 PROJECT_DIR="/vol/bitbucket/mz325/individual_project/como"
 CONFIG_FILE="${PROJECT_DIR}/config/como.yml"
 CONFIG_BACKUP="${PROJECT_DIR}/config/como.yml.bak"
-TRAJ_FILE="${PROJECT_DIR}/results/datasets_tum.txt"
 RESULTS_DIR="${PROJECT_DIR}/results/multi_seq_eval"
 LOG_DIR="/vol/bitbucket/mz325/individual_project/logs"
 DATASET_ROOT="/vol/bitbucket/mz325/datasets/tum"
@@ -55,17 +54,15 @@ DATASET_KEYS=(
 )
 
 # ─────────────────────────────────────────────
-# Experiment configs (name : snippet YAML content)
+# Experiment configs
+# c2f_c removed: 3-level pyramid with fine_levels=3 → 0 coarse levels → invalid
 # ─────────────────────────────────────────────
-# Snippets are written to /tmp at runtime; only tracking section is merged.
-
 CONFIGS=(
     "gray"
     "coarse_only"
     "fine_only"
     "c2f_a"
     "c2f_b"
-    "c2f_c"
 )
 
 write_snippet() {
@@ -132,21 +129,6 @@ tracking:
   cnn_mode: cnn_only
 EOF
         ;;
-    c2f_c)
-        cat > "${SNIP}" <<'EOF'
-tracking:
-  color: cnn_c2f
-  cnn_c2f_version: C
-  cnn_layer_coarse: layer2
-  cnn_channels_coarse: 3
-  cnn_channel_select_coarse: "d120,d66,d54"
-  cnn_layer_fine: conv1
-  cnn_channels_fine: 6
-  cnn_channel_select_fine: "d6,d28,d34,d50,d39,d16"
-  cnn_layer_full_channels: 64
-  cnn_mode: cnn_only
-EOF
-        ;;
     esac
 }
 
@@ -182,16 +164,24 @@ PYEOF
 }
 
 # ─────────────────────────────────────────────
-# Single run + ATE/RPE evaluation
+# Single run + ATE evaluation
 # ─────────────────────────────────────────────
 run_one() {
     local EXP="$1"
     local DS_KEY="$2"
-    local DS_PATH="${DATASET_ROOT}/${DATASETS[${DS_KEY}]}"
+    local DS_NAME="${DATASETS[${DS_KEY}]}"
+    local DS_PATH="${DATASET_ROOT}/${DS_NAME}"
     local GT_FILE="${DS_PATH}/groundtruth.txt"
     local SAVE_NAME="${EXP}__${DS_KEY}"
     local TRAJ_SAVED="${RESULTS_DIR}/${SAVE_NAME}.txt"
     local SUMMARY_FILE="${RESULTS_DIR}/summary.tsv"
+
+    # COMO saves trajectory to ./results/tum_<dataset_name>.txt
+    # derived from: seq_path.rstrip("/").rsplit("/", 3) → tmp[1]+"_"+tmp[2]
+    # e.g. /vol/bitbucket/mz325/datasets/tum/rgbd_dataset_freiburg2_desk
+    #   → tmp[1]="tum", tmp[2]="rgbd_dataset_freiburg2_desk"
+    #   → tum_rgbd_dataset_freiburg2_desk.txt
+    local TRAJ_FILE="${PROJECT_DIR}/results/datasets_tum.txt"
 
     echo ""
     echo "##################################################"
@@ -209,46 +199,52 @@ run_one() {
     local DISP=$(( 400 + RANDOM % 100 ))
     Xvfb :${DISP} -screen 0 1920x1080x24 &
     local XVFB_PID=$!
-    sleep 1
+    sleep 3
     export DISPLAY=:${DISP}
 
-    timeout 600 python como/como_dataset.py \
+    timeout 900 python como/como_dataset.py \
         --dataset_type=tum \
         --dataset_dir="${DS_PATH}" \
         || true
 
     kill ${XVFB_PID} 2>/dev/null
 
-    # Evaluate
-    if [ -f "${TRAJ_FILE}" ]; then
-        cp "${TRAJ_FILE}" "${TRAJ_SAVED}"
-
-        ATE_RMSE=$(evo_ape tum "${GT_FILE}" "${TRAJ_SAVED}" \
-            --align --correct_scale 2>/dev/null \
-            | grep "rmse" | awk '{printf "%.4f", $2 * 100}')
-        ATE_MEAN=$(evo_ape tum "${GT_FILE}" "${TRAJ_SAVED}" \
-            --align --correct_scale 2>/dev/null \
-            | grep "mean" | awk '{printf "%.4f", $2 * 100}')
-        RPE_RMSE=$(evo_rpe tum "${GT_FILE}" "${TRAJ_SAVED}" \
-            --align --correct_scale 2>/dev/null \
-            | grep "rmse" | awk '{printf "%.4f", $2 * 100}')
-
-        if [ -z "${ATE_RMSE}" ]; then
-            STATUS="PARSE_FAIL"
-            ATE_RMSE="-"; ATE_MEAN="-"; RPE_RMSE="-"
-        else
-            STATUS="OK"
-        fi
-
-        echo "  ATE RMSE = ${ATE_RMSE} cm  |  ATE Mean = ${ATE_MEAN} cm  |  RPE RMSE = ${RPE_RMSE} cm  |  ${STATUS}"
-    else
+    # ── Check trajectory ──────────────────────────────────────────────────────
+    if [ ! -f "${TRAJ_FILE}" ]; then
         STATUS="FAIL"
-        ATE_RMSE="-"; ATE_MEAN="-"; RPE_RMSE="-"
+        ATE_MEAN="-"
         echo "  [FAIL] Trajectory not found — COMO crashed or timed out."
+        echo "  Expected: ${TRAJ_FILE}"
+        echo -e "${DS_KEY}\t${EXP}\t${ATE_MEAN}\t${STATUS}" >> "${SUMMARY_FILE}"
+        return
     fi
 
-    # Append to summary TSV
-    echo -e "${DS_KEY}\t${EXP}\t${ATE_RMSE}\t${ATE_MEAN}\t${RPE_RMSE}\t${STATUS}" >> "${SUMMARY_FILE}"
+    # ── NaN guard ─────────────────────────────────────────────────────────────
+    if grep -qi "nan" "${TRAJ_FILE}"; then
+        STATUS="NAN_FAIL"
+        ATE_MEAN="-"
+        echo "  [FAIL] Trajectory contains NaN."
+        cp "${TRAJ_FILE}" "${TRAJ_SAVED}.nan"
+        echo -e "${DS_KEY}\t${EXP}\t${ATE_MEAN}\t${STATUS}" >> "${SUMMARY_FILE}"
+        return
+    fi
+
+    cp "${TRAJ_FILE}" "${TRAJ_SAVED}"
+
+    # ── ATE Mean (cm) ─────────────────────────────────────────────────────────
+    ATE_MEAN=$(evo_ape tum "${GT_FILE}" "${TRAJ_SAVED}" \
+        --align --correct_scale 2>/dev/null \
+        | grep -w "mean" | awk '{printf "%.4f", $2 * 100}')
+
+    if [ -z "${ATE_MEAN}" ]; then
+        STATUS="PARSE_FAIL"
+        ATE_MEAN="-"
+    else
+        STATUS="OK"
+    fi
+
+    echo "  ATE Mean = ${ATE_MEAN} cm  |  ${STATUS}"
+    echo -e "${DS_KEY}\t${EXP}\t${ATE_MEAN}\t${STATUS}" >> "${SUMMARY_FILE}"
 }
 
 # ─────────────────────────────────────────────
@@ -261,11 +257,8 @@ cd "${PROJECT_DIR}"
 
 # Write TSV header
 SUMMARY_FILE="${RESULTS_DIR}/summary.tsv"
-echo -e "Dataset\tExperiment\tATE_RMSE_cm\tATE_Mean_cm\tRPE_RMSE_cm\tStatus" > "${SUMMARY_FILE}"
+echo -e "Dataset\tExperiment\tATE_Mean_cm\tStatus" > "${SUMMARY_FILE}"
 
-# Outer loop: datasets; inner loop: configs
-# (running all configs on one dataset before moving to the next
-#  keeps GPU warm and avoids repeated model loading)
 for DS_KEY in "${DATASET_KEYS[@]}"; do
     for EXP in "${CONFIGS[@]}"; do
         run_one "${EXP}" "${DS_KEY}"
@@ -281,15 +274,12 @@ echo "FINAL SUMMARY"
 echo "=========================================="
 echo ""
 
-# Print per-dataset blocks
 for DS_KEY in "${DATASET_KEYS[@]}"; do
     echo "  Dataset: ${DS_KEY}"
-    printf "  %-22s  %14s  %14s  %14s  %8s\n" \
-        "Experiment" "ATE RMSE(cm)" "ATE Mean(cm)" "RPE RMSE(cm)" "Status"
-    printf "  %-22s  %14s  %14s  %14s  %8s\n" \
-        "----------------------" "--------------" "--------------" "--------------" "--------"
-    grep "^${DS_KEY}" "${SUMMARY_FILE}" | while IFS=$'\t' read -r ds exp ate_r ate_m rpe_r stat; do
-        printf "  %-22s  %14s  %14s  %14s  %8s\n" "${exp}" "${ate_r}" "${ate_m}" "${rpe_r}" "${stat}"
+    printf "  %-22s  %14s  %8s\n" "Experiment" "ATE Mean(cm)" "Status"
+    printf "  %-22s  %14s  %8s\n" "----------------------" "--------------" "--------"
+    grep "^${DS_KEY}" "${SUMMARY_FILE}" | while IFS=$'\t' read -r ds exp ate_m stat; do
+        printf "  %-22s  %14s  %8s\n" "${exp}" "${ate_m}" "${stat}"
     done
     echo ""
 done
