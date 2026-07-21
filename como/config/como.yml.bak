@@ -55,16 +55,18 @@ mapping:
 name: Depth odom config
 tracking:
   cnn_c2f_version: B
-  cnn_channel_select: d120,d66,d54
-  cnn_channel_select_coarse: d120,d66,d54
-  cnn_channel_select_fine: d6,d28,d34,d50,d39,d16
-  cnn_channels: 3
-  cnn_channels_coarse: 3
-  cnn_channels_fine: 6
+  cnn_channel_select: d5,d29,d40,d52
+  cnn_channel_select_coarse: d121,d67,d60,d51
+  cnn_channel_select_fine: d5,d25,d22,d6
+  cnn_channels: 4
+  cnn_channels_coarse: 4
+  cnn_channels_fine: 4
   cnn_layer_coarse: layer2
   cnn_layer_fine: conv1
-  cnn_layer_full_channels: 128
-  cnn_layer_name: layer2
+  cnn_layer_full_channels: 64
+  cnn_layer_full_channels_coarse: 128
+  cnn_layer_full_channels_fine: 64
+  cnn_layer_name: conv1
   cnn_mode: cnn_only
   color: cnn
   debug_tracking_diagnostics: false
