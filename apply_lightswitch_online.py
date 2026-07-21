@@ -24,8 +24,9 @@ color_gain offset, so:
 
 Usage
 -----
+  cd /home/melody/code/individual_project
   python apply_lightswitch_online.py \
-      --dataset-dir /path/to/fr3_office \
+      --dataset-dir /path/to/fr1_desk \
       --out-dir     /tmp/como_aug_scale_0.75 \
       --intensity-scale 0.75 \
       --seed 42
@@ -38,9 +39,11 @@ import numpy as np
 import cv2
 
 # ── import helpers from lighting_synthesis_v2 ────────────────────────────────
-# Assumes this script lives in the same directory as lighting_synthesis_v2.py
+# Both scripts must live in the same directory.
+# Default location: /home/melody/code/individual_project/
 _here = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, _here)
+if _here not in sys.path:
+    sys.path.insert(0, _here)
 
 from lighting_synthesis_v2 import (
     read_index,
@@ -185,7 +188,7 @@ def main():
     rng = np.random.default_rng(args.seed)
     events = make_event_schedule(total_t, rng, 'lightswitch', args.fps)
 
-    print(f"[LightswitchAug] scale={scale:.2f}, {len(pairs)} frames, {total_t:.1f}s, {len(events)} events")
+    print(f"[LightswitchAug] scale={scale:.2f}, {len(pairs)} frames, {total_t:.1f}s, {len(events)} events", file=sys.stderr, flush=True)
 
     # ── Process frames ────────────────────────────────────────────────────────
     rgb_out_dir = os.path.join(out_dir, 'rgb')
@@ -215,14 +218,14 @@ def main():
         index_lines.append(f'{ts:.6f} {rel_path}\n')
 
         if (i + 1) % 200 == 0:
-            print(f"  [{i+1}/{len(pairs)}] processed")
+            print(f"  [{i+1}/{len(pairs)}] processed", file=sys.stderr, flush=True)
 
     # ── Write patched rgb.txt ─────────────────────────────────────────────────
     rgb_txt_out = os.path.join(out_dir, 'rgb.txt')
     with open(rgb_txt_out, 'w') as f:
         f.writelines(index_lines)
 
-    print(f"[LightswitchAug] Done. rgb.txt written to {rgb_txt_out}")
+    print(f"[LightswitchAug] Done. rgb.txt written to {rgb_txt_out}", file=sys.stderr, flush=True)
 
 
 if __name__ == '__main__':

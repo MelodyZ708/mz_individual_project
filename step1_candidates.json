@@ -1,0 +1,278 @@
+{
+  "conv1": {
+    "top3_combinations": [
+      {
+        "trial": 200,
+        "channels": [
+          "d5",
+          "d29",
+          "d40",
+          "d52"
+        ],
+        "ate_cm": 15.1682
+      },
+      {
+        "trial": 224,
+        "channels": [
+          "d5",
+          "d12",
+          "d17",
+          "d32"
+        ],
+        "ate_cm": 17.5188
+      },
+      {
+        "trial": 376,
+        "channels": [
+          "d8",
+          "d15",
+          "d25",
+          "d31",
+          "d50",
+          "d62"
+        ],
+        "ate_cm": 18.0308
+      }
+    ],
+    "frequency_derived": {
+      "channels": [
+        "d5",
+        "d25",
+        "d22",
+        "d6"
+      ],
+      "k": 4,
+      "top5_freq_channels": [
+        "d5",
+        "d25",
+        "d22",
+        "d6",
+        "d15"
+      ]
+    },
+    "bottom3_combinations": [
+      {
+        "trial": 7,
+        "channels": [
+          "d19",
+          "d27",
+          "d35",
+          "d43"
+        ],
+        "ate_cm": 40.2308
+      },
+      {
+        "trial": 262,
+        "channels": [
+          "d9",
+          "d16",
+          "d20",
+          "d23",
+          "d30",
+          "d42",
+          "d43",
+          "d54"
+        ],
+        "ate_cm": 40.5929
+      },
+      {
+        "trial": 245,
+        "channels": [
+          "d2",
+          "d6",
+          "d31",
+          "d42"
+        ],
+        "ate_cm": 40.5967
+      }
+    ]
+  },
+  "layer1": {
+    "top3_combinations": [
+      {
+        "trial": 475,
+        "channels": [
+          "d4",
+          "d14",
+          "d24",
+          "d53"
+        ],
+        "ate_cm": 15.8666
+      },
+      {
+        "trial": 244,
+        "channels": [
+          "d5",
+          "d13",
+          "d40",
+          "d41",
+          "d42",
+          "d58"
+        ],
+        "ate_cm": 16.3864
+      },
+      {
+        "trial": 256,
+        "channels": [
+          "d4",
+          "d5",
+          "d20",
+          "d38",
+          "d56",
+          "d57"
+        ],
+        "ate_cm": 16.5289
+      }
+    ],
+    "frequency_derived": {
+      "channels": [
+        "d4",
+        "d42",
+        "d18",
+        "d29"
+      ],
+      "k": 4,
+      "top5_freq_channels": [
+        "d4",
+        "d42",
+        "d18",
+        "d29",
+        "d9"
+      ]
+    },
+    "bottom3_combinations": [
+      {
+        "trial": 259,
+        "channels": [
+          "d12",
+          "d14",
+          "d27",
+          "d55"
+        ],
+        "ate_cm": 40.5904
+      },
+      {
+        "trial": 23,
+        "channels": [
+          "d3",
+          "d5",
+          "d7",
+          "d9",
+          "d40",
+          "d48",
+          "d55",
+          "d63"
+        ],
+        "ate_cm": 40.7832
+      },
+      {
+        "trial": 307,
+        "channels": [
+          "d20",
+          "d46",
+          "d47",
+          "d56"
+        ],
+        "ate_cm": 40.883
+      }
+    ]
+  },
+  "layer2": {
+    "top3_combinations": [
+      {
+        "trial": 1058,
+        "channels": [
+          "d7",
+          "d37",
+          "d60",
+          "d67",
+          "d74",
+          "d104"
+        ],
+        "ate_cm": 21.9441
+      },
+      {
+        "trial": 1274,
+        "channels": [
+          "d9",
+          "d38",
+          "d51",
+          "d52",
+          "d60",
+          "d96"
+        ],
+        "ate_cm": 23.0821
+      },
+      {
+        "trial": 542,
+        "channels": [
+          "d3",
+          "d9",
+          "d48",
+          "d51",
+          "d82",
+          "d95"
+        ],
+        "ate_cm": 23.4839
+      }
+    ],
+    "frequency_derived": {
+      "channels": [
+        "d121",
+        "d67",
+        "d60",
+        "d51",
+        "d41",
+        "d108"
+      ],
+      "k": 6,
+      "top5_freq_channels": [
+        "d121",
+        "d67",
+        "d60",
+        "d51",
+        "d41"
+      ]
+    },
+    "bottom3_combinations": [
+      {
+        "trial": 859,
+        "channels": [
+          "d20",
+          "d36",
+          "d71",
+          "d123"
+        ],
+        "ate_cm": 40.0028
+      },
+      {
+        "trial": 311,
+        "channels": [
+          "d14",
+          "d23",
+          "d29",
+          "d52",
+          "d83",
+          "d113",
+          "d114",
+          "d125"
+        ],
+        "ate_cm": 40.0311
+      },
+      {
+        "trial": 1401,
+        "channels": [
+          "d3",
+          "d24",
+          "d28",
+          "d33",
+          "d77",
+          "d84",
+          "d85",
+          "d93"
+        ],
+        "ate_cm": 40.0595
+      }
+    ]
+  }
+}
