@@ -640,7 +640,9 @@ class Tracking:
                     suspicious
                     or self._vis_frame_count == 1
                     or diag_focus
+                    or self.cfg.get("debug_tracking_print_every_frame", False)
                 ):
+                    pose_finite = torch.isfinite(self.T_curr_kf).all().item()
                     print(
                         "[TRACK_DIAG] "
                         f"frame={self._vis_frame_count} "
@@ -651,15 +653,21 @@ class Tracking:
                         f"valid_ratio={final_iter['valid_ratio']:.3f} "
                         f"sigma_r={final_iter['sigma_r']:.6f} "
                         f"res_med={final_iter['residual_abs_median']:.6f} "
+                        f"res_mean={final_iter['residual_abs_mean']:.6f} "
+                        f"res_max={final_iter['residual_abs_max']:.6f} "
+                        f"photo_mse={final_iter['mean_sq_err']:.6f} "
                         f"grad_norm={final_iter['grad_norm']:.6f} "
                         f"delta_norm={final_iter['delta_norm']:.6f} "
                         f"h_cond={final_iter['h_cond']:.3e} "
                         f"jac_mean={final_iter['pose_jac_abs_mean']:.6f} "
                         f"jac_max={final_iter['pose_jac_abs_max']:.6f} "
-                        f"chol_ok={final_iter['cholesky_ok']}"
+                        f"chol_ok={final_iter['cholesky_ok']} "
+                        f"pose_finite={pose_finite}"
                     )
 
-                if suspicious:
+                if suspicious and self.cfg.get(
+                    "debug_tracking_save_suspicious", True
+                ):
                     diag_dir = "vis_results/tracking_diagnostics"
                     os.makedirs(diag_dir, exist_ok=True)
                     torch.save(

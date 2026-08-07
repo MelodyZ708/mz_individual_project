@@ -6,6 +6,7 @@ import open3d.visualization.gui as gui
 import open3d.visualization.rendering as rendering
 import numpy as np
 
+import os
 import time
 import threading
 
@@ -380,6 +381,38 @@ class GuiWindow:
             kf_timestamps = self.kf_timestamps[:j].tolist()
             kf_poses = self.kf_poses[:j]
             save_traj(filename, kf_timestamps, kf_poses)
+
+            # The historical output above contains mapping keyframes only.  That is
+            # adequate on long sequences, but a 50-frame diagnostic sequence can
+            # contain only three to five scored keyframes.  Preserve the historical
+            # file and additionally export every pose delivered by Tracking so that
+            # short-sequence ATE/RPE cannot be dominated by a minimal Sim(3) fit.
+            if (
+                os.environ.get("COMO_SAVE_ALL_FRAME_TRAJECTORY") == "1"
+                and len(self.timestamps) > 0
+                and self.est_poses.shape[0] > 0
+            ):
+                all_frames_filename = (
+                    "./results/"
+                    + self.dataloader.dataset.save_traj_name
+                    + "_all_frames.txt"
+                )
+                count = min(len(self.timestamps), self.est_poses.shape[0])
+                all_frame_timestamps = [
+                    float(timestamp.detach().cpu().item())
+                    if torch.is_tensor(timestamp)
+                    else float(timestamp)
+                    for timestamp in self.timestamps[:count]
+                ]
+                save_traj(
+                    all_frames_filename,
+                    all_frame_timestamps,
+                    self.est_poses[:count],
+                )
+                print(
+                    f"Saved all-frame trajectory ({count} tracked poses): "
+                    f"{all_frames_filename}"
+                )
 
             print("Saved trajectory.")
 
