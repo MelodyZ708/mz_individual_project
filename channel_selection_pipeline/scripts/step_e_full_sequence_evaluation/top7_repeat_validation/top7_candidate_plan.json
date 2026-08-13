@@ -1,0 +1,62 @@
+{
+  "protocol": "full_sequence_top7_independent_repeat_v1",
+  "source": "Second-stage full-sequence ranking; six combinations better than the historical baseline plus the baseline control",
+  "selection": {
+    "selected_count": 7,
+    "primary_metric": "keyframe evo_ape ATE mean with --align --correct_scale",
+    "reference_database": "channel_selection_results/step_e_full_sequence_evaluation/second_round_baseline_plus2_rpe_safe/evaluations.sqlite3",
+    "baseline_candidate_key": "5,29,40,52"
+  },
+  "timeout_seconds_per_run": 300,
+  "candidates": [
+    {
+      "full_sequence_rank": 1,
+      "label": "full_rank_01_ch_5_6_24_29",
+      "channels": [5, 6, 24, 29],
+      "candidate_key": "5,6,24,29",
+      "role": "second-stage rank 1; original historical ATE mean 14.0623 cm"
+    },
+    {
+      "full_sequence_rank": 2,
+      "label": "full_rank_02_ch_1_26_30_40",
+      "channels": [1, 26, 30, 40],
+      "candidate_key": "1,26,30,40",
+      "role": "second-stage rank 2; original historical ATE mean 14.3273 cm"
+    },
+    {
+      "full_sequence_rank": 3,
+      "label": "full_rank_03_ch_15_17_52_59",
+      "channels": [15, 17, 52, 59],
+      "candidate_key": "15,17,52,59",
+      "role": "second-stage rank 3; original historical ATE mean 14.5576 cm"
+    },
+    {
+      "full_sequence_rank": 4,
+      "label": "full_rank_04_ch_1_5_24_29",
+      "channels": [1, 5, 24, 29],
+      "candidate_key": "1,5,24,29",
+      "role": "second-stage rank 4 and balanced candidate; original historical ATE mean 14.6058 cm"
+    },
+    {
+      "full_sequence_rank": 5,
+      "label": "full_rank_05_ch_5_6_15_35",
+      "channels": [5, 6, 15, 35],
+      "candidate_key": "5,6,15,35",
+      "role": "second-stage rank 5; original historical ATE mean 14.7234 cm"
+    },
+    {
+      "full_sequence_rank": 6,
+      "label": "full_rank_06_ch_6_10_34_41",
+      "channels": [6, 10, 34, 41],
+      "candidate_key": "6,10,34,41",
+      "role": "second-stage rank 6; original historical ATE mean 15.1291 cm"
+    },
+    {
+      "full_sequence_rank": 7,
+      "label": "full_rank_07_baseline_ch_5_29_40_52",
+      "channels": [5, 29, 40, 52],
+      "candidate_key": "5,29,40,52",
+      "role": "historical baseline control; original historical ATE mean 15.1682 cm"
+    }
+  ]
+}

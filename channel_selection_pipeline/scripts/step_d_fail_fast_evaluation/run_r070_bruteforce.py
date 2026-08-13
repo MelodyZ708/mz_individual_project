@@ -675,8 +675,19 @@ def read_tum_poses(path: Path) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
         np.isfinite(quat)
     ):
         raise FloatingPointError(f"Trajectory contains NaN or Inf: {path}")
-    if len(times) > 1 and np.any(np.diff(times) <= 0):
-        raise ValueError(f"Trajectory timestamps are not strictly increasing: {path}")
+    if len(times) > 1:
+        differences = np.diff(times)
+        if np.any(differences < 0):
+            raise ValueError(f"Trajectory timestamps are decreasing: {path}")
+        if np.any(differences == 0):
+            # Official/derived TUM files can contain two poses at exactly the same
+            # timestamp (fr2/desk has one such row).  Association requires unique
+            # timestamps, so retain the later row, matching the usual dict-based
+            # TUM readers, while continuing to reject genuinely decreasing input.
+            keep = np.concatenate((differences != 0, np.asarray([True])))
+            times = times[keep]
+            xyz = xyz[keep]
+            quat = quat[keep]
     return times, xyz, quat
 
 

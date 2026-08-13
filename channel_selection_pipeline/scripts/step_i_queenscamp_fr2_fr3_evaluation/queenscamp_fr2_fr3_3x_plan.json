@@ -1,0 +1,26 @@
+{
+  "protocol": "top7_plus_gray_queenscamp_fr2_fr3_3x_v1",
+  "dataset_root": "/home/melody/data/tum",
+  "replicates_per_configuration": 3,
+  "timeout_seconds_per_run": 500,
+  "family_count": 2,
+  "dataset_count": 14,
+  "configuration_count": 8,
+  "planned_runs": 336,
+  "datasets": [
+    {"order": 1, "family": "fr2_desk", "key": "fr2_desk_blur", "directory_name": "rgbd_dataset_freiburg2_desk_queenscamp_blur", "degradation": "blur", "expected_matched_frames": 2893},
+    {"order": 2, "family": "fr2_desk", "key": "fr2_desk_condensation", "directory_name": "rgbd_dataset_freiburg2_desk_queenscamp_condensation", "degradation": "condensation", "expected_matched_frames": 2893},
+    {"order": 3, "family": "fr2_desk", "key": "fr2_desk_dirt", "directory_name": "rgbd_dataset_freiburg2_desk_queenscamp_dirt", "degradation": "dirt", "expected_matched_frames": 2893},
+    {"order": 4, "family": "fr2_desk", "key": "fr2_desk_mixed_story_v1", "directory_name": "rgbd_dataset_freiburg2_desk_queenscamp_mixed_story_v1", "degradation": "mixed_story_v1", "expected_matched_frames": 2893},
+    {"order": 5, "family": "fr2_desk", "key": "fr2_desk_overexposure", "directory_name": "rgbd_dataset_freiburg2_desk_queenscamp_overexposure", "degradation": "overexposure", "expected_matched_frames": 2893},
+    {"order": 6, "family": "fr2_desk", "key": "fr2_desk_wet", "directory_name": "rgbd_dataset_freiburg2_desk_queenscamp_wet", "degradation": "wet", "expected_matched_frames": 2893},
+    {"order": 7, "family": "fr2_desk", "key": "fr2_desk_underexposure", "directory_name": "rgbd_dataset_freiburg2_desk_queenscamp_underexposure", "degradation": "underexposure", "expected_matched_frames": 2893},
+    {"order": 8, "family": "fr3_long_office_household", "key": "fr3_long_office_household_blur", "directory_name": "rgbd_dataset_freiburg3_long_office_household_queenscamp_blur", "degradation": "blur", "expected_matched_frames": 2488},
+    {"order": 9, "family": "fr3_long_office_household", "key": "fr3_long_office_household_condensation", "directory_name": "rgbd_dataset_freiburg3_long_office_household_queenscamp_condensation", "degradation": "condensation", "expected_matched_frames": 2488},
+    {"order": 10, "family": "fr3_long_office_household", "key": "fr3_long_office_household_dirt", "directory_name": "rgbd_dataset_freiburg3_long_office_household_queenscamp_dirt", "degradation": "dirt", "expected_matched_frames": 2488},
+    {"order": 11, "family": "fr3_long_office_household", "key": "fr3_long_office_household_mixed_story_v1", "directory_name": "rgbd_dataset_freiburg3_long_office_household_queenscamp_mixed_story_v1", "degradation": "mixed_story_v1", "expected_matched_frames": 2488},
+    {"order": 12, "family": "fr3_long_office_household", "key": "fr3_long_office_household_overexposure", "directory_name": "rgbd_dataset_freiburg3_long_office_household_queenscamp_overexposure", "degradation": "overexposure", "expected_matched_frames": 2488},
+    {"order": 13, "family": "fr3_long_office_household", "key": "fr3_long_office_household_wet", "directory_name": "rgbd_dataset_freiburg3_long_office_household_queenscamp_wet", "degradation": "wet", "expected_matched_frames": 2488},
+    {"order": 14, "family": "fr3_long_office_household", "key": "fr3_long_office_household_underexposure", "directory_name": "rgbd_dataset_freiburg3_long_office_household_queenscamp_underexposure", "degradation": "underexposure", "expected_matched_frames": 2488}
+  ]
+}

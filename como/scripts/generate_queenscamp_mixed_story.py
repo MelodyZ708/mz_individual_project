@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the non-stacked QueensCAMP Mixed Story V1 for TUM fr1/desk.
+"""Generate the non-stacked QueensCAMP Mixed Story V1 for a TUM sequence.
 
 The schedule is defined over ``matched_rgb.txt`` because those are the frames
 that COMO actually consumes. Each frame has exactly one active state: clean or
@@ -25,7 +25,9 @@ import generate_queenscamp_tum_variants as common
 
 
 STORY_NAME = "queenscamp_mixed_story_v1"
-EXPECTED_FRAMES = 572
+# Reference schedule designed for fr1/desk.  Other sequences preserve the same
+# narrative proportions; 572 frames reproduces these exact boundaries.
+REFERENCE_FRAMES = 572
 STORY_SEGMENTS = (
     {"frames": [0, 59], "effect": "clean", "story": "normal initialization"},
     {
@@ -58,6 +60,31 @@ STORY_SEGMENTS = (
 )
 
 
+def scaled_boundaries(total_frames: int) -> tuple[int, ...]:
+    """Return eight story-stage end boundaries for a non-empty sequence.
+
+    The reference schedule uses stage lengths 60, 70, 55, 125, 60, 70, 70,
+    and 62 frames.  Rounding cumulative proportions retains every original
+    boundary at 572 frames while deterministically adapting it to another
+    sequence length.
+    """
+    if total_frames < len(STORY_SEGMENTS):
+        raise ValueError(
+            f"Mixed Story V1 needs at least {len(STORY_SEGMENTS)} frames, "
+            f"got {total_frames}"
+        )
+    reference_ends = tuple(segment["frames"][1] + 1 for segment in STORY_SEGMENTS)
+    boundaries = [round(reference_end * total_frames / REFERENCE_FRAMES)
+                  for reference_end in reference_ends]
+    # Keep every story stage non-empty, even for future short diagnostic clips.
+    for index in range(len(boundaries)):
+        lower = index + 1
+        upper = total_frames - (len(boundaries) - index - 1)
+        boundaries[index] = min(max(boundaries[index], lower), upper)
+    boundaries[-1] = total_frames
+    return tuple(boundaries)
+
+
 def linear(frame: int, start: int, end: int, first: float, last: float) -> float:
     if start == end:
         return first
@@ -71,46 +98,88 @@ def odd_kernel(value: float) -> int:
     return rounded if rounded % 2 else rounded + 1
 
 
-def state_for_frame(frame: int) -> tuple[str, str, float]:
+def stage_progress(frame: int, start: int, end: int) -> float:
+    """Return a closed [0, 1] stage progress for inclusive frame bounds."""
+    return linear(frame, start, end, 0.0, 1.0)
+
+
+def stage_phases(
+    start: int, end: int, reference_lengths: tuple[int, ...]
+) -> tuple[tuple[int, int], ...]:
+    """Split a scaled stage into phase bounds, preserving reference ratios."""
+    length = end - start + 1
+    if length < len(reference_lengths):
+        raise ValueError("Scaled story stage is shorter than its phase count")
+    reference_total = sum(reference_lengths)
+    boundaries = [
+        round(sum(reference_lengths[: index + 1]) * length / reference_total)
+        for index in range(len(reference_lengths))
+    ]
+    for index in range(len(boundaries)):
+        boundaries[index] = min(
+            max(boundaries[index], index + 1),
+            length - (len(boundaries) - index - 1),
+        )
+    boundaries[-1] = length
+    phase_starts = (start,) + tuple(start + boundary for boundary in boundaries[:-1])
+    phase_ends = tuple(start + boundary - 1 for boundary in boundaries)
+    return tuple(zip(phase_starts, phase_ends))
+
+
+def state_for_frame(frame: int, boundaries: tuple[int, ...]) -> tuple[str, str, float]:
     """Return (effect, parameter name, value) for one matched-frame index."""
-    if 0 <= frame <= 59 or 185 <= frame <= 309:
+    starts = (0,) + boundaries[:-1]
+    ends = tuple(boundary - 1 for boundary in boundaries)
+    clean_1, under, over, clean_2, blur, wet, condensation, dirt = zip(starts, ends)
+
+    if clean_1[0] <= frame <= clean_1[1] or clean_2[0] <= frame <= clean_2[1]:
         return "clean", "identity", 1.0
-    if 60 <= frame <= 109:
-        return "underexposure", "gamma", linear(frame, 60, 109, 1.15, 2.40)
-    if 110 <= frame <= 129:
-        return "underexposure", "gamma", linear(frame, 110, 129, 2.40, 1.60)
-    if 130 <= frame <= 144:
-        return "overexposure", "gamma", 0.45
-    if 145 <= frame <= 184:
+    if under[0] <= frame <= under[1]:
+        fade_down, partial_recovery = stage_phases(*under, (50, 20))
+        if frame <= fade_down[1]:
+            return "underexposure", "gamma", linear(frame, *fade_down, 1.15, 2.40)
+        return "underexposure", "gamma", linear(frame, *partial_recovery, 2.40, 1.60)
+    if over[0] <= frame <= over[1]:
+        overshoot, recovery = stage_phases(*over, (15, 40))
+        if frame <= overshoot[1]:
+            return "overexposure", "gamma", 0.45
         # Stop just short of identity so every frame labelled overexposure is
         # measurably degraded while still appearing visually recovered.
-        return "overexposure", "gamma", linear(frame, 145, 184, 0.45, 0.98)
-    if 310 <= frame <= 339:
-        return "blur", "kernel_size", float(
-            odd_kernel(linear(frame, 310, 339, 7, 45))
-        )
-    if 340 <= frame <= 349:
-        return "blur", "kernel_size", 45.0
-    if 350 <= frame <= 369:
-        return "blur", "kernel_size", float(
-            odd_kernel(linear(frame, 350, 369, 45, 7))
-        )
-    if 370 <= frame <= 389:
-        return "wet", "alpha", linear(frame, 370, 389, 0.25, 0.85)
-    if 390 <= frame <= 419:
-        return "wet", "alpha", 0.85
-    if 420 <= frame <= 439:
-        return "wet", "alpha", linear(frame, 420, 439, 0.85, 0.20)
-    if 440 <= frame <= 469:
-        return "condensation", "alpha", linear(frame, 440, 469, 0.25, 1.00)
-    if 470 <= frame <= 489:
-        return "condensation", "alpha", 1.00
-    if 490 <= frame <= 509:
-        return "condensation", "alpha", linear(frame, 490, 509, 1.00, 0.30)
-    if 510 <= frame <= 539:
-        return "dirt", "alpha", linear(frame, 510, 539, 0.25, 0.75)
-    if 540 <= frame <= 571:
-        return "dirt", "alpha", 0.75
+        return "overexposure", "gamma", linear(frame, *recovery, 0.45, 0.98)
+    if blur[0] <= frame <= blur[1]:
+        ramp_up, hold, ramp_down = stage_phases(*blur, (30, 10, 20))
+        if frame <= ramp_up[1]:
+            value = linear(frame, *ramp_up, 7, 45)
+        elif frame <= hold[1]:
+            value = 45
+        else:
+            value = linear(frame, *ramp_down, 45, 7)
+        return "blur", "kernel_size", float(odd_kernel(value))
+    if wet[0] <= frame <= wet[1]:
+        ramp_up, hold, ramp_down = stage_phases(*wet, (20, 30, 20))
+        if frame <= ramp_up[1]:
+            value = linear(frame, *ramp_up, 0.25, 0.85)
+        elif frame <= hold[1]:
+            value = 0.85
+        else:
+            value = linear(frame, *ramp_down, 0.85, 0.20)
+        return "wet", "alpha", value
+    if condensation[0] <= frame <= condensation[1]:
+        ramp_up, hold, ramp_down = stage_phases(*condensation, (30, 20, 20))
+        if frame <= ramp_up[1]:
+            value = linear(frame, *ramp_up, 0.25, 1.00)
+        elif frame <= hold[1]:
+            value = 1.00
+        else:
+            value = linear(frame, *ramp_down, 1.00, 0.30)
+        return "condensation", "alpha", value
+    if dirt[0] <= frame <= dirt[1]:
+        ramp_up, hold = stage_phases(*dirt, (30, 32))
+        if frame <= ramp_up[1]:
+            value = linear(frame, *ramp_up, 0.25, 0.75)
+        else:
+            value = 0.75
+        return "dirt", "alpha", value
     raise IndexError(f"Mixed Story V1 has no schedule for frame {frame}")
 
 
@@ -237,7 +306,7 @@ def validate_story(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Generate non-stacked QueensCAMP Mixed Story V1 for TUM fr1/desk."
+        description="Generate non-stacked QueensCAMP Mixed Story V1 for a TUM RGB-D sequence."
     )
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument(
@@ -267,15 +336,11 @@ def main() -> None:
 
     common.validate_source(source)
     matched_entries = read_como_index(source, "matched_rgb.txt")
-    if len(matched_entries) != EXPECTED_FRAMES:
-        raise ValueError(
-            f"Mixed Story V1 requires {EXPECTED_FRAMES} matched frames, "
-            f"but {source} has {len(matched_entries)}"
-        )
+    boundaries = scaled_boundaries(len(matched_entries))
 
     schedule: list[dict[str, object]] = []
     for frame, (timestamp, image_path) in enumerate(matched_entries):
-        effect, parameter, value = state_for_frame(frame)
+        effect, parameter, value = state_for_frame(frame, boundaries)
         schedule.append(
             {
                 "frame": frame,
@@ -290,6 +355,7 @@ def main() -> None:
     print("Source:", source)
     print("Output:", output)
     print("Matched frames:", len(schedule))
+    print("Stage end boundaries (exclusive):", boundaries)
     print("Effects:", dict(Counter(str(x["effect"]) for x in schedule)))
     if output.exists():
         if args.dry_run:
@@ -331,11 +397,14 @@ def main() -> None:
             "story_name": STORY_NAME,
             "story_summary": (
                 "normal initialization; illumination dims; exposure overshoots "
-                "on recovery; GT-aligned fast-motion blur; liquid splash; "
+                "on recovery; temporary camera acceleration blur; liquid splash; "
                 "condensation; drying residue"
             ),
             "non_stacking": True,
             "schedule_index": "matched_rgb.txt order (COMO-consumed frames)",
+            "reference_schedule_frames": REFERENCE_FRAMES,
+            "stage_end_boundaries_exclusive": list(boundaries),
+            "stage_scaling": "cumulative reference proportions; exact reference boundaries at 572 frames",
             "segments": STORY_SEGMENTS,
             "source_sequence": str(source),
             "output_sequence": str(output),

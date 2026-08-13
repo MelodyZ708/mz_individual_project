@@ -1,0 +1,60 @@
+{
+  "protocol": "top7_plus_gray_queenscamp_3x_v1",
+  "dataset_root": "/home/melody/data/tum",
+  "replicates_per_configuration": 3,
+  "timeout_seconds_per_run": 500,
+  "dataset_count": 7,
+  "configuration_count": 8,
+  "planned_runs": 168,
+  "datasets": [
+    {
+      "order": 1,
+      "key": "queenscamp_blur",
+      "directory_name": "rgbd_dataset_freiburg1_desk_queenscamp_blur",
+      "degradation": "blur",
+      "expected_matched_frames": 573
+    },
+    {
+      "order": 2,
+      "key": "queenscamp_condensation",
+      "directory_name": "rgbd_dataset_freiburg1_desk_queenscamp_condensation",
+      "degradation": "condensation",
+      "expected_matched_frames": 573
+    },
+    {
+      "order": 3,
+      "key": "queenscamp_dirt",
+      "directory_name": "rgbd_dataset_freiburg1_desk_queenscamp_dirt",
+      "degradation": "dirt",
+      "expected_matched_frames": 573
+    },
+    {
+      "order": 4,
+      "key": "queenscamp_mixed_story_v1",
+      "directory_name": "rgbd_dataset_freiburg1_desk_queenscamp_mixed_story_v1",
+      "degradation": "mixed_story_v1",
+      "expected_matched_frames": 573
+    },
+    {
+      "order": 5,
+      "key": "queenscamp_overexposure",
+      "directory_name": "rgbd_dataset_freiburg1_desk_queenscamp_overexposure",
+      "degradation": "overexposure",
+      "expected_matched_frames": 573
+    },
+    {
+      "order": 6,
+      "key": "queenscamp_wet",
+      "directory_name": "rgbd_dataset_freiburg1_desk_queenscamp_wet",
+      "degradation": "wet",
+      "expected_matched_frames": 573
+    },
+    {
+      "order": 7,
+      "key": "queenscamp_underexposure",
+      "directory_name": "rgbd_dataset_freiburg1_desk_queenscamp_underexposure",
+      "degradation": "underexposure",
+      "expected_matched_frames": 573
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "protocol": "top7_multi_dataset_generalisation_v1",
+  "source_script": "/home/melody/code/individual_project/run_ate_multi_seq_local.sh plus user-requested fr1/desk clean and flashlight",
+  "dataset_root": "/home/melody/data/tum",
+  "timeout_seconds_per_run": 500,
+  "dataset_count": 8,
+  "datasets": [
+    {
+      "order": 1,
+      "key": "fr1_desk_clean",
+      "directory_name": "rgbd_dataset_freiburg1_desk",
+      "family": "fr1_desk",
+      "condition": "clean",
+      "expected_matched_frames": 573
+    },
+    {
+      "order": 2,
+      "key": "fr1_desk_flashlight",
+      "directory_name": "rgbd_dataset_freiburg1_desk_flashlight",
+      "family": "fr1_desk",
+      "condition": "flashlight",
+      "expected_matched_frames": 573
+    },
+    {
+      "order": 3,
+      "key": "fr2_desk_clean",
+      "directory_name": "rgbd_dataset_freiburg2_desk",
+      "family": "fr2_desk",
+      "condition": "clean",
+      "expected_matched_frames": 2893
+    },
+    {
+      "order": 4,
+      "key": "fr2_desk_flashlight",
+      "directory_name": "rgbd_dataset_freiburg2_desk_flashlight",
+      "family": "fr2_desk",
+      "condition": "flashlight",
+      "expected_matched_frames": 2893
+    },
+    {
+      "order": 5,
+      "key": "fr2_desk_lightswitch",
+      "directory_name": "rgbd_dataset_freiburg2_desk_lightswitch",
+      "family": "fr2_desk",
+      "condition": "lightswitch",
+      "expected_matched_frames": 2893
+    },
+    {
+      "order": 6,
+      "key": "fr3_office_clean",
+      "directory_name": "rgbd_dataset_freiburg3_long_office_household",
+      "family": "fr3_office",
+      "condition": "clean",
+      "expected_matched_frames": 2488
+    },
+    {
+      "order": 7,
+      "key": "fr3_office_flashlight",
+      "directory_name": "rgbd_dataset_freiburg3_long_office_household_flashlight",
+      "family": "fr3_office",
+      "condition": "flashlight",
+      "expected_matched_frames": 2488
+    },
+    {
+      "order": 8,
+      "key": "fr3_office_lightswitch",
+      "directory_name": "rgbd_dataset_freiburg3_long_office_household_lightswitch",
+      "family": "fr3_office",
+      "condition": "lightswitch",
+      "expected_matched_frames": 2488
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "protocol": "top7_plus_gray_candidate_plan_v1",
+  "source": "Frozen fr1/desk_lightswitch Top-6, historical CNN baseline, and gray control",
+  "selection": {
+    "selected_count": 8,
+    "historical_cnn_baseline_key": "5,29,40,52",
+    "gray_control_key": "gray"
+  },
+  "candidates": [
+    {"source_rank": 1, "label": "full_rank_01_ch_5_6_24_29", "channels": [5, 6, 24, 29], "candidate_key": "5,6,24,29", "role": "fr1 lightswitch primary-ATE winner"},
+    {"source_rank": 2, "label": "full_rank_02_ch_1_26_30_40", "channels": [1, 26, 30, 40], "candidate_key": "1,26,30,40", "role": "fr1 lightswitch rank 2"},
+    {"source_rank": 3, "label": "full_rank_03_ch_15_17_52_59", "channels": [15, 17, 52, 59], "candidate_key": "15,17,52,59", "role": "fr1 lightswitch rank 3"},
+    {"source_rank": 4, "label": "full_rank_04_ch_1_5_24_29", "channels": [1, 5, 24, 29], "candidate_key": "1,5,24,29", "role": "fr1 lightswitch rank 4"},
+    {"source_rank": 5, "label": "full_rank_05_ch_5_6_15_35", "channels": [5, 6, 15, 35], "candidate_key": "5,6,15,35", "role": "fr1 lightswitch rank 5"},
+    {"source_rank": 6, "label": "full_rank_06_ch_6_10_34_41", "channels": [6, 10, 34, 41], "candidate_key": "6,10,34,41", "role": "fr1 lightswitch rank 6"},
+    {"source_rank": 7, "label": "full_rank_07_baseline_ch_5_29_40_52", "channels": [5, 29, 40, 52], "candidate_key": "5,29,40,52", "role": "historical four-channel CNN baseline"},
+    {"source_rank": 8, "label": "gray_baseline", "channels": null, "candidate_key": "gray", "role": "single-channel grayscale photometric control"}
+  ]
+}
