@@ -1,0 +1,129 @@
+{
+  "protocol": "unet_enc0_enc1_multi_dataset_candidate_plan_v1",
+  "source": "Final repeated direct full-sequence greedy results on fr1/desk_lightswitch",
+  "selection": {
+    "selected_count": 13,
+    "replicates_per_dataset": 1,
+    "source_metric": "historical keyframe evo_ape ATE mean with --align --correct_scale",
+    "ranking_note": "Global ranks are within the final repeated reference set for each U-Net encoder level."
+  },
+  "candidates": [
+    {
+      "label": "enc0_k01_single_d03",
+      "enc_level": 0,
+      "channels": [3],
+      "candidate_key": "enc0:3",
+      "source_rank": 11,
+      "source_fr1_lightswitch_ate_mean_cm": 24.5318,
+      "role": "Enc0 best/only viable singleton control"
+    },
+    {
+      "label": "enc0_k02_d02_d14",
+      "enc_level": 0,
+      "channels": [2, 14],
+      "candidate_key": "enc0:2,14",
+      "source_rank": 7,
+      "source_fr1_lightswitch_ate_mean_cm": 10.3332,
+      "role": "Enc0 best two-channel configuration"
+    },
+    {
+      "label": "enc0_global_rank02_k03_d03_d07_d12",
+      "enc_level": 0,
+      "channels": [3, 7, 12],
+      "candidate_key": "enc0:3,7,12",
+      "source_rank": 2,
+      "source_fr1_lightswitch_ate_mean_cm": 6.0004,
+      "role": "Enc0 global rank 2; best three-channel configuration"
+    },
+    {
+      "label": "enc0_global_rank03_k04_d02_d03_d12_d14",
+      "enc_level": 0,
+      "channels": [2, 3, 12, 14],
+      "candidate_key": "enc0:2,3,12,14",
+      "source_rank": 3,
+      "source_fr1_lightswitch_ate_mean_cm": 6.3905,
+      "role": "Enc0 global rank 3; best fixed four-channel configuration"
+    },
+    {
+      "label": "enc0_global_rank01_k06_d02_d03_d07_d12_d13_d14",
+      "enc_level": 0,
+      "channels": [2, 3, 7, 12, 13, 14],
+      "candidate_key": "enc0:2,3,7,12,13,14",
+      "source_rank": 1,
+      "source_fr1_lightswitch_ate_mean_cm": 5.9208,
+      "role": "Enc0 global rank 1 / accuracy-first configuration"
+    },
+    {
+      "label": "enc0_all16",
+      "enc_level": 0,
+      "channels": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      "candidate_key": "enc0:all",
+      "source_rank": 8,
+      "source_fr1_lightswitch_ate_mean_cm": 12.9502,
+      "role": "Enc0 all-channel control"
+    },
+    {
+      "label": "enc0_bqs_top5_d00_d03_d10_d14_d15",
+      "enc_level": 0,
+      "channels": [0, 3, 10, 14, 15],
+      "candidate_key": "enc0:0,3,10,14,15",
+      "source_rank": 9,
+      "source_fr1_lightswitch_ate_mean_cm": 13.7216,
+      "role": "Enc0 historical BQS-selected top-5 control, re-evaluated by direct full sequence"
+    },
+    {
+      "label": "enc1_k02_d00_d05",
+      "enc_level": 1,
+      "channels": [0, 5],
+      "candidate_key": "enc1:0,5",
+      "source_rank": 5,
+      "source_fr1_lightswitch_ate_mean_cm": 8.0837,
+      "role": "Enc1 minimum viable two-channel configuration"
+    },
+    {
+      "label": "enc1_global_rank03_k04_d00_d05_d18_d30",
+      "enc_level": 1,
+      "channels": [0, 5, 18, 30],
+      "candidate_key": "enc1:0,5,18,30",
+      "source_rank": 3,
+      "source_fr1_lightswitch_ate_mean_cm": 7.1673,
+      "role": "Enc1 global rank 3; best fixed four-channel configuration"
+    },
+    {
+      "label": "enc1_global_rank01_k06_d05_d06_d17_d18_d28_d30",
+      "enc_level": 1,
+      "channels": [5, 6, 17, 18, 28, 30],
+      "candidate_key": "enc1:5,6,17,18,28,30",
+      "source_rank": 1,
+      "source_fr1_lightswitch_ate_mean_cm": 6.7335,
+      "role": "Enc1 global rank 1 / accuracy-first configuration"
+    },
+    {
+      "label": "enc1_global_rank02_k06_d00_d05_d06_d17_d18_d30",
+      "enc_level": 1,
+      "channels": [0, 5, 6, 17, 18, 30],
+      "candidate_key": "enc1:0,5,6,17,18,30",
+      "source_rank": 2,
+      "source_fr1_lightswitch_ate_mean_cm": 6.9553,
+      "role": "Enc1 global rank 2; direct greedy six-channel endpoint"
+    },
+    {
+      "label": "enc1_all32",
+      "enc_level": 1,
+      "channels": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
+      "candidate_key": "enc1:all",
+      "source_rank": 11,
+      "source_fr1_lightswitch_ate_mean_cm": 18.9322,
+      "role": "Enc1 all-channel control"
+    },
+    {
+      "label": "enc1_bqs_top5_d04_d09_d10_d15_d30",
+      "enc_level": 1,
+      "channels": [4, 9, 10, 15, 30],
+      "candidate_key": "enc1:4,9,10,15,30",
+      "source_rank": 10,
+      "source_fr1_lightswitch_ate_mean_cm": 18.4940,
+      "role": "Enc1 historical BQS-selected top-5 control, re-evaluated by direct full sequence"
+    }
+  ]
+}
