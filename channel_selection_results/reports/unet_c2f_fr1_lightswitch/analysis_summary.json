@@ -1,0 +1,303 @@
+{
+  "dataset": "/home/melody/code/individual_project/channel_selection_results/step_p_c2f_best_channels_evaluation/unet_fr1_desk_lightswitch",
+  "completed": 72,
+  "status_counts": {
+    "PASS": 72
+  },
+  "coverage_values": [
+    0.9965095986038395
+  ],
+  "runtime_seconds": {
+    "mean": 49.162030790124845,
+    "median": 48.976666187503724,
+    "best": 46.97202265300439,
+    "worst": 51.966641500999685,
+    "p25": 48.097157764255826,
+    "p75": 50.269078374003584
+  },
+  "variants": {
+    "A": {
+      "mean": 8.514911111111111,
+      "median": 8.2973,
+      "best": 5.8765,
+      "worst": 13.4914,
+      "p25": 7.18525,
+      "p75": 9.2914
+    },
+    "B": {
+      "mean": 9.254930555555555,
+      "median": 9.1128,
+      "best": 6.3454,
+      "worst": 12.452,
+      "p25": 8.237400000000001,
+      "p75": 10.472825
+    }
+  },
+  "best_direct_enc0_ate_cm": 5.9208,
+  "best_direct_enc1_ate_cm": 6.7335,
+  "best_c2f": {
+    "label": "unet_c2f_a_fine02_coarse04",
+    "variant": "A",
+    "fine_rank": 2,
+    "coarse_rank": 4,
+    "fine": {
+      "rank": 2,
+      "channels": [
+        3,
+        7,
+        12
+      ],
+      "source_ate_mean_cm": 6.0004,
+      "tag": "G3"
+    },
+    "coarse": {
+      "rank": 4,
+      "channels": [
+        0,
+        5,
+        6,
+        18,
+        30
+      ],
+      "source_ate_mean_cm": 7.6408,
+      "tag": "G5"
+    },
+    "status": "PASS",
+    "ate": 5.8765,
+    "ate_rmse": 6.4309,
+    "hist_rpe": 1.3098999999999998,
+    "se3_rmse": 10.083529141956475,
+    "se3_mean": 9.541625389088997,
+    "translation_rpe_max": 7.467637328642682,
+    "rotation_rpe_max": 9.682362279465002,
+    "coverage": 0.9965095986038395,
+    "runtime": 49.95561996099423,
+    "better_parent": 6.0004,
+    "gain_vs_better_parent": 0.1238999999999999,
+    "gain_vs_fine": 0.1238999999999999,
+    "gain_vs_coarse": 1.7642999999999995
+  },
+  "positive_synergy_count": 5,
+  "positive_synergy_fraction": 0.06944444444444445,
+  "positive_synergy_rows": [
+    {
+      "label": "unet_c2f_a_fine02_coarse04",
+      "variant": "A",
+      "fine_rank": 2,
+      "coarse_rank": 4,
+      "fine": {
+        "rank": 2,
+        "channels": [
+          3,
+          7,
+          12
+        ],
+        "source_ate_mean_cm": 6.0004,
+        "tag": "G3"
+      },
+      "coarse": {
+        "rank": 4,
+        "channels": [
+          0,
+          5,
+          6,
+          18,
+          30
+        ],
+        "source_ate_mean_cm": 7.6408,
+        "tag": "G5"
+      },
+      "status": "PASS",
+      "ate": 5.8765,
+      "ate_rmse": 6.4309,
+      "hist_rpe": 1.3098999999999998,
+      "se3_rmse": 10.083529141956475,
+      "se3_mean": 9.541625389088997,
+      "translation_rpe_max": 7.467637328642682,
+      "rotation_rpe_max": 9.682362279465002,
+      "coverage": 0.9965095986038395,
+      "runtime": 49.95561996099423,
+      "better_parent": 6.0004,
+      "gain_vs_better_parent": 0.1238999999999999,
+      "gain_vs_fine": 0.1238999999999999,
+      "gain_vs_coarse": 1.7642999999999995
+    },
+    {
+      "label": "unet_c2f_a_fine05_coarse04",
+      "variant": "A",
+      "fine_rank": 5,
+      "coarse_rank": 4,
+      "fine": {
+        "rank": 5,
+        "channels": [
+          2,
+          3,
+          7,
+          12,
+          13
+        ],
+        "source_ate_mean_cm": 7.0959,
+        "tag": "G5"
+      },
+      "coarse": {
+        "rank": 4,
+        "channels": [
+          0,
+          5,
+          6,
+          18,
+          30
+        ],
+        "source_ate_mean_cm": 7.6408,
+        "tag": "G5"
+      },
+      "status": "PASS",
+      "ate": 6.1874,
+      "ate_rmse": 6.8056,
+      "hist_rpe": 1.2523,
+      "se3_rmse": 10.161167674515909,
+      "se3_mean": 9.666545137386949,
+      "translation_rpe_max": 8.462040524354268,
+      "rotation_rpe_max": 9.343093286447811,
+      "coverage": 0.9965095986038395,
+      "runtime": 49.66460970600019,
+      "better_parent": 7.0959,
+      "gain_vs_better_parent": 0.9085000000000001,
+      "gain_vs_fine": 0.9085000000000001,
+      "gain_vs_coarse": 1.4533999999999994
+    },
+    {
+      "label": "unet_c2f_a_fine06_coarse04",
+      "variant": "A",
+      "fine_rank": 6,
+      "coarse_rank": 4,
+      "fine": {
+        "rank": 6,
+        "channels": [
+          0,
+          2,
+          3,
+          11
+        ],
+        "source_ate_mean_cm": 7.4177,
+        "tag": "R4"
+      },
+      "coarse": {
+        "rank": 4,
+        "channels": [
+          0,
+          5,
+          6,
+          18,
+          30
+        ],
+        "source_ate_mean_cm": 7.6408,
+        "tag": "G5"
+      },
+      "status": "PASS",
+      "ate": 7.3243,
+      "ate_rmse": 7.862900000000001,
+      "hist_rpe": 1.4898,
+      "se3_rmse": 10.852019669051256,
+      "se3_mean": 10.370399162067288,
+      "translation_rpe_max": 9.970777787287721,
+      "rotation_rpe_max": 11.14532188377166,
+      "coverage": 0.9965095986038395,
+      "runtime": 50.431291298998985,
+      "better_parent": 7.4177,
+      "gain_vs_better_parent": 0.09339999999999993,
+      "gain_vs_fine": 0.09339999999999993,
+      "gain_vs_coarse": 0.31649999999999956
+    },
+    {
+      "label": "unet_c2f_a_fine06_coarse05",
+      "variant": "A",
+      "fine_rank": 6,
+      "coarse_rank": 5,
+      "fine": {
+        "rank": 6,
+        "channels": [
+          0,
+          2,
+          3,
+          11
+        ],
+        "source_ate_mean_cm": 7.4177,
+        "tag": "R4"
+      },
+      "coarse": {
+        "rank": 5,
+        "channels": [
+          0,
+          5
+        ],
+        "source_ate_mean_cm": 8.0837,
+        "tag": "G2"
+      },
+      "status": "PASS",
+      "ate": 7.2618,
+      "ate_rmse": 7.7112,
+      "hist_rpe": 1.3676000000000001,
+      "se3_rmse": 10.648626114384486,
+      "se3_mean": 10.030482690810343,
+      "translation_rpe_max": 11.184802992571631,
+      "rotation_rpe_max": 10.400879665233438,
+      "coverage": 0.9965095986038395,
+      "runtime": 48.43562325797393,
+      "better_parent": 7.4177,
+      "gain_vs_better_parent": 0.15589999999999993,
+      "gain_vs_fine": 0.15589999999999993,
+      "gain_vs_coarse": 0.8219000000000003
+    },
+    {
+      "label": "unet_c2f_b_fine05_coarse04",
+      "variant": "B",
+      "fine_rank": 5,
+      "coarse_rank": 4,
+      "fine": {
+        "rank": 5,
+        "channels": [
+          2,
+          3,
+          7,
+          12,
+          13
+        ],
+        "source_ate_mean_cm": 7.0959,
+        "tag": "G5"
+      },
+      "coarse": {
+        "rank": 4,
+        "channels": [
+          0,
+          5,
+          6,
+          18,
+          30
+        ],
+        "source_ate_mean_cm": 7.6408,
+        "tag": "G5"
+      },
+      "status": "PASS",
+      "ate": 6.461799999999999,
+      "ate_rmse": 6.9384,
+      "hist_rpe": 1.2831000000000001,
+      "se3_rmse": 10.519257471015925,
+      "se3_mean": 9.984111489461684,
+      "translation_rpe_max": 8.985051852721543,
+      "rotation_rpe_max": 9.583745214875515,
+      "coverage": 0.9965095986038395,
+      "runtime": 48.4262204169936,
+      "better_parent": 7.0959,
+      "gain_vs_better_parent": 0.634100000000001,
+      "gain_vs_fine": 0.634100000000001,
+      "gain_vs_coarse": 1.1790000000000003
+    }
+  ],
+  "variant_pair_comparison": {
+    "a_lower_count": 22,
+    "b_lower_count": 14,
+    "mean_b_minus_a_cm": 0.7400194444444443,
+    "median_b_minus_a_cm": 0.5629500000000003
+  }
+}
