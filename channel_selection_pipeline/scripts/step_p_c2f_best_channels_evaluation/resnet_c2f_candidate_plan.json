@@ -1,0 +1,37 @@
+{
+  "protocol": "c2f_promising_channel_grid_v1",
+  "architecture": "resnet",
+  "dataset_scope": "fr1/desk_lightswitch full sequence",
+  "source_metric": "historical keyframe evo_ape ATE mean with --align --correct_scale",
+  "selection_rule": "Use the six lowest-ATE, repeated PASS channel subsets from each completed direct full-sequence greedy search. Evaluate the complete 6 × 6 cross-product under both valid three-level C2F variants.",
+  "variants": ["A", "B"],
+  "fine_branch": {
+    "layer": "conv1",
+    "total_channels": 64,
+    "source": "step_n_resnet_conv1_direct_fullseq_greedy/recommendation.json",
+    "candidates": [
+      {"rank": 1, "channels": [15, 20, 26, 34], "source_ate_mean_cm": 10.3758, "tag": "G4+Lstar"},
+      {"rank": 2, "channels": [23, 24, 26, 51, 63], "source_ate_mean_cm": 10.4535, "tag": "G5"},
+      {"rank": 3, "channels": [15, 20, 26, 34, 45, 53], "source_ate_mean_cm": 11.6218, "tag": "G6"},
+      {"rank": 4, "channels": [33, 52], "source_ate_mean_cm": 13.9810, "tag": "G2"},
+      {"rank": 5, "channels": [5, 6, 24, 29], "source_ate_mean_cm": 14.0623, "tag": "historical-correlation H4"},
+      {"rank": 6, "channels": [29, 33, 52], "source_ate_mean_cm": 14.6721, "tag": "G3"}
+    ]
+  },
+  "coarse_branch": {
+    "layer": "layer2",
+    "total_channels": 128,
+    "source": "step_o_resnet_layer2_direct_fullseq_greedy/recommendation.json",
+    "candidates": [
+      {"rank": 1, "channels": [41, 60, 67, 108, 121], "source_ate_mean_cm": 12.6100, "tag": "G5+Lstar"},
+      {"rank": 2, "channels": [60, 67, 108, 121], "source_ate_mean_cm": 12.6714, "tag": "G4"},
+      {"rank": 3, "channels": [41, 60, 67, 95, 108, 121], "source_ate_mean_cm": 12.7413, "tag": "G6"},
+      {"rank": 4, "channels": [67, 108, 121], "source_ate_mean_cm": 15.9524, "tag": "G3"},
+      {"rank": 5, "channels": [108, 121], "source_ate_mean_cm": 16.6202, "tag": "G2"},
+      {"rank": 6, "channels": [37, 74, 119, 121], "source_ate_mean_cm": 20.3798, "tag": "R4+Rstar"}
+    ]
+  },
+  "nominal_evaluations": 72,
+  "replicates": 1,
+  "timeout_seconds": 500
+}

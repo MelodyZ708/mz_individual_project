@@ -1,0 +1,46 @@
+{
+  "protocol": "unet_enc0_direct_full_sequence_greedy_v1",
+  "effective_starts": 4,
+  "seed_policy": "mixed_singleton_and_pair_augmentation",
+  "seed_source": "PASS singleton seeds plus best non-duplicate PASS pair seeds after sparse-singleton augmentation",
+  "singleton_passes": [
+    {
+      "channel": 3,
+      "historical_ate_mean_cm": 24.5318
+    }
+  ],
+  "selected_seeds": [
+    [
+      3
+    ],
+    [
+      2,
+      14
+    ],
+    [
+      10,
+      14
+    ],
+    [
+      6,
+      12
+    ]
+  ],
+  "selected_pair_seeds": [
+    [
+      2,
+      14
+    ],
+    [
+      10,
+      14
+    ],
+    [
+      6,
+      12
+    ]
+  ],
+  "reserved_singleton_pair_keys": [
+    "3,7"
+  ]
+}

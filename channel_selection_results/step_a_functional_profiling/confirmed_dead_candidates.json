@@ -1,0 +1,62 @@
+{
+  "status": "candidate_only; manual review required before channel exclusion",
+  "rule": {
+    "per_frame_condition_combination": "max(clean, light) for variance and gradient energy",
+    "temporal_aggregation": "median across paired timestamps",
+    "layer_threshold": "0.01 × layer median, both metrics",
+    "bootstrap_repeats": 20,
+    "bootstrap_subset_frames": 20,
+    "minimum_stability": 0.9,
+    "seed": 42
+  },
+  "layers": {
+    "conv1": {
+      "variance_threshold": 0.00029906771630980057,
+      "gradient_energy_threshold": 7.132123969524047e-05,
+      "base_rule_channels": [
+        2,
+        4,
+        7,
+        9,
+        13,
+        36,
+        38,
+        48
+      ],
+      "confirmed_dead_candidates": [
+        2,
+        4,
+        7,
+        9,
+        13,
+        36,
+        38,
+        48
+      ],
+      "candidate_bootstrap_stability": {
+        "2": 1.0,
+        "4": 1.0,
+        "7": 1.0,
+        "9": 1.0,
+        "13": 1.0,
+        "36": 1.0,
+        "38": 1.0,
+        "48": 1.0
+      }
+    },
+    "layer1": {
+      "variance_threshold": 0.0014440684827872678,
+      "gradient_energy_threshold": 0.0010035474108312998,
+      "base_rule_channels": [],
+      "confirmed_dead_candidates": [],
+      "candidate_bootstrap_stability": {}
+    },
+    "layer2": {
+      "variance_threshold": 0.0006480051267982542,
+      "gradient_energy_threshold": 0.0005639724778611335,
+      "base_rule_channels": [],
+      "confirmed_dead_candidates": [],
+      "candidate_bootstrap_stability": {}
+    }
+  }
+}

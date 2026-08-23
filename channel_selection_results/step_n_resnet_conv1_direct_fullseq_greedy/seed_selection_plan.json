@@ -1,0 +1,44 @@
+{
+  "protocol": "resnet_conv1_direct_full_sequence_greedy_v1",
+  "effective_starts": 4,
+  "seed_policy": "pair_only_after_all_singleton_failure",
+  "seed_source": "best PASS pair ATE after all-singleton-failure fallback",
+  "singleton_passes": [],
+  "selected_seeds": [
+    [
+      33,
+      52
+    ],
+    [
+      26,
+      51
+    ],
+    [
+      23,
+      59
+    ],
+    [
+      20,
+      26
+    ]
+  ],
+  "selected_pair_seeds": [
+    [
+      33,
+      52
+    ],
+    [
+      26,
+      51
+    ],
+    [
+      23,
+      59
+    ],
+    [
+      20,
+      26
+    ]
+  ],
+  "reserved_singleton_pair_keys": []
+}

@@ -1,0 +1,156 @@
+{
+  "protocol": "unet_enc1_direct_full_sequence_greedy_v1",
+  "dataset_dir": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch",
+  "matched_frames": 573,
+  "first_timestamp": 1305031453.359684,
+  "last_timestamp": 1305031473.196069,
+  "feature_space": {
+    "network": "UNet encoder",
+    "enc_level": 1,
+    "available_channels": 32,
+    "channel_names": [
+      "d0",
+      "d1",
+      "d2",
+      "d3",
+      "d4",
+      "d5",
+      "d6",
+      "d7",
+      "d8",
+      "d9",
+      "d10",
+      "d11",
+      "d12",
+      "d13",
+      "d14",
+      "d15",
+      "d16",
+      "d17",
+      "d18",
+      "d19",
+      "d20",
+      "d21",
+      "d22",
+      "d23",
+      "d24",
+      "d25",
+      "d26",
+      "d27",
+      "d28",
+      "d29",
+      "d30",
+      "d31"
+    ]
+  },
+  "tracking": {
+    "color": "unet",
+    "unet_enc_level": 1
+  },
+  "mapping": {
+    "color": "gray",
+    "use_sensor_depth": true
+  },
+  "primary_metric": "keyframe evo_ape tum groundtruth.txt data_tum.txt with alignment and scale correction, ranked by translation ATE mean",
+  "max_channels": 6,
+  "timeout_seconds": 300.0,
+  "random_seed": 20260814,
+  "auto_start_rule": {
+    "t50_le_60_s": 4,
+    "t50_le_100_s": 3,
+    "otherwise": 2
+  },
+  "theoretical_evaluation_budgets": {
+    "starts_4": {
+      "direct": 612,
+      "random": 580,
+      "swap_max": 156,
+      "total_max": 1378
+    },
+    "starts_3": {
+      "direct": 467,
+      "random": 435,
+      "swap_max": 156,
+      "total_max": 1088
+    },
+    "starts_2": {
+      "direct": 322,
+      "random": 290,
+      "swap_max": 156,
+      "total_max": 798
+    }
+  },
+  "all_singletons_fail_fallback": {
+    "method": "exhaustively evaluate all C(32,2)=496 pairs, use the best PASS pairs as greedy seeds, then extend through K=6",
+    "random_control_note": "K=2 is exhaustive, so no disjoint random pairs remain; retain equal-budget random controls at K=3--6",
+    "total_max_for_starts_4": 1626,
+    "total_max_for_starts_3": 1398,
+    "total_max_for_starts_2": 1170
+  },
+  "anchors": [
+    {
+      "label": "gray_current",
+      "channels": null,
+      "role": "current photometric gray control"
+    },
+    {
+      "label": "unet_all32",
+      "channels": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "role": "unselected UNet enc1 all-32-channel control"
+    },
+    {
+      "label": "bqs_historical_top4",
+      "channels": [
+        4,
+        9,
+        10,
+        15
+      ],
+      "role": "historical BQS-greedy path Top-4 prefix, re-evaluated here"
+    },
+    {
+      "label": "bqs_historical_top5",
+      "channels": [
+        4,
+        9,
+        10,
+        15,
+        30
+      ],
+      "role": "historical BQS-greedy Top-5, re-evaluated here"
+    }
+  ]
+}

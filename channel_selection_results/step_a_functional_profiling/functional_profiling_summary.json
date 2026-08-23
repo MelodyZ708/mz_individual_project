@@ -1,0 +1,56 @@
+{
+  "step": "A - Functional Profiling",
+  "principle": "Descriptors and labels are explanatory only; no active channel is removed or used as a hard functional constraint.",
+  "input": {
+    "manifest": "/home/melody/code/individual_project/channel_selection_results/step_0_data_preparation/features_post_relu/feature_manifest.csv",
+    "paired_timestamps": 30,
+    "activation_position": "post-ReLU",
+    "native_resolution": true
+  },
+  "software": {
+    "numpy": "1.26.4",
+    "torch": "2.5.1",
+    "torchvision": "0.20.1",
+    "opencv": "4.8.1"
+  },
+  "aggregation": {
+    "primary": "median across 30 frames",
+    "dispersion": "interquartile range"
+  },
+  "metric_definitions": {
+    "gradient_energy": "mean(gx^2 + gy^2), numpy spatial gradient",
+    "orientation_coherence": "global structure-tensor coherence in [0,1]",
+    "spectral_centroid": "zero-mean radial FFT power centroid / Nyquist-corner radius",
+    "spatial_entropy": "entropy of non-negative activation mass / log(HW)",
+    "components": "8-connected activation > positive mean + positive std; minimum component area=max(2 pixels, 0.05% map)",
+    "cross_light_ncc": "Pearson NCC of paired native feature maps",
+    "relative_mad": "mean(abs(light-clean)) / mean(abs(clean))",
+    "gradient_retention": "light gradient energy / clean gradient energy"
+  },
+  "outputs": {
+    "conv1": {
+      "profile_csv": "/home/melody/code/individual_project/channel_selection_results/step_a_functional_profiling/functional_profile_conv1.csv",
+      "channels": 64,
+      "confirmed_dead_candidates": [
+        2,
+        4,
+        7,
+        9,
+        13,
+        36,
+        38,
+        48
+      ]
+    },
+    "layer1": {
+      "profile_csv": "/home/melody/code/individual_project/channel_selection_results/step_a_functional_profiling/functional_profile_layer1.csv",
+      "channels": 64,
+      "confirmed_dead_candidates": []
+    },
+    "layer2": {
+      "profile_csv": "/home/melody/code/individual_project/channel_selection_results/step_a_functional_profiling/functional_profile_layer2.csv",
+      "channels": 128,
+      "confirmed_dead_candidates": []
+    }
+  }
+}

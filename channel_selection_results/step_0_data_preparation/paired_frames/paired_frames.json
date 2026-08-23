@@ -1,0 +1,837 @@
+{
+  "protocol": {
+    "total_samples": 30,
+    "uniform_samples": 12,
+    "events_per_kind": 3,
+    "samples_per_event": [
+      "before",
+      "peak",
+      "after"
+    ],
+    "event_offset_frames": 4,
+    "pairing_index": "matched_rgb.txt",
+    "event_signal": "log(mean_luminance_light / mean_luminance_clean)",
+    "peak_definition": "largest signed first difference during event onset"
+  },
+  "inputs": {
+    "clean_dir": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk",
+    "lightswitch_dir": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch",
+    "paired_frame_count": 573
+  },
+  "detector": {
+    "smooth_window": 5,
+    "event_threshold_log_ratio": 0.05,
+    "minimum_log_ratio": 0.05,
+    "noise_multiplier": 6.0,
+    "max_gap_frames": 2,
+    "minimum_event_frames": 5
+  },
+  "detected_events": [
+    {
+      "kind": "turn_on",
+      "start_index": 16,
+      "end_index": 50,
+      "transition_index": 21,
+      "extremum_index": 24,
+      "start_timestamp": "1305031453.891710",
+      "end_timestamp": "1305031455.027799",
+      "transition_timestamp": "1305031454.059654",
+      "extremum_timestamp": "1305031454.159672",
+      "jump_score": 0.08395464907132877,
+      "selected": true,
+      "rank_within_kind": 3
+    },
+    {
+      "kind": "turn_off",
+      "start_index": 79,
+      "end_index": 98,
+      "transition_index": 80,
+      "extremum_index": 89,
+      "start_timestamp": "1305031455.991694",
+      "end_timestamp": "1305031456.827603",
+      "transition_timestamp": "1305031456.027770",
+      "extremum_timestamp": "1305031456.391619",
+      "jump_score": 0.1166357211513843,
+      "selected": true,
+      "rank_within_kind": 2
+    },
+    {
+      "kind": "turn_on",
+      "start_index": 122,
+      "end_index": 163,
+      "transition_index": 126,
+      "extremum_index": 150,
+      "start_timestamp": "1305031457.827699",
+      "end_timestamp": "1305031459.327632",
+      "transition_timestamp": "1305031457.991644",
+      "extremum_timestamp": "1305031458.791632",
+      "jump_score": 0.08163203546317091,
+      "selected": false,
+      "rank_within_kind": null
+    },
+    {
+      "kind": "turn_off",
+      "start_index": 184,
+      "end_index": 213,
+      "transition_index": 188,
+      "extremum_index": 192,
+      "start_timestamp": "1305031460.127690",
+      "end_timestamp": "1305031461.227607",
+      "transition_timestamp": "1305031460.291689",
+      "extremum_timestamp": "1305031460.459620",
+      "jump_score": 0.1265418995207201,
+      "selected": true,
+      "rank_within_kind": 1
+    },
+    {
+      "kind": "turn_on",
+      "start_index": 241,
+      "end_index": 287,
+      "transition_index": 250,
+      "extremum_index": 273,
+      "start_timestamp": "1305031462.159646",
+      "end_timestamp": "1305031463.695640",
+      "transition_timestamp": "1305031462.459897",
+      "extremum_timestamp": "1305031463.227784",
+      "jump_score": 0.10543671530087845,
+      "selected": true,
+      "rank_within_kind": 2
+    },
+    {
+      "kind": "turn_off",
+      "start_index": 306,
+      "end_index": 344,
+      "transition_index": 310,
+      "extremum_index": 317,
+      "start_timestamp": "1305031464.327866",
+      "end_timestamp": "1305031465.595599",
+      "transition_timestamp": "1305031464.459689",
+      "extremum_timestamp": "1305031464.695663",
+      "jump_score": 0.053027950897382214,
+      "selected": false,
+      "rank_within_kind": null
+    },
+    {
+      "kind": "turn_on",
+      "start_index": 376,
+      "end_index": 417,
+      "transition_index": 383,
+      "extremum_index": 402,
+      "start_timestamp": "1305031466.659688",
+      "end_timestamp": "1305031468.028107",
+      "transition_timestamp": "1305031466.895694",
+      "extremum_timestamp": "1305031467.527663",
+      "jump_score": 0.11414577016933769,
+      "selected": true,
+      "rank_within_kind": 1
+    },
+    {
+      "kind": "turn_off",
+      "start_index": 438,
+      "end_index": 489,
+      "transition_index": 440,
+      "extremum_index": 477,
+      "start_timestamp": "1305031468.727785",
+      "end_timestamp": "1305031470.427641",
+      "transition_timestamp": "1305031468.795796",
+      "extremum_timestamp": "1305031470.027694",
+      "jump_score": 0.06968658934320518,
+      "selected": true,
+      "rank_within_kind": 3
+    },
+    {
+      "kind": "turn_on",
+      "start_index": 520,
+      "end_index": 547,
+      "transition_index": 521,
+      "extremum_index": 538,
+      "start_timestamp": "1305031471.459647",
+      "end_timestamp": "1305031472.363577",
+      "transition_timestamp": "1305031471.496491",
+      "extremum_timestamp": "1305031472.059668",
+      "jump_score": 0.08167741223227462,
+      "selected": false,
+      "rank_within_kind": null
+    }
+  ],
+  "selected_frames": [
+    {
+      "sample_id": 1,
+      "frame_index": 0,
+      "timestamp": "1305031453.359684",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031453.359684.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031453.359684.png",
+      "selection_source": "uniform",
+      "phase": "",
+      "event_rank": "",
+      "clean_mean_luminance": 143.02009440104166,
+      "lightswitch_mean_luminance": 143.02009440104166,
+      "log_brightness_ratio": 0.0,
+      "smoothed_log_brightness_ratio": 0.0,
+      "first_difference": 0.0,
+      "selection_details": [
+        {
+          "source": "uniform",
+          "uniform_rank": 1,
+          "target_index": 0
+        }
+      ]
+    },
+    {
+      "sample_id": 2,
+      "frame_index": 17,
+      "timestamp": "1305031453.927723",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031453.927723.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031453.927723.png",
+      "selection_source": "turn_on",
+      "phase": "before",
+      "event_rank": "3",
+      "clean_mean_luminance": 137.11369791666667,
+      "lightswitch_mean_luminance": 164.80007161458335,
+      "log_brightness_ratio": 0.18392255736229898,
+      "smoothed_log_brightness_ratio": 0.18392255736229898,
+      "first_difference": 0.07258434801523646,
+      "selection_details": [
+        {
+          "source": "turn_on",
+          "event_rank": 3,
+          "phase": "before",
+          "transition_index": 21
+        }
+      ]
+    },
+    {
+      "sample_id": 3,
+      "frame_index": 21,
+      "timestamp": "1305031454.059654",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031454.059654.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031454.059654.png",
+      "selection_source": "turn_on",
+      "phase": "peak",
+      "event_rank": "3",
+      "clean_mean_luminance": 128.70172526041668,
+      "lightswitch_mean_luminance": 206.76305013020834,
+      "log_brightness_ratio": 0.47407592951885347,
+      "smoothed_log_brightness_ratio": 0.47407592951885347,
+      "first_difference": 0.08395464907132877,
+      "selection_details": [
+        {
+          "source": "turn_on",
+          "event_rank": 3,
+          "phase": "peak",
+          "transition_index": 21
+        }
+      ]
+    },
+    {
+      "sample_id": 4,
+      "frame_index": 25,
+      "timestamp": "1305031454.191658",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031454.191658.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031454.191658.png",
+      "selection_source": "turn_on",
+      "phase": "after",
+      "event_rank": "3",
+      "clean_mean_luminance": 134.57660481770833,
+      "lightswitch_mean_luminance": 235.74945963541666,
+      "log_brightness_ratio": 0.5606360367570822,
+      "smoothed_log_brightness_ratio": 0.5565493433010432,
+      "first_difference": 0.0,
+      "selection_details": [
+        {
+          "source": "turn_on",
+          "event_rank": 3,
+          "phase": "after",
+          "transition_index": 21
+        }
+      ]
+    },
+    {
+      "sample_id": 5,
+      "frame_index": 52,
+      "timestamp": "1305031455.091700",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031455.091700.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031455.091700.png",
+      "selection_source": "uniform",
+      "phase": "",
+      "event_rank": "",
+      "clean_mean_luminance": 139.27578450520832,
+      "lightswitch_mean_luminance": 139.27578450520832,
+      "log_brightness_ratio": 0.0,
+      "smoothed_log_brightness_ratio": 0.0,
+      "first_difference": -0.02548258135741705,
+      "selection_details": [
+        {
+          "source": "uniform",
+          "uniform_rank": 2,
+          "target_index": 52
+        }
+      ]
+    },
+    {
+      "sample_id": 6,
+      "frame_index": 76,
+      "timestamp": "1305031455.891657",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031455.891657.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031455.891657.png",
+      "selection_source": "turn_off",
+      "phase": "before",
+      "event_rank": "2",
+      "clean_mean_luminance": 124.30075520833333,
+      "lightswitch_mean_luminance": 124.30075520833333,
+      "log_brightness_ratio": 0.0,
+      "smoothed_log_brightness_ratio": 0.0,
+      "first_difference": 0.0,
+      "selection_details": [
+        {
+          "source": "turn_off",
+          "event_rank": 2,
+          "phase": "before",
+          "transition_index": 80
+        }
+      ]
+    },
+    {
+      "sample_id": 7,
+      "frame_index": 80,
+      "timestamp": "1305031456.027770",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031456.027770.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031456.027770.png",
+      "selection_source": "turn_off",
+      "phase": "peak",
+      "event_rank": "2",
+      "clean_mean_luminance": 123.99562174479166,
+      "lightswitch_mean_luminance": 98.52639322916667,
+      "log_brightness_ratio": -0.2299217905365904,
+      "smoothed_log_brightness_ratio": -0.2299217905365904,
+      "first_difference": -0.1166357211513843,
+      "selection_details": [
+        {
+          "source": "turn_off",
+          "event_rank": 2,
+          "phase": "peak",
+          "transition_index": 80
+        }
+      ]
+    },
+    {
+      "sample_id": 8,
+      "frame_index": 84,
+      "timestamp": "1305031456.159731",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031456.159731.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031456.159731.png",
+      "selection_source": "turn_off",
+      "phase": "after",
+      "event_rank": "2",
+      "clean_mean_luminance": 125.39272135416667,
+      "lightswitch_mean_luminance": 67.47361653645834,
+      "log_brightness_ratio": -0.6197139208970086,
+      "smoothed_log_brightness_ratio": -0.6197139208970086,
+      "first_difference": -0.09594091580728159,
+      "selection_details": [
+        {
+          "source": "turn_off",
+          "event_rank": 2,
+          "phase": "after",
+          "transition_index": 80
+        }
+      ]
+    },
+    {
+      "sample_id": 9,
+      "frame_index": 104,
+      "timestamp": "1305031457.091655",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031457.091655.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031457.091655.png",
+      "selection_source": "uniform",
+      "phase": "",
+      "event_rank": "",
+      "clean_mean_luminance": 139.16545247395834,
+      "lightswitch_mean_luminance": 139.16545247395834,
+      "log_brightness_ratio": 0.0,
+      "smoothed_log_brightness_ratio": 0.0,
+      "first_difference": 0.0,
+      "selection_details": [
+        {
+          "source": "uniform",
+          "uniform_rank": 3,
+          "target_index": 104
+        }
+      ]
+    },
+    {
+      "sample_id": 10,
+      "frame_index": 156,
+      "timestamp": "1305031459.027665",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031459.027665.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031459.027665.png",
+      "selection_source": "uniform",
+      "phase": "",
+      "event_rank": "",
+      "clean_mean_luminance": 133.44680013020835,
+      "lightswitch_mean_luminance": 216.47987955729167,
+      "log_brightness_ratio": 0.48379470765890586,
+      "smoothed_log_brightness_ratio": 0.48379470765890586,
+      "first_difference": -0.040774008959219454,
+      "selection_details": [
+        {
+          "source": "uniform",
+          "uniform_rank": 4,
+          "target_index": 156
+        }
+      ]
+    },
+    {
+      "sample_id": 11,
+      "frame_index": 184,
+      "timestamp": "1305031460.127690",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031460.127690.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031460.127690.png",
+      "selection_source": "turn_off",
+      "phase": "before",
+      "event_rank": "1",
+      "clean_mean_luminance": 131.50930338541667,
+      "lightswitch_mean_luminance": 119.46181640625,
+      "log_brightness_ratio": -0.09608080419605634,
+      "smoothed_log_brightness_ratio": -0.09608080419605634,
+      "first_difference": -0.07711954753370905,
+      "selection_details": [
+        {
+          "source": "turn_off",
+          "event_rank": 1,
+          "phase": "before",
+          "transition_index": 188
+        }
+      ]
+    },
+    {
+      "sample_id": 12,
+      "frame_index": 188,
+      "timestamp": "1305031460.291689",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031460.291689.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031460.291689.png",
+      "selection_source": "turn_off",
+      "phase": "peak",
+      "event_rank": "1",
+      "clean_mean_luminance": 125.85103190104167,
+      "lightswitch_mean_luminance": 81.936083984375,
+      "log_brightness_ratio": -0.42915943702167203,
+      "smoothed_log_brightness_ratio": -0.42915943702167203,
+      "first_difference": -0.1265418995207201,
+      "selection_details": [
+        {
+          "source": "turn_off",
+          "event_rank": 1,
+          "phase": "peak",
+          "transition_index": 188
+        }
+      ]
+    },
+    {
+      "sample_id": 13,
+      "frame_index": 192,
+      "timestamp": "1305031460.459620",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031460.459620.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031460.459620.png",
+      "selection_source": "turn_off",
+      "phase": "after",
+      "event_rank": "1",
+      "clean_mean_luminance": 128.65258463541667,
+      "lightswitch_mean_luminance": 63.67717122395833,
+      "log_brightness_ratio": -0.7032895022218837,
+      "smoothed_log_brightness_ratio": -0.6796168207002689,
+      "first_difference": -0.004002169084554641,
+      "selection_details": [
+        {
+          "source": "turn_off",
+          "event_rank": 1,
+          "phase": "after",
+          "transition_index": 188
+        }
+      ]
+    },
+    {
+      "sample_id": 14,
+      "frame_index": 208,
+      "timestamp": "1305031461.027620",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031461.027620.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031461.027620.png",
+      "selection_source": "uniform",
+      "phase": "",
+      "event_rank": "",
+      "clean_mean_luminance": 129.67434895833333,
+      "lightswitch_mean_luminance": 82.0811328125,
+      "log_brightness_ratio": -0.45731811254008414,
+      "smoothed_log_brightness_ratio": -0.45731811254008414,
+      "first_difference": 0.05833943543511444,
+      "selection_details": [
+        {
+          "source": "uniform",
+          "uniform_rank": 5,
+          "target_index": 208
+        }
+      ]
+    },
+    {
+      "sample_id": 15,
+      "frame_index": 246,
+      "timestamp": "1305031462.327540",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031462.327540.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031462.327540.png",
+      "selection_source": "turn_on",
+      "phase": "before",
+      "event_rank": "2",
+      "clean_mean_luminance": 162.88718424479165,
+      "lightswitch_mean_luminance": 219.081396484375,
+      "log_brightness_ratio": 0.29638549265025,
+      "smoothed_log_brightness_ratio": 0.29638549265025,
+      "first_difference": 0.03223477341639025,
+      "selection_details": [
+        {
+          "source": "turn_on",
+          "event_rank": 2,
+          "phase": "before",
+          "transition_index": 250
+        }
+      ]
+    },
+    {
+      "sample_id": 16,
+      "frame_index": 250,
+      "timestamp": "1305031462.459897",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031462.459897.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031462.459897.png",
+      "selection_source": "turn_on",
+      "phase": "peak",
+      "event_rank": "2",
+      "clean_mean_luminance": 155.34334635416667,
+      "lightswitch_mean_luminance": 247.93855794270834,
+      "log_brightness_ratio": 0.4675431579472198,
+      "smoothed_log_brightness_ratio": 0.464202065988734,
+      "first_difference": 0.10543671530087845,
+      "selection_details": [
+        {
+          "source": "turn_on",
+          "event_rank": 2,
+          "phase": "peak",
+          "transition_index": 250
+        }
+      ]
+    },
+    {
+      "sample_id": 17,
+      "frame_index": 254,
+      "timestamp": "1305031462.591862",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031462.591862.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031462.591862.png",
+      "selection_source": "turn_on",
+      "phase": "after",
+      "event_rank": "2",
+      "clean_mean_luminance": 155.45989908854168,
+      "lightswitch_mean_luminance": 248.40249348958332,
+      "log_brightness_ratio": 0.4686625711183672,
+      "smoothed_log_brightness_ratio": 0.4686625711183672,
+      "first_difference": 0.0009217680517614735,
+      "selection_details": [
+        {
+          "source": "turn_on",
+          "event_rank": 2,
+          "phase": "after",
+          "transition_index": 250
+        }
+      ]
+    },
+    {
+      "sample_id": 18,
+      "frame_index": 260,
+      "timestamp": "1305031462.791943",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031462.791943.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031462.791943.png",
+      "selection_source": "uniform",
+      "phase": "",
+      "event_rank": "",
+      "clean_mean_luminance": 148.97174479166668,
+      "lightswitch_mean_luminance": 246.69597330729167,
+      "log_brightness_ratio": 0.5044000428265062,
+      "smoothed_log_brightness_ratio": 0.5044000428265062,
+      "first_difference": 0.0033648788259923457,
+      "selection_details": [
+        {
+          "source": "uniform",
+          "uniform_rank": 6,
+          "target_index": 260
+        }
+      ]
+    },
+    {
+      "sample_id": 19,
+      "frame_index": 312,
+      "timestamp": "1305031464.527574",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031464.527574.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031464.527574.png",
+      "selection_source": "uniform",
+      "phase": "",
+      "event_rank": "",
+      "clean_mean_luminance": 134.46685872395832,
+      "lightswitch_mean_luminance": 97.15708333333333,
+      "log_brightness_ratio": -0.3249886778132868,
+      "smoothed_log_brightness_ratio": -0.3249886778132868,
+      "first_difference": -0.041891300717328606,
+      "selection_details": [
+        {
+          "source": "uniform",
+          "uniform_rank": 7,
+          "target_index": 312
+        }
+      ]
+    },
+    {
+      "sample_id": 20,
+      "frame_index": 364,
+      "timestamp": "1305031466.259815",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031466.259815.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031466.259815.png",
+      "selection_source": "uniform",
+      "phase": "",
+      "event_rank": "",
+      "clean_mean_luminance": 138.64157552083333,
+      "lightswitch_mean_luminance": 138.64157552083333,
+      "log_brightness_ratio": 0.0,
+      "smoothed_log_brightness_ratio": 0.0,
+      "first_difference": 0.0,
+      "selection_details": [
+        {
+          "source": "uniform",
+          "uniform_rank": 8,
+          "target_index": 364
+        }
+      ]
+    },
+    {
+      "sample_id": 21,
+      "frame_index": 379,
+      "timestamp": "1305031466.759637",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031466.759637.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031466.759637.png",
+      "selection_source": "turn_on",
+      "phase": "before",
+      "event_rank": "1",
+      "clean_mean_luminance": 105.47284505208333,
+      "lightswitch_mean_luminance": 143.23200846354166,
+      "log_brightness_ratio": 0.30601222292606733,
+      "smoothed_log_brightness_ratio": 0.30601222292606733,
+      "first_difference": 0.07647740701584016,
+      "selection_details": [
+        {
+          "source": "turn_on",
+          "event_rank": 1,
+          "phase": "before",
+          "transition_index": 383
+        }
+      ]
+    },
+    {
+      "sample_id": 22,
+      "frame_index": 383,
+      "timestamp": "1305031466.895694",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031466.895694.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031466.895694.png",
+      "selection_source": "turn_on",
+      "phase": "peak",
+      "event_rank": "1",
+      "clean_mean_luminance": 101.19378255208333,
+      "lightswitch_mean_luminance": 202.51135416666668,
+      "log_brightness_ratio": 0.693758632255902,
+      "smoothed_log_brightness_ratio": 0.693758632255902,
+      "first_difference": 0.11414577016933769,
+      "selection_details": [
+        {
+          "source": "turn_on",
+          "event_rank": 1,
+          "phase": "peak",
+          "transition_index": 383
+        }
+      ]
+    },
+    {
+      "sample_id": 23,
+      "frame_index": 387,
+      "timestamp": "1305031467.027843",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031467.027843.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031467.027843.png",
+      "selection_source": "turn_on",
+      "phase": "after",
+      "event_rank": "1",
+      "clean_mean_luminance": 98.08666666666667,
+      "lightswitch_mean_luminance": 220.27078125,
+      "log_brightness_ratio": 0.8090061661163792,
+      "smoothed_log_brightness_ratio": 0.8090061661163792,
+      "first_difference": 0.014945921182277555,
+      "selection_details": [
+        {
+          "source": "turn_on",
+          "event_rank": 1,
+          "phase": "after",
+          "transition_index": 383
+        }
+      ]
+    },
+    {
+      "sample_id": 24,
+      "frame_index": 416,
+      "timestamp": "1305031467.995754",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031467.995754.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031467.995754.png",
+      "selection_source": "uniform",
+      "phase": "",
+      "event_rank": "",
+      "clean_mean_luminance": 117.45435221354167,
+      "lightswitch_mean_luminance": 132.99695963541666,
+      "log_brightness_ratio": 0.12427650077932148,
+      "smoothed_log_brightness_ratio": 0.12427650077932148,
+      "first_difference": -0.0766956453945431,
+      "selection_details": [
+        {
+          "source": "uniform",
+          "uniform_rank": 9,
+          "target_index": 416
+        }
+      ]
+    },
+    {
+      "sample_id": 25,
+      "frame_index": 436,
+      "timestamp": "1305031468.659579",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031468.659579.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031468.659579.png",
+      "selection_source": "turn_off",
+      "phase": "before",
+      "event_rank": "3",
+      "clean_mean_luminance": 141.83748046875,
+      "lightswitch_mean_luminance": 141.83748046875,
+      "log_brightness_ratio": 0.0,
+      "smoothed_log_brightness_ratio": 0.0,
+      "first_difference": 0.0,
+      "selection_details": [
+        {
+          "source": "turn_off",
+          "event_rank": 3,
+          "phase": "before",
+          "transition_index": 440
+        }
+      ]
+    },
+    {
+      "sample_id": 26,
+      "frame_index": 440,
+      "timestamp": "1305031468.795796",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031468.795796.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031468.795796.png",
+      "selection_source": "turn_off",
+      "phase": "peak",
+      "event_rank": "3",
+      "clean_mean_luminance": 138.58525716145834,
+      "lightswitch_mean_luminance": 115.64631510416666,
+      "log_brightness_ratio": -0.1809491842907749,
+      "smoothed_log_brightness_ratio": -0.1809491842907749,
+      "first_difference": -0.06968658934320518,
+      "selection_details": [
+        {
+          "source": "turn_off",
+          "event_rank": 3,
+          "phase": "peak",
+          "transition_index": 440
+        }
+      ]
+    },
+    {
+      "sample_id": 27,
+      "frame_index": 444,
+      "timestamp": "1305031468.928141",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031468.928141.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031468.928141.png",
+      "selection_source": "turn_off",
+      "phase": "after",
+      "event_rank": "3",
+      "clean_mean_luminance": 135.98112955729167,
+      "lightswitch_mean_luminance": 89.24393229166667,
+      "log_brightness_ratio": -0.42114268618135486,
+      "smoothed_log_brightness_ratio": -0.42114268618135486,
+      "first_difference": -0.05812272830255649,
+      "selection_details": [
+        {
+          "source": "turn_off",
+          "event_rank": 3,
+          "phase": "after",
+          "transition_index": 440
+        }
+      ]
+    },
+    {
+      "sample_id": 28,
+      "frame_index": 468,
+      "timestamp": "1305031469.727679",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031469.727679.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031469.727679.png",
+      "selection_source": "uniform",
+      "phase": "",
+      "event_rank": "",
+      "clean_mean_luminance": 132.15902018229167,
+      "lightswitch_mean_luminance": 68.37044921875,
+      "log_brightness_ratio": -0.6590651864992536,
+      "smoothed_log_brightness_ratio": -0.6633253029341819,
+      "first_difference": 0.0025673053429960957,
+      "selection_details": [
+        {
+          "source": "uniform",
+          "uniform_rank": 10,
+          "target_index": 468
+        }
+      ]
+    },
+    {
+      "sample_id": 29,
+      "frame_index": 520,
+      "timestamp": "1305031471.459647",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031471.459647.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031471.459647.png",
+      "selection_source": "uniform",
+      "phase": "",
+      "event_rank": "",
+      "clean_mean_luminance": 153.92495442708332,
+      "lightswitch_mean_luminance": 168.22307942708332,
+      "log_brightness_ratio": 0.08882577704058223,
+      "smoothed_log_brightness_ratio": 0.08882577704058223,
+      "first_difference": 0.07375639154694907,
+      "selection_details": [
+        {
+          "source": "uniform",
+          "uniform_rank": 11,
+          "target_index": 520
+        }
+      ]
+    },
+    {
+      "sample_id": 30,
+      "frame_index": 572,
+      "timestamp": "1305031473.196069",
+      "clean_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031473.196069.png",
+      "lightswitch_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031473.196069.png",
+      "selection_source": "uniform",
+      "phase": "",
+      "event_rank": "",
+      "clean_mean_luminance": 154.196796875,
+      "lightswitch_mean_luminance": 154.196796875,
+      "log_brightness_ratio": 0.0,
+      "smoothed_log_brightness_ratio": 0.0,
+      "first_difference": 0.0,
+      "selection_details": [
+        {
+          "source": "uniform",
+          "uniform_rank": 12,
+          "target_index": 572
+        }
+      ]
+    }
+  ]
+}

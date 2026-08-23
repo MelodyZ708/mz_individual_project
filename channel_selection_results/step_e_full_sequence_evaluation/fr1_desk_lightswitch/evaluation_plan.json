@@ -1,0 +1,97 @@
+{
+  "dataset": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch",
+  "matched_frames": 573,
+  "first_timestamp": 1305031453.359684,
+  "last_timestamp": 1305031473.196069,
+  "minimum_coverage": 0.9,
+  "replicates": 1,
+  "configurations": [
+    {
+      "label": "gray_baseline",
+      "channels": null,
+      "role": "photometric baseline control"
+    },
+    {
+      "label": "known_cnn_baseline",
+      "channels": [
+        5,
+        29,
+        40,
+        52
+      ],
+      "role": "historical four-channel CNN control"
+    },
+    {
+      "label": "mvs_best_ate",
+      "channels": [
+        8,
+        40,
+        50,
+        59
+      ],
+      "role": "lowest RPE-safe MVS SE(3) ATE"
+    },
+    {
+      "label": "mvs_second_ate",
+      "channels": [
+        5,
+        8,
+        24,
+        30
+      ],
+      "role": "second-lowest RPE-safe MVS SE(3) ATE"
+    },
+    {
+      "label": "mvs_balanced",
+      "channels": [
+        5,
+        24,
+        30,
+        59
+      ],
+      "role": "low MVS ATE with lower translation/rotation jumps"
+    },
+    {
+      "label": "r080_rescue",
+      "channels": [
+        5,
+        17,
+        19,
+        59
+      ],
+      "role": "candidate recovered by the r=0.80 rescue audit"
+    },
+    {
+      "label": "mvs_mid_low_jump",
+      "channels": [
+        5,
+        8,
+        20,
+        60
+      ],
+      "role": "moderate MVS ATE with lower local jumps"
+    },
+    {
+      "label": "mvs_low_translation_jump",
+      "channels": [
+        0,
+        24,
+        30,
+        56
+      ],
+      "role": "translation-RPE stability control"
+    },
+    {
+      "label": "mvs_low_rotation_jump",
+      "channels": [
+        6,
+        17,
+        18,
+        43
+      ],
+      "role": "rotation-RPE stability control"
+    }
+  ],
+  "primary_metric": "historical keyframe evo_ape mean: tum GT data_tum.txt --align --correct_scale",
+  "diagnostic_metric": "all-frame metric-scale SE(3) translation ATE RMSE"
+}

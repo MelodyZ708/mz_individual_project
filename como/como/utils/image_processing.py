@@ -425,3 +425,111 @@ class UNetFeatureExtractor(nn.Module):
 
         return feat
 # ===== P3新增结束 =====
+
+
+class UNetC2FFeatureExtractor(nn.Module):
+    """Extract two selected U-Net encoder representations in one forward pass.
+
+    ``unet`` tracking already uses encoder activations from the mapping U-Net.
+    C2F needs two such representations for the *same* RGB input, so invoking
+    :class:`UNetFeatureExtractor` twice would unnecessarily execute the shared
+    encoder stem twice.  This wrapper evaluates ``base`` once, derives the
+    requested encoder levels from that activation, selects their channels, and
+    returns full-image-resolution coarse and fine tensors for the tracking
+    pyramid modules.
+
+    The current experiment protocol fixes Enc1 (32 channels at H/2) as the
+    coarse branch and Enc0 (16 channels at H) as the fine branch.  The class is
+    kept general enough to validate arbitrary shallow encoder-level requests.
+    """
+
+    def __init__(
+        self,
+        unet,
+        coarse_enc_level=1,
+        coarse_channel_select="all",
+        fine_enc_level=0,
+        fine_channel_select="all",
+        device="cpu",
+    ):
+        super().__init__()
+        self.unet = unet
+        self.coarse_enc_level = int(coarse_enc_level)
+        self.fine_enc_level = int(fine_enc_level)
+        self.device = device
+        self.coarse_indices = self._parse_selection(
+            coarse_channel_select, self.coarse_enc_level, "coarse"
+        )
+        self.fine_indices = self._parse_selection(
+            fine_channel_select, self.fine_enc_level, "fine"
+        )
+        self.coarse_channels = len(self.coarse_indices)
+        self.fine_channels = len(self.fine_indices)
+
+        print(
+            "[UNetC2FFeatureExtractor] "
+            f"coarse=enc{self.coarse_enc_level} ({self.coarse_channels} channels, "
+            f"select={coarse_channel_select}); fine=enc{self.fine_enc_level} "
+            f"({self.fine_channels} channels, select={fine_channel_select})"
+        )
+
+    @staticmethod
+    def _parse_selection(channel_select, enc_level, branch_name):
+        if enc_level < 0:
+            raise ValueError(f"U-Net {branch_name} encoder level must be non-negative")
+        total_channels = 16 * (2**enc_level)
+        if str(channel_select).strip().lower() == "all":
+            indices = list(range(total_channels))
+        else:
+            raw_values = [item.strip() for item in str(channel_select).split(",")]
+            if not raw_values or any(not item for item in raw_values):
+                raise ValueError(
+                    f"U-Net {branch_name} channel selection is empty or malformed: "
+                    f"{channel_select!r}"
+                )
+            try:
+                indices = [int(item.lstrip("dD")) for item in raw_values]
+            except ValueError as exc:
+                raise ValueError(
+                    f"U-Net {branch_name} channel selection must contain integer/d-index values: "
+                    f"{channel_select!r}"
+                ) from exc
+        if len(set(indices)) != len(indices) or not indices:
+            raise ValueError(f"U-Net {branch_name} channels must be unique and non-empty")
+        if min(indices) < 0 or max(indices) >= total_channels:
+            raise ValueError(
+                f"U-Net {branch_name} Enc{enc_level} channel indices must lie in "
+                f"0--{total_channels - 1}: {indices}"
+            )
+        return indices
+
+    @staticmethod
+    def _encoder_level(unet, enc0, level):
+        feature = enc0
+        for down_index in range(level):
+            feature = unet.down_convs[down_index](feature)
+        return feature
+
+    @staticmethod
+    def _select_and_resize(feature, indices, target_hw):
+        import torch.nn.functional as F
+
+        index_tensor = torch.as_tensor(indices, dtype=torch.long, device=feature.device)
+        selected = feature[:, index_tensor, :, :]
+        if selected.shape[-2:] != target_hw:
+            selected = F.interpolate(
+                selected.float(), size=target_hw, mode="bilinear", align_corners=False
+            )
+        return selected
+
+    def extract(self, rgb):
+        target_hw = tuple(rgb.shape[-2:])
+        unet_device = next(self.unet.parameters()).device
+        with torch.no_grad():
+            x_norm = self.unet.normalize(rgb.float().to(unet_device))
+            enc0 = self.unet.base(x_norm)
+            coarse = self._encoder_level(self.unet, enc0, self.coarse_enc_level)
+            fine = self._encoder_level(self.unet, enc0, self.fine_enc_level)
+            coarse = self._select_and_resize(coarse, self.coarse_indices, target_hw)
+            fine = self._select_and_resize(fine, self.fine_indices, target_hw)
+        return coarse.to(self.device), fine.to(self.device)

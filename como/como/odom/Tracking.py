@@ -16,7 +16,11 @@ from como.utils.image_processing import (
 from como.utils.coords import swap_coords_xy, get_test_coords, fill_image
 
 from como.utils.multiprocessing import init_gpu
-from como.utils.image_processing import CNNFeatureExtractor, UNetFeatureExtractor
+from como.utils.image_processing import (
+    CNNFeatureExtractor,
+    UNetFeatureExtractor,
+    UNetC2FFeatureExtractor,
+)
 import os
 
 
@@ -169,6 +173,50 @@ class Tracking:
                 f"{self._c2f_fine_levels} fine pyramid level(s)"
             )
 
+        elif self.cfg["color"] == "unet_c2f":
+            # U-Net C2F: Enc1 is the H/2 coarse representation and Enc0 is
+            # the full-resolution fine representation.  The actual feature
+            # extractor is created in set_unet(), once Mapping exposes the
+            # shared U-Net instance.
+            coarse_enc_level = int(self.cfg.get("unet_enc_level_coarse", 1))
+            fine_enc_level = int(self.cfg.get("unet_enc_level_fine", 0))
+            coarse_select = self.cfg.get("unet_channel_select_coarse", "all")
+            fine_select = self.cfg.get("unet_channel_select_fine", "all")
+            coarse_indices = UNetC2FFeatureExtractor._parse_selection(
+                coarse_select, coarse_enc_level, "coarse"
+            )
+            fine_indices = UNetC2FFeatureExtractor._parse_selection(
+                fine_select, fine_enc_level, "fine"
+            )
+            c_coarse = len(coarse_indices)
+            c_fine = len(fine_indices)
+
+            self._unet_c2f_coarse_enc_level = coarse_enc_level
+            self._unet_c2f_fine_enc_level = fine_enc_level
+            self._unet_c2f_coarse_select = coarse_select
+            self._unet_c2f_fine_select = fine_select
+            self._unet_c2f_feature_extractor = None
+
+            self.img_pyr_module_coarse = ImagePyramidModule(
+                c_coarse, start_level, end_level, self.device, dtype=self.dtype
+            )
+            self.img_pyr_module_fine = ImagePyramidModule(
+                c_fine, start_level, end_level, self.device, dtype=self.dtype
+            )
+            self.gradient_module_coarse = ImageGradientModule(
+                channels=c_coarse, device=self.device, dtype=self.dtype
+            )
+            self.gradient_module_fine = ImageGradientModule(
+                channels=c_fine, device=self.device, dtype=self.dtype
+            )
+            c = c_fine
+            self._c2f_version, self._c2f_fine_levels = resolve_c2f_config(self.cfg)
+            print(
+                f"[Tracking] U-Net C2F-{self._c2f_version}: "
+                f"coarse=enc{coarse_enc_level}/{c_coarse}ch, "
+                f"fine=enc{fine_enc_level}/{c_fine}ch, "
+                f"{self._c2f_fine_levels} fine pyramid level(s)"
+            )
 
         # ===== P3新增：unet模式 =====
         elif self.cfg["color"] == "unet":
@@ -206,9 +254,20 @@ class Tracking:
 
     # ===== P3新增：接收来自Mapping端的UNet引用 =====
     def set_unet(self, unet):
-        if self.cfg["color"] != "unet":
+        if self.cfg["color"] not in ("unet", "unet_c2f"):
             return
-        
+
+        if self.cfg["color"] == "unet_c2f":
+            self._unet_c2f_feature_extractor = UNetC2FFeatureExtractor(
+                unet=unet,
+                coarse_enc_level=self._unet_c2f_coarse_enc_level,
+                coarse_channel_select=self._unet_c2f_coarse_select,
+                fine_enc_level=self._unet_c2f_fine_enc_level,
+                fine_channel_select=self._unet_c2f_fine_select,
+                device=self.device,
+            )
+            return
+
         # 不 deepcopy，直接持有 GPU 原始 U-Net 的引用
         self._unet_feature_extractor = UNetFeatureExtractor(
             unet=unet,   # ← 原始 GPU 模型
@@ -265,6 +324,28 @@ class Tracking:
             split = num_levels - self._c2f_fine_levels
             mixed_pyr = pyr_coarse[:split] + pyr_fine[split:]
             return mixed_pyr
+
+        elif self.cfg["color"] == "unet_c2f":
+            if self._unet_c2f_feature_extractor is None:
+                raise RuntimeError(
+                    "[Tracking] unet_c2f mode requires set_unet() before tracking"
+                )
+            coarse_img, fine_img = self._unet_c2f_feature_extractor.extract(rgb)
+            pyr_coarse = self.img_pyr_module_coarse(coarse_img)
+            pyr_fine = self.img_pyr_module_fine(fine_img)
+            num_levels = len(pyr_coarse)
+            if len(pyr_fine) != num_levels:
+                raise RuntimeError(
+                    "U-Net coarse and fine C2F pyramids must have the same number of levels"
+                )
+            if not 1 <= self._c2f_fine_levels < num_levels:
+                raise ValueError(
+                    f"U-Net C2F-{self._c2f_version} requires "
+                    f"{self._c2f_fine_levels} fine levels, but the pyramid has "
+                    f"{num_levels} total levels"
+                )
+            split = num_levels - self._c2f_fine_levels
+            return pyr_coarse[:split] + pyr_fine[split:]
         
                 # ===== P3新增：unet模式 =====
         elif self.cfg["color"] == "unet":
@@ -284,7 +365,15 @@ class Tracking:
     def get_img_gradients(self, img_pyr):
         img_and_grads = []
         for l in range(len(img_pyr)):
-            gx, gy = self.gradient_module(img_pyr[l])
+            if self.cfg["color"] in ("cnn_c2f", "unet_c2f"):
+                grad_mod = (
+                    self.gradient_module_fine
+                    if l >= len(img_pyr) - self._c2f_fine_levels
+                    else self.gradient_module_coarse
+                )
+                gx, gy = grad_mod(img_pyr[l])
+            else:
+                gx, gy = self.gradient_module(img_pyr[l])
             img_and_grads_level = torch.cat((img_pyr[l], gx, gy), dim=1)
             img_and_grads.append(img_and_grads_level)
         return img_and_grads
@@ -422,7 +511,7 @@ class Tracking:
             self.img_grads_pyr = []
             
             for i in range(len(img_pyr)):
-                if self.cfg["color"] == "cnn_c2f":
+                if self.cfg["color"] in ("cnn_c2f", "unet_c2f"):
                     # 与 prep_tracking_img 使用同一个 C2F 切换点。
                     grad_mod = self.gradient_module_fine if i >= len(img_pyr) - self._c2f_fine_levels \
                             else self.gradient_module_coarse

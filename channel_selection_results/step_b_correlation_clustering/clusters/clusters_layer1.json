@@ -1,0 +1,1748 @@
+{
+  "layer": "layer1",
+  "primary_correlation_threshold": 0.9,
+  "primary_distance_threshold": 0.1,
+  "linkage": "average",
+  "bootstrap_stability_rule": {
+    "metric": "minimum within-cluster pair co-clustering probability",
+    "minimum": 0.8,
+    "action_when_below_minimum": "complete-linkage consensus split within the raw cluster",
+    "raw_cluster_count": 64,
+    "rejected_raw_cluster_ids": []
+  },
+  "eligible_channels": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63
+  ],
+  "numerically_ineligible_channels": [],
+  "clusters": [
+    {
+      "layer": "layer1",
+      "cluster_id": 1,
+      "size": 1,
+      "members": [
+        9
+      ],
+      "medoid": 9,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "9": 20
+      },
+      "member_metrics": {
+        "9": {
+          "cross_light_ncc": 0.7947387897395024,
+          "robust_gradient_energy": 0.0536598476021137,
+          "quality_percentile_score": 0.109375
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 2,
+      "size": 1,
+      "members": [
+        1
+      ],
+      "medoid": 1,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "1": 20
+      },
+      "member_metrics": {
+        "1": {
+          "cross_light_ncc": 0.8296857995941131,
+          "robust_gradient_energy": 0.1360935825884974,
+          "quality_percentile_score": 0.28125
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 3,
+      "size": 1,
+      "members": [
+        16
+      ],
+      "medoid": 16,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "16": 20
+      },
+      "member_metrics": {
+        "16": {
+          "cross_light_ncc": 0.9078688095395802,
+          "robust_gradient_energy": 0.10165076124649794,
+          "quality_percentile_score": 0.3984375
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 4,
+      "size": 1,
+      "members": [
+        31
+      ],
+      "medoid": 31,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "31": 20
+      },
+      "member_metrics": {
+        "31": {
+          "cross_light_ncc": 0.8818752597509516,
+          "robust_gradient_energy": 0.11307285924438562,
+          "quality_percentile_score": 0.3671875
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 5,
+      "size": 1,
+      "members": [
+        63
+      ],
+      "medoid": 63,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "63": 20
+      },
+      "member_metrics": {
+        "63": {
+          "cross_light_ncc": 0.9153938866028367,
+          "robust_gradient_energy": 0.5979393498032792,
+          "quality_percentile_score": 0.78125
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 6,
+      "size": 1,
+      "members": [
+        53
+      ],
+      "medoid": 53,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "53": 20
+      },
+      "member_metrics": {
+        "53": {
+          "cross_light_ncc": 0.8733900456975048,
+          "robust_gradient_energy": 0.02607469165322815,
+          "quality_percentile_score": 0.140625
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 7,
+      "size": 1,
+      "members": [
+        60
+      ],
+      "medoid": 60,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "60": 20
+      },
+      "member_metrics": {
+        "60": {
+          "cross_light_ncc": 0.9672611235572528,
+          "robust_gradient_energy": 0.08528414725847726,
+          "quality_percentile_score": 0.6328125
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 8,
+      "size": 1,
+      "members": [
+        43
+      ],
+      "medoid": 43,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "43": 20
+      },
+      "member_metrics": {
+        "43": {
+          "cross_light_ncc": 0.927777772774345,
+          "robust_gradient_energy": 0.2864539803945141,
+          "quality_percentile_score": 0.7109375
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 9,
+      "size": 1,
+      "members": [
+        51
+      ],
+      "medoid": 51,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "51": 20
+      },
+      "member_metrics": {
+        "51": {
+          "cross_light_ncc": 0.948558958751645,
+          "robust_gradient_energy": 0.1090084551000344,
+          "quality_percentile_score": 0.625
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 10,
+      "size": 1,
+      "members": [
+        39
+      ],
+      "medoid": 39,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "39": 20
+      },
+      "member_metrics": {
+        "39": {
+          "cross_light_ncc": 0.8938910282714121,
+          "robust_gradient_energy": 0.2253782282676611,
+          "quality_percentile_score": 0.5078125
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 11,
+      "size": 1,
+      "members": [
+        47
+      ],
+      "medoid": 47,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "47": 20
+      },
+      "member_metrics": {
+        "47": {
+          "cross_light_ncc": 0.909924395520493,
+          "robust_gradient_energy": 0.07385538273000336,
+          "quality_percentile_score": 0.375
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 12,
+      "size": 1,
+      "members": [
+        37
+      ],
+      "medoid": 37,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "37": 20
+      },
+      "member_metrics": {
+        "37": {
+          "cross_light_ncc": 0.8293389124132344,
+          "robust_gradient_energy": 0.10091029060892936,
+          "quality_percentile_score": 0.2109375
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 13,
+      "size": 1,
+      "members": [
+        6
+      ],
+      "medoid": 6,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "6": 20
+      },
+      "member_metrics": {
+        "6": {
+          "cross_light_ncc": 0.8770642638075539,
+          "robust_gradient_energy": 0.2009351531062833,
+          "quality_percentile_score": 0.4375
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 14,
+      "size": 1,
+      "members": [
+        33
+      ],
+      "medoid": 33,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "33": 20
+      },
+      "member_metrics": {
+        "33": {
+          "cross_light_ncc": 0.7915765551711058,
+          "robust_gradient_energy": 0.03775526091596455,
+          "quality_percentile_score": 0.046875
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 15,
+      "size": 1,
+      "members": [
+        52
+      ],
+      "medoid": 52,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "52": 20
+      },
+      "member_metrics": {
+        "52": {
+          "cross_light_ncc": 0.8383180475303487,
+          "robust_gradient_energy": 0.2699140659014798,
+          "quality_percentile_score": 0.40625
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 16,
+      "size": 1,
+      "members": [
+        32
+      ],
+      "medoid": 32,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "32": 20
+      },
+      "member_metrics": {
+        "32": {
+          "cross_light_ncc": 0.8590560965675602,
+          "robust_gradient_energy": 0.1600412440472945,
+          "quality_percentile_score": 0.3359375
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 17,
+      "size": 1,
+      "members": [
+        27
+      ],
+      "medoid": 27,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "27": 20
+      },
+      "member_metrics": {
+        "27": {
+          "cross_light_ncc": 0.8718809542096815,
+          "robust_gradient_energy": 0.06886026585241058,
+          "quality_percentile_score": 0.2421875
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 18,
+      "size": 1,
+      "members": [
+        28
+      ],
+      "medoid": 28,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "28": 20
+      },
+      "member_metrics": {
+        "28": {
+          "cross_light_ncc": 0.8161195605854482,
+          "robust_gradient_energy": 0.29603665822054853,
+          "quality_percentile_score": 0.3984375
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 19,
+      "size": 1,
+      "members": [
+        45
+      ],
+      "medoid": 45,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "45": 20
+      },
+      "member_metrics": {
+        "45": {
+          "cross_light_ncc": 0.803342901976948,
+          "robust_gradient_energy": 0.048552021529649526,
+          "quality_percentile_score": 0.1015625
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 20,
+      "size": 1,
+      "members": [
+        12
+      ],
+      "medoid": 12,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "12": 20
+      },
+      "member_metrics": {
+        "12": {
+          "cross_light_ncc": 0.8911622789343507,
+          "robust_gradient_energy": 0.36230951461008487,
+          "quality_percentile_score": 0.6015625
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 21,
+      "size": 1,
+      "members": [
+        36
+      ],
+      "medoid": 36,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "36": 20
+      },
+      "member_metrics": {
+        "36": {
+          "cross_light_ncc": 0.9111581951939909,
+          "robust_gradient_energy": 0.41483646493464843,
+          "quality_percentile_score": 0.703125
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 22,
+      "size": 1,
+      "members": [
+        17
+      ],
+      "medoid": 17,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "17": 20
+      },
+      "member_metrics": {
+        "17": {
+          "cross_light_ncc": 0.913389139894573,
+          "robust_gradient_energy": 0.46321147110592353,
+          "quality_percentile_score": 0.7265625
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 23,
+      "size": 1,
+      "members": [
+        49
+      ],
+      "medoid": 49,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "49": 20
+      },
+      "member_metrics": {
+        "49": {
+          "cross_light_ncc": 0.9277719548425372,
+          "robust_gradient_energy": 0.7045581233451836,
+          "quality_percentile_score": 0.8671875
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 24,
+      "size": 1,
+      "members": [
+        7
+      ],
+      "medoid": 7,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "7": 20
+      },
+      "member_metrics": {
+        "7": {
+          "cross_light_ncc": 0.9461842258058858,
+          "robust_gradient_energy": 0.23090070523857875,
+          "quality_percentile_score": 0.734375
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 25,
+      "size": 1,
+      "members": [
+        19
+      ],
+      "medoid": 19,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "19": 20
+      },
+      "member_metrics": {
+        "19": {
+          "cross_light_ncc": 0.9663639807864726,
+          "robust_gradient_energy": 0.19876338605743551,
+          "quality_percentile_score": 0.7734375
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 26,
+      "size": 1,
+      "members": [
+        29
+      ],
+      "medoid": 29,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "29": 20
+      },
+      "member_metrics": {
+        "29": {
+          "cross_light_ncc": 0.9555753744352319,
+          "robust_gradient_energy": 0.3119950838144834,
+          "quality_percentile_score": 0.84375
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 27,
+      "size": 1,
+      "members": [
+        48
+      ],
+      "medoid": 48,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "48": 20
+      },
+      "member_metrics": {
+        "48": {
+          "cross_light_ncc": 0.9317634958590394,
+          "robust_gradient_energy": 0.3673956198615438,
+          "quality_percentile_score": 0.828125
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 28,
+      "size": 1,
+      "members": [
+        54
+      ],
+      "medoid": 54,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "54": 20
+      },
+      "member_metrics": {
+        "54": {
+          "cross_light_ncc": 0.9143309283043822,
+          "robust_gradient_energy": 0.33975231388598837,
+          "quality_percentile_score": 0.671875
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 29,
+      "size": 1,
+      "members": [
+        26
+      ],
+      "medoid": 26,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "26": 20
+      },
+      "member_metrics": {
+        "26": {
+          "cross_light_ncc": 0.9525823858472948,
+          "robust_gradient_energy": 0.16225698426354926,
+          "quality_percentile_score": 0.703125
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 30,
+      "size": 1,
+      "members": [
+        57
+      ],
+      "medoid": 57,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "57": 20
+      },
+      "member_metrics": {
+        "57": {
+          "cross_light_ncc": 0.9575221890260639,
+          "robust_gradient_energy": 0.18303352467716433,
+          "quality_percentile_score": 0.75
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 31,
+      "size": 1,
+      "members": [
+        42
+      ],
+      "medoid": 42,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "42": 20
+      },
+      "member_metrics": {
+        "42": {
+          "cross_light_ncc": 0.927848660838173,
+          "robust_gradient_energy": 0.13983289425210185,
+          "quality_percentile_score": 0.609375
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 32,
+      "size": 1,
+      "members": [
+        41
+      ],
+      "medoid": 41,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "41": 20
+      },
+      "member_metrics": {
+        "41": {
+          "cross_light_ncc": 0.8950769426843147,
+          "robust_gradient_energy": 0.0469127785253244,
+          "quality_percentile_score": 0.265625
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 33,
+      "size": 1,
+      "members": [
+        44
+      ],
+      "medoid": 44,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "44": 20
+      },
+      "member_metrics": {
+        "44": {
+          "cross_light_ncc": 0.9178541703607239,
+          "robust_gradient_energy": 0.08811352357576421,
+          "quality_percentile_score": 0.453125
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 34,
+      "size": 1,
+      "members": [
+        10
+      ],
+      "medoid": 10,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "10": 20
+      },
+      "member_metrics": {
+        "10": {
+          "cross_light_ncc": 0.9222882293287452,
+          "robust_gradient_energy": 0.10460351698165883,
+          "quality_percentile_score": 0.5234375
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 35,
+      "size": 1,
+      "members": [
+        13
+      ],
+      "medoid": 13,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "13": 20
+      },
+      "member_metrics": {
+        "13": {
+          "cross_light_ncc": 0.9207987453397456,
+          "robust_gradient_energy": 0.058204589458499115,
+          "quality_percentile_score": 0.421875
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 36,
+      "size": 1,
+      "members": [
+        21
+      ],
+      "medoid": 21,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "21": 20
+      },
+      "member_metrics": {
+        "21": {
+          "cross_light_ncc": 0.9194721465982207,
+          "robust_gradient_energy": 0.10735417951534292,
+          "quality_percentile_score": 0.5
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 37,
+      "size": 1,
+      "members": [
+        55
+      ],
+      "medoid": 55,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "55": 20
+      },
+      "member_metrics": {
+        "55": {
+          "cross_light_ncc": 0.884506604188307,
+          "robust_gradient_energy": 0.04295028243472508,
+          "quality_percentile_score": 0.21875
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 38,
+      "size": 1,
+      "members": [
+        5
+      ],
+      "medoid": 5,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "5": 20
+      },
+      "member_metrics": {
+        "5": {
+          "cross_light_ncc": 0.8796631883372383,
+          "robust_gradient_energy": 0.21156747465584852,
+          "quality_percentile_score": 0.4609375
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 39,
+      "size": 1,
+      "members": [
+        34
+      ],
+      "medoid": 34,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "34": 20
+      },
+      "member_metrics": {
+        "34": {
+          "cross_light_ncc": 0.8789907586834018,
+          "robust_gradient_energy": 0.06586180470271172,
+          "quality_percentile_score": 0.25
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 40,
+      "size": 1,
+      "members": [
+        18
+      ],
+      "medoid": 18,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "18": 20
+      },
+      "member_metrics": {
+        "18": {
+          "cross_light_ncc": 0.6636081448004298,
+          "robust_gradient_energy": 0.10185824933627978,
+          "quality_percentile_score": 0.1796875
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 41,
+      "size": 1,
+      "members": [
+        35
+      ],
+      "medoid": 35,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "35": 20
+      },
+      "member_metrics": {
+        "35": {
+          "cross_light_ncc": 0.8290809517492757,
+          "robust_gradient_energy": 0.03388324057098373,
+          "quality_percentile_score": 0.0703125
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 42,
+      "size": 1,
+      "members": [
+        61
+      ],
+      "medoid": 61,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "61": 20
+      },
+      "member_metrics": {
+        "61": {
+          "cross_light_ncc": 0.9765579236181543,
+          "robust_gradient_energy": 0.04566744252400261,
+          "quality_percentile_score": 0.5546875
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 43,
+      "size": 1,
+      "members": [
+        0
+      ],
+      "medoid": 0,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "0": 20
+      },
+      "member_metrics": {
+        "0": {
+          "cross_light_ncc": 0.8822334800469469,
+          "robust_gradient_energy": 0.043320789109522084,
+          "quality_percentile_score": 0.21875
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 44,
+      "size": 1,
+      "members": [
+        24
+      ],
+      "medoid": 24,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "24": 20
+      },
+      "member_metrics": {
+        "24": {
+          "cross_light_ncc": 0.8334344051385977,
+          "robust_gradient_energy": 0.021970942291260627,
+          "quality_percentile_score": 0.078125
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 45,
+      "size": 1,
+      "members": [
+        23
+      ],
+      "medoid": 23,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "23": 20
+      },
+      "member_metrics": {
+        "23": {
+          "cross_light_ncc": 0.842457767959259,
+          "robust_gradient_energy": 0.12900118698713336,
+          "quality_percentile_score": 0.296875
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 46,
+      "size": 1,
+      "members": [
+        4
+      ],
+      "medoid": 4,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "4": 20
+      },
+      "member_metrics": {
+        "4": {
+          "cross_light_ncc": 0.8749149403340157,
+          "robust_gradient_energy": 0.049370147555557534,
+          "quality_percentile_score": 0.2109375
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 47,
+      "size": 1,
+      "members": [
+        15
+      ],
+      "medoid": 15,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "15": 20
+      },
+      "member_metrics": {
+        "15": {
+          "cross_light_ncc": 0.8623934417649988,
+          "robust_gradient_energy": 0.1814548198164732,
+          "quality_percentile_score": 0.3671875
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 48,
+      "size": 1,
+      "members": [
+        38
+      ],
+      "medoid": 38,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "38": 20
+      },
+      "member_metrics": {
+        "38": {
+          "cross_light_ncc": 0.9144432937336042,
+          "robust_gradient_energy": 0.4954231744698353,
+          "quality_percentile_score": 0.7578125
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 49,
+      "size": 1,
+      "members": [
+        2
+      ],
+      "medoid": 2,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "2": 20
+      },
+      "member_metrics": {
+        "2": {
+          "cross_light_ncc": 0.9023068939784478,
+          "robust_gradient_energy": 0.067711119306064,
+          "quality_percentile_score": 0.328125
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 50,
+      "size": 1,
+      "members": [
+        40
+      ],
+      "medoid": 40,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "40": 20
+      },
+      "member_metrics": {
+        "40": {
+          "cross_light_ncc": 0.8696253214438789,
+          "robust_gradient_energy": 0.32357810799167064,
+          "quality_percentile_score": 0.4921875
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 51,
+      "size": 1,
+      "members": [
+        8
+      ],
+      "medoid": 8,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "8": 20
+      },
+      "member_metrics": {
+        "8": {
+          "cross_light_ncc": 0.9215407289506305,
+          "robust_gradient_energy": 0.3067920139921683,
+          "quality_percentile_score": 0.703125
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 52,
+      "size": 1,
+      "members": [
+        46
+      ],
+      "medoid": 46,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "46": 20
+      },
+      "member_metrics": {
+        "46": {
+          "cross_light_ncc": 0.9288729670944949,
+          "robust_gradient_energy": 0.39625956254163985,
+          "quality_percentile_score": 0.828125
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 53,
+      "size": 1,
+      "members": [
+        11
+      ],
+      "medoid": 11,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "11": 20
+      },
+      "member_metrics": {
+        "11": {
+          "cross_light_ncc": 0.9040001169339871,
+          "robust_gradient_energy": 0.6801556842307663,
+          "quality_percentile_score": 0.7109375
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 54,
+      "size": 1,
+      "members": [
+        30
+      ],
+      "medoid": 30,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "30": 20
+      },
+      "member_metrics": {
+        "30": {
+          "cross_light_ncc": 0.9197228487783098,
+          "robust_gradient_energy": 0.286950270712297,
+          "quality_percentile_score": 0.6640625
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 55,
+      "size": 1,
+      "members": [
+        62
+      ],
+      "medoid": 62,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "62": 20
+      },
+      "member_metrics": {
+        "62": {
+          "cross_light_ncc": 0.9050177532493031,
+          "robust_gradient_energy": 0.15043478287634326,
+          "quality_percentile_score": 0.4609375
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 56,
+      "size": 1,
+      "members": [
+        59
+      ],
+      "medoid": 59,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "59": 20
+      },
+      "member_metrics": {
+        "59": {
+          "cross_light_ncc": 0.9122134481521318,
+          "robust_gradient_energy": 0.1904386646738911,
+          "quality_percentile_score": 0.5390625
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 57,
+      "size": 1,
+      "members": [
+        50
+      ],
+      "medoid": 50,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "50": 20
+      },
+      "member_metrics": {
+        "50": {
+          "cross_light_ncc": 0.9134922043705009,
+          "robust_gradient_energy": 0.5231633086383839,
+          "quality_percentile_score": 0.75
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 58,
+      "size": 1,
+      "members": [
+        22
+      ],
+      "medoid": 22,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "22": 20
+      },
+      "member_metrics": {
+        "22": {
+          "cross_light_ncc": 0.9259241986967559,
+          "robust_gradient_energy": 0.3446635831793291,
+          "quality_percentile_score": 0.7578125
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 59,
+      "size": 1,
+      "members": [
+        14
+      ],
+      "medoid": 14,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "14": 20
+      },
+      "member_metrics": {
+        "14": {
+          "cross_light_ncc": 0.9523941422402151,
+          "robust_gradient_energy": 0.16793723317077786,
+          "quality_percentile_score": 0.703125
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 60,
+      "size": 1,
+      "members": [
+        20
+      ],
+      "medoid": 20,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "20": 20
+      },
+      "member_metrics": {
+        "20": {
+          "cross_light_ncc": 0.9552102768415731,
+          "robust_gradient_energy": 0.39973852386033887,
+          "quality_percentile_score": 0.90625
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 61,
+      "size": 1,
+      "members": [
+        3
+      ],
+      "medoid": 3,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "3": 20
+      },
+      "member_metrics": {
+        "3": {
+          "cross_light_ncc": 0.9477134715603086,
+          "robust_gradient_energy": 0.36406370875594596,
+          "quality_percentile_score": 0.84375
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 62,
+      "size": 1,
+      "members": [
+        25
+      ],
+      "medoid": 25,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "25": 20
+      },
+      "member_metrics": {
+        "25": {
+          "cross_light_ncc": 0.9460059205889377,
+          "robust_gradient_energy": 0.06693506489138283,
+          "quality_percentile_score": 0.515625
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 63,
+      "size": 1,
+      "members": [
+        56
+      ],
+      "medoid": 56,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "56": 20
+      },
+      "member_metrics": {
+        "56": {
+          "cross_light_ncc": 0.951556105697642,
+          "robust_gradient_energy": 0.2883066612171219,
+          "quality_percentile_score": 0.7890625
+        }
+      }
+    },
+    {
+      "layer": "layer1",
+      "cluster_id": 64,
+      "size": 1,
+      "members": [
+        58
+      ],
+      "medoid": 58,
+      "second_representative": null,
+      "second_representative_trigger": [],
+      "cross_light_ncc_spread": 0.0,
+      "robust_gradient_ratio": 1.0,
+      "bootstrap_cluster_stability": 1.0,
+      "bootstrap_cluster_minimum_pair_stability": 1.0,
+      "bootstrap_medoid_frequency": {
+        "58": 20
+      },
+      "member_metrics": {
+        "58": {
+          "cross_light_ncc": 0.924986487519737,
+          "robust_gradient_energy": 0.359901553487825,
+          "quality_percentile_score": 0.7578125
+        }
+      }
+    }
+  ],
+  "representative_channels": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63
+  ]
+}

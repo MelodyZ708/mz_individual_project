@@ -37,3 +37,8 @@ __pycache__/
 .DS_Store
 Thumbs.db
 como/venv/
+
+# 实验生成的数据库文件
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm

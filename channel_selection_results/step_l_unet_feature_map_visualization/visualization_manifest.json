@@ -1,0 +1,701 @@
+{
+  "lightswitch_dataset": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch",
+  "clean_dataset": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk",
+  "checkpoint": "/home/melody/code/individual_project/como/models/scannet.ckpt",
+  "extraction": {
+    "same_as_tracking": "normalize -> unet.base (Enc0) -> unet.down_convs[0] (Enc1)",
+    "feature_resolution": {
+      "enc0": "native full RGB resolution",
+      "enc1": "native H/2 x W/2"
+    },
+    "tracking_activation": "ResidualConv output after LeakyReLU; no additional standard-ReLU clipping",
+    "temporal_display": "per-channel shared signed 1st--99th percentile scale across lightswitch frames; coolwarm; interpolation=none",
+    "clean_lightswitch_display": "per-channel clean/lightswitch shared p01-p99 linear scale (viridis); absolute difference p99 scale (magma); interpolation=none"
+  },
+  "frames": [
+    {
+      "matched_rgb_index": 246,
+      "timestamp": "1305031462.327540",
+      "phase": "before",
+      "clean_rgb_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031462.327540.png",
+      "lightswitch_rgb_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031462.327540.png",
+      "rgb_shape_hwc": [
+        480,
+        640,
+        3
+      ]
+    },
+    {
+      "matched_rgb_index": 250,
+      "timestamp": "1305031462.459897",
+      "phase": "peak",
+      "clean_rgb_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031462.459897.png",
+      "lightswitch_rgb_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031462.459897.png",
+      "rgb_shape_hwc": [
+        480,
+        640,
+        3
+      ]
+    },
+    {
+      "matched_rgb_index": 254,
+      "timestamp": "1305031462.591862",
+      "phase": "after",
+      "clean_rgb_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk/rgb/1305031462.591862.png",
+      "lightswitch_rgb_path": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch/rgb/1305031462.591862.png",
+      "rgb_shape_hwc": [
+        480,
+        640,
+        3
+      ]
+    }
+  ],
+  "groups": {
+    "enc0_ch_03": {
+      "level": "enc0",
+      "channels": [
+        3
+      ],
+      "native_shape": [
+        480,
+        640
+      ],
+      "montage_png": "enc0/enc0_ch_03/feature_map_montage_frames246_250_254.png",
+      "per_channel_pngs": [
+        "enc0/enc0_ch_03/per_channel/enc0_d03_frames246_250_254.png"
+      ],
+      "native_feature_maps_npz": "enc0/enc0_ch_03/native_feature_maps_frames246_250_254.npz",
+      "display_ranges": {
+        "d3": [
+          -1.311416258811951,
+          1.311416258811951
+        ]
+      }
+    },
+    "enc0_ch_02_14": {
+      "level": "enc0",
+      "channels": [
+        2,
+        14
+      ],
+      "native_shape": [
+        480,
+        640
+      ],
+      "montage_png": "enc0/enc0_ch_02_14/feature_map_montage_frames246_250_254.png",
+      "per_channel_pngs": [
+        "enc0/enc0_ch_02_14/per_channel/enc0_d02_frames246_250_254.png",
+        "enc0/enc0_ch_02_14/per_channel/enc0_d14_frames246_250_254.png"
+      ],
+      "native_feature_maps_npz": "enc0/enc0_ch_02_14/native_feature_maps_frames246_250_254.npz",
+      "display_ranges": {
+        "d2": [
+          -0.6062051278352738,
+          0.6062051278352738
+        ],
+        "d14": [
+          -1.0310347914695743,
+          1.0310347914695743
+        ]
+      }
+    },
+    "enc0_ch_03_07_12": {
+      "level": "enc0",
+      "channels": [
+        3,
+        7,
+        12
+      ],
+      "native_shape": [
+        480,
+        640
+      ],
+      "montage_png": "enc0/enc0_ch_03_07_12/feature_map_montage_frames246_250_254.png",
+      "per_channel_pngs": [
+        "enc0/enc0_ch_03_07_12/per_channel/enc0_d03_frames246_250_254.png",
+        "enc0/enc0_ch_03_07_12/per_channel/enc0_d07_frames246_250_254.png",
+        "enc0/enc0_ch_03_07_12/per_channel/enc0_d12_frames246_250_254.png"
+      ],
+      "native_feature_maps_npz": "enc0/enc0_ch_03_07_12/native_feature_maps_frames246_250_254.npz",
+      "display_ranges": {
+        "d3": [
+          -1.311416258811951,
+          1.311416258811951
+        ],
+        "d7": [
+          -1.5094025921821594,
+          1.5094025921821594
+        ],
+        "d12": [
+          -0.6596721422672273,
+          0.6596721422672273
+        ]
+      }
+    },
+    "enc0_ch_02_03_07_12_13_14": {
+      "level": "enc0",
+      "channels": [
+        2,
+        3,
+        7,
+        12,
+        13,
+        14
+      ],
+      "native_shape": [
+        480,
+        640
+      ],
+      "montage_png": "enc0/enc0_ch_02_03_07_12_13_14/feature_map_montage_frames246_250_254.png",
+      "per_channel_pngs": [
+        "enc0/enc0_ch_02_03_07_12_13_14/per_channel/enc0_d02_frames246_250_254.png",
+        "enc0/enc0_ch_02_03_07_12_13_14/per_channel/enc0_d03_frames246_250_254.png",
+        "enc0/enc0_ch_02_03_07_12_13_14/per_channel/enc0_d07_frames246_250_254.png",
+        "enc0/enc0_ch_02_03_07_12_13_14/per_channel/enc0_d12_frames246_250_254.png",
+        "enc0/enc0_ch_02_03_07_12_13_14/per_channel/enc0_d13_frames246_250_254.png",
+        "enc0/enc0_ch_02_03_07_12_13_14/per_channel/enc0_d14_frames246_250_254.png"
+      ],
+      "native_feature_maps_npz": "enc0/enc0_ch_02_03_07_12_13_14/native_feature_maps_frames246_250_254.npz",
+      "display_ranges": {
+        "d2": [
+          -0.6062051278352738,
+          0.6062051278352738
+        ],
+        "d3": [
+          -1.311416258811951,
+          1.311416258811951
+        ],
+        "d7": [
+          -1.5094025921821594,
+          1.5094025921821594
+        ],
+        "d12": [
+          -0.6596721422672273,
+          0.6596721422672273
+        ],
+        "d13": [
+          -1.3446760404109959,
+          1.3446760404109959
+        ],
+        "d14": [
+          -1.0310347914695743,
+          1.0310347914695743
+        ]
+      }
+    },
+    "enc1_ch_00_05": {
+      "level": "enc1",
+      "channels": [
+        0,
+        5
+      ],
+      "native_shape": [
+        240,
+        320
+      ],
+      "montage_png": "enc1/enc1_ch_00_05/feature_map_montage_frames246_250_254.png",
+      "per_channel_pngs": [
+        "enc1/enc1_ch_00_05/per_channel/enc1_d00_frames246_250_254.png",
+        "enc1/enc1_ch_00_05/per_channel/enc1_d05_frames246_250_254.png"
+      ],
+      "native_feature_maps_npz": "enc1/enc1_ch_00_05/native_feature_maps_frames246_250_254.npz",
+      "display_ranges": {
+        "d0": [
+          -1.1812208497524312,
+          1.1812208497524312
+        ],
+        "d5": [
+          -0.539008939266205,
+          0.539008939266205
+        ]
+      }
+    },
+    "enc1_ch_05_06_17_18_28_30": {
+      "level": "enc1",
+      "channels": [
+        5,
+        6,
+        17,
+        18,
+        28,
+        30
+      ],
+      "native_shape": [
+        240,
+        320
+      ],
+      "montage_png": "enc1/enc1_ch_05_06_17_18_28_30/feature_map_montage_frames246_250_254.png",
+      "per_channel_pngs": [
+        "enc1/enc1_ch_05_06_17_18_28_30/per_channel/enc1_d05_frames246_250_254.png",
+        "enc1/enc1_ch_05_06_17_18_28_30/per_channel/enc1_d06_frames246_250_254.png",
+        "enc1/enc1_ch_05_06_17_18_28_30/per_channel/enc1_d17_frames246_250_254.png",
+        "enc1/enc1_ch_05_06_17_18_28_30/per_channel/enc1_d18_frames246_250_254.png",
+        "enc1/enc1_ch_05_06_17_18_28_30/per_channel/enc1_d28_frames246_250_254.png",
+        "enc1/enc1_ch_05_06_17_18_28_30/per_channel/enc1_d30_frames246_250_254.png"
+      ],
+      "native_feature_maps_npz": "enc1/enc1_ch_05_06_17_18_28_30/native_feature_maps_frames246_250_254.npz",
+      "display_ranges": {
+        "d5": [
+          -0.539008939266205,
+          0.539008939266205
+        ],
+        "d6": [
+          -0.89585011780262,
+          0.89585011780262
+        ],
+        "d17": [
+          -1.0180745375156404,
+          1.0180745375156404
+        ],
+        "d18": [
+          -0.2213926219940191,
+          0.2213926219940191
+        ],
+        "d28": [
+          -0.0375309780985117,
+          0.0375309780985117
+        ],
+        "d30": [
+          -1.2035307133197786,
+          1.2035307133197786
+        ]
+      }
+    }
+  },
+  "clean_lightswitch_details": {
+    "enc0_ch_03": {
+      "level": "enc0",
+      "channels": [
+        3
+      ],
+      "detail_pngs": [
+        "clean_lightswitch_post_activation/enc0/enc0_ch_03/frame_246_before.png",
+        "clean_lightswitch_post_activation/enc0/enc0_ch_03/frame_250_peak.png",
+        "clean_lightswitch_post_activation/enc0/enc0_ch_03/frame_254_after.png"
+      ],
+      "native_feature_maps_npz": "clean_lightswitch_post_activation/enc0/enc0_ch_03/native_clean_lightswitch_feature_maps_frames246_250_254.npz",
+      "display_ranges": {
+        "frame_246": {
+          "d3": {
+            "clean_lightswitch_low": -0.005543161542154848,
+            "clean_lightswitch_high": 1.2956213235855105,
+            "absolute_difference_high": 0.38470073908567454
+          }
+        },
+        "frame_250": {
+          "d3": {
+            "clean_lightswitch_low": -0.0035109321447089315,
+            "clean_lightswitch_high": 1.3437879252433778,
+            "absolute_difference_high": 0.5113466441631317
+          }
+        },
+        "frame_254": {
+          "d3": {
+            "clean_lightswitch_low": -0.00197279641404748,
+            "clean_lightswitch_high": 1.4211936557292943,
+            "absolute_difference_high": 0.7175264471769333
+          }
+        }
+      }
+    },
+    "enc0_ch_02_14": {
+      "level": "enc0",
+      "channels": [
+        2,
+        14
+      ],
+      "detail_pngs": [
+        "clean_lightswitch_post_activation/enc0/enc0_ch_02_14/frame_246_before.png",
+        "clean_lightswitch_post_activation/enc0/enc0_ch_02_14/frame_250_peak.png",
+        "clean_lightswitch_post_activation/enc0/enc0_ch_02_14/frame_254_after.png"
+      ],
+      "native_feature_maps_npz": "clean_lightswitch_post_activation/enc0/enc0_ch_02_14/native_clean_lightswitch_feature_maps_frames246_250_254.npz",
+      "display_ranges": {
+        "frame_246": {
+          "d2": {
+            "clean_lightswitch_low": -0.008646706501021981,
+            "clean_lightswitch_high": 0.6525553750991826,
+            "absolute_difference_high": 0.30493410646915436
+          },
+          "d14": {
+            "clean_lightswitch_low": -0.0013395506923552603,
+            "clean_lightswitch_high": 1.1592043673992158,
+            "absolute_difference_high": 0.5738894671201707
+          }
+        },
+        "frame_250": {
+          "d2": {
+            "clean_lightswitch_low": -0.007972455816343427,
+            "clean_lightswitch_high": 0.5950306725502019,
+            "absolute_difference_high": 0.4276188868284227
+          },
+          "d14": {
+            "clean_lightswitch_low": -0.00309654880547896,
+            "clean_lightswitch_high": 1.047446976900101,
+            "absolute_difference_high": 1.1121182513237005
+          }
+        },
+        "frame_254": {
+          "d2": {
+            "clean_lightswitch_low": -0.010011384366080164,
+            "clean_lightswitch_high": 0.60455150783062,
+            "absolute_difference_high": 0.4946997579932219
+          },
+          "d14": {
+            "clean_lightswitch_low": -0.0020275879558175804,
+            "clean_lightswitch_high": 1.1343647229671494,
+            "absolute_difference_high": 1.1806648433208469
+          }
+        }
+      }
+    },
+    "enc0_ch_03_07_12": {
+      "level": "enc0",
+      "channels": [
+        3,
+        7,
+        12
+      ],
+      "detail_pngs": [
+        "clean_lightswitch_post_activation/enc0/enc0_ch_03_07_12/frame_246_before.png",
+        "clean_lightswitch_post_activation/enc0/enc0_ch_03_07_12/frame_250_peak.png",
+        "clean_lightswitch_post_activation/enc0/enc0_ch_03_07_12/frame_254_after.png"
+      ],
+      "native_feature_maps_npz": "clean_lightswitch_post_activation/enc0/enc0_ch_03_07_12/native_clean_lightswitch_feature_maps_frames246_250_254.npz",
+      "display_ranges": {
+        "frame_246": {
+          "d3": {
+            "clean_lightswitch_low": -0.005543161542154848,
+            "clean_lightswitch_high": 1.2956213235855105,
+            "absolute_difference_high": 0.38470073908567454
+          },
+          "d7": {
+            "clean_lightswitch_low": -0.007125345501117408,
+            "clean_lightswitch_high": 1.024641423225403,
+            "absolute_difference_high": 0.38107038736343385
+          },
+          "d12": {
+            "clean_lightswitch_low": -0.017451442014425993,
+            "clean_lightswitch_high": 0.8806040036678329,
+            "absolute_difference_high": 0.41472587943077166
+          }
+        },
+        "frame_250": {
+          "d3": {
+            "clean_lightswitch_low": -0.0035109321447089315,
+            "clean_lightswitch_high": 1.3437879252433778,
+            "absolute_difference_high": 0.5113466441631317
+          },
+          "d7": {
+            "clean_lightswitch_low": -0.004883772521279753,
+            "clean_lightswitch_high": 1.442268706560135,
+            "absolute_difference_high": 0.7723783510923403
+          },
+          "d12": {
+            "clean_lightswitch_low": -0.013517181687057019,
+            "clean_lightswitch_high": 0.7053223860263824,
+            "absolute_difference_high": 0.7338279950618751
+          }
+        },
+        "frame_254": {
+          "d3": {
+            "clean_lightswitch_low": -0.00197279641404748,
+            "clean_lightswitch_high": 1.4211936557292943,
+            "absolute_difference_high": 0.7175264471769333
+          },
+          "d7": {
+            "clean_lightswitch_low": -0.007293651071377099,
+            "clean_lightswitch_high": 1.4312791025638585,
+            "absolute_difference_high": 0.8110063463449481
+          },
+          "d12": {
+            "clean_lightswitch_low": -0.018922766447067262,
+            "clean_lightswitch_high": 0.8120074224472057,
+            "absolute_difference_high": 0.7904701179265979
+          }
+        }
+      }
+    },
+    "enc0_ch_02_03_07_12_13_14": {
+      "level": "enc0",
+      "channels": [
+        2,
+        3,
+        7,
+        12,
+        13,
+        14
+      ],
+      "detail_pngs": [
+        "clean_lightswitch_post_activation/enc0/enc0_ch_02_03_07_12_13_14/frame_246_before.png",
+        "clean_lightswitch_post_activation/enc0/enc0_ch_02_03_07_12_13_14/frame_250_peak.png",
+        "clean_lightswitch_post_activation/enc0/enc0_ch_02_03_07_12_13_14/frame_254_after.png"
+      ],
+      "native_feature_maps_npz": "clean_lightswitch_post_activation/enc0/enc0_ch_02_03_07_12_13_14/native_clean_lightswitch_feature_maps_frames246_250_254.npz",
+      "display_ranges": {
+        "frame_246": {
+          "d2": {
+            "clean_lightswitch_low": -0.008646706501021981,
+            "clean_lightswitch_high": 0.6525553750991826,
+            "absolute_difference_high": 0.30493410646915436
+          },
+          "d3": {
+            "clean_lightswitch_low": -0.005543161542154848,
+            "clean_lightswitch_high": 1.2956213235855105,
+            "absolute_difference_high": 0.38470073908567454
+          },
+          "d7": {
+            "clean_lightswitch_low": -0.007125345501117408,
+            "clean_lightswitch_high": 1.024641423225403,
+            "absolute_difference_high": 0.38107038736343385
+          },
+          "d12": {
+            "clean_lightswitch_low": -0.017451442014425993,
+            "clean_lightswitch_high": 0.8806040036678329,
+            "absolute_difference_high": 0.41472587943077166
+          },
+          "d13": {
+            "clean_lightswitch_low": -0.007464188858866691,
+            "clean_lightswitch_high": 1.2086656761169434,
+            "absolute_difference_high": 0.500439898967743
+          },
+          "d14": {
+            "clean_lightswitch_low": -0.0013395506923552603,
+            "clean_lightswitch_high": 1.1592043673992158,
+            "absolute_difference_high": 0.5738894671201707
+          }
+        },
+        "frame_250": {
+          "d2": {
+            "clean_lightswitch_low": -0.007972455816343427,
+            "clean_lightswitch_high": 0.5950306725502019,
+            "absolute_difference_high": 0.4276188868284227
+          },
+          "d3": {
+            "clean_lightswitch_low": -0.0035109321447089315,
+            "clean_lightswitch_high": 1.3437879252433778,
+            "absolute_difference_high": 0.5113466441631317
+          },
+          "d7": {
+            "clean_lightswitch_low": -0.004883772521279753,
+            "clean_lightswitch_high": 1.442268706560135,
+            "absolute_difference_high": 0.7723783510923403
+          },
+          "d12": {
+            "clean_lightswitch_low": -0.013517181687057019,
+            "clean_lightswitch_high": 0.7053223860263824,
+            "absolute_difference_high": 0.7338279950618751
+          },
+          "d13": {
+            "clean_lightswitch_low": -0.0062507227528840305,
+            "clean_lightswitch_high": 1.274261823892594,
+            "absolute_difference_high": 0.9809957665205005
+          },
+          "d14": {
+            "clean_lightswitch_low": -0.00309654880547896,
+            "clean_lightswitch_high": 1.047446976900101,
+            "absolute_difference_high": 1.1121182513237005
+          }
+        },
+        "frame_254": {
+          "d2": {
+            "clean_lightswitch_low": -0.010011384366080164,
+            "clean_lightswitch_high": 0.60455150783062,
+            "absolute_difference_high": 0.4946997579932219
+          },
+          "d3": {
+            "clean_lightswitch_low": -0.00197279641404748,
+            "clean_lightswitch_high": 1.4211936557292943,
+            "absolute_difference_high": 0.7175264471769333
+          },
+          "d7": {
+            "clean_lightswitch_low": -0.007293651071377099,
+            "clean_lightswitch_high": 1.4312791025638585,
+            "absolute_difference_high": 0.8110063463449481
+          },
+          "d12": {
+            "clean_lightswitch_low": -0.018922766447067262,
+            "clean_lightswitch_high": 0.8120074224472057,
+            "absolute_difference_high": 0.7904701179265979
+          },
+          "d13": {
+            "clean_lightswitch_low": -0.007834904361516237,
+            "clean_lightswitch_high": 1.1742992591857915,
+            "absolute_difference_high": 0.8849054980278022
+          },
+          "d14": {
+            "clean_lightswitch_low": -0.0020275879558175804,
+            "clean_lightswitch_high": 1.1343647229671494,
+            "absolute_difference_high": 1.1806648433208469
+          }
+        }
+      }
+    },
+    "enc1_ch_00_05": {
+      "level": "enc1",
+      "channels": [
+        0,
+        5
+      ],
+      "detail_pngs": [
+        "clean_lightswitch_post_activation/enc1/enc1_ch_00_05/frame_246_before.png",
+        "clean_lightswitch_post_activation/enc1/enc1_ch_00_05/frame_250_peak.png",
+        "clean_lightswitch_post_activation/enc1/enc1_ch_00_05/frame_254_after.png"
+      ],
+      "native_feature_maps_npz": "clean_lightswitch_post_activation/enc1/enc1_ch_00_05/native_clean_lightswitch_feature_maps_frames246_250_254.npz",
+      "display_ranges": {
+        "frame_246": {
+          "d0": {
+            "clean_lightswitch_low": -0.017252050191164017,
+            "clean_lightswitch_high": 1.073919892311097,
+            "absolute_difference_high": 0.5489909720420834
+          },
+          "d5": {
+            "clean_lightswitch_low": -0.014258897472172976,
+            "clean_lightswitch_high": 0.7308737671375277,
+            "absolute_difference_high": 0.4574452418088912
+          }
+        },
+        "frame_250": {
+          "d0": {
+            "clean_lightswitch_low": -0.014047626946121454,
+            "clean_lightswitch_high": 0.9525173652172111,
+            "absolute_difference_high": 0.9237832558155046
+          },
+          "d5": {
+            "clean_lightswitch_low": -0.009906810214743019,
+            "clean_lightswitch_high": 0.7943974781036385,
+            "absolute_difference_high": 0.6415800881385799
+          }
+        },
+        "frame_254": {
+          "d0": {
+            "clean_lightswitch_low": -0.021172833926975727,
+            "clean_lightswitch_high": 1.1783374965190965,
+            "absolute_difference_high": 0.9264830344915368
+          },
+          "d5": {
+            "clean_lightswitch_low": -0.014792704274877905,
+            "clean_lightswitch_high": 0.7636415547132499,
+            "absolute_difference_high": 0.6209773373603812
+          }
+        }
+      }
+    },
+    "enc1_ch_05_06_17_18_28_30": {
+      "level": "enc1",
+      "channels": [
+        5,
+        6,
+        17,
+        18,
+        28,
+        30
+      ],
+      "detail_pngs": [
+        "clean_lightswitch_post_activation/enc1/enc1_ch_05_06_17_18_28_30/frame_246_before.png",
+        "clean_lightswitch_post_activation/enc1/enc1_ch_05_06_17_18_28_30/frame_250_peak.png",
+        "clean_lightswitch_post_activation/enc1/enc1_ch_05_06_17_18_28_30/frame_254_after.png"
+      ],
+      "native_feature_maps_npz": "clean_lightswitch_post_activation/enc1/enc1_ch_05_06_17_18_28_30/native_clean_lightswitch_feature_maps_frames246_250_254.npz",
+      "display_ranges": {
+        "frame_246": {
+          "d5": {
+            "clean_lightswitch_low": -0.014258897472172976,
+            "clean_lightswitch_high": 0.7308737671375277,
+            "absolute_difference_high": 0.4574452418088912
+          },
+          "d6": {
+            "clean_lightswitch_low": -0.025481663532555102,
+            "clean_lightswitch_high": 0.9850927782058736,
+            "absolute_difference_high": 0.3678423839807505
+          },
+          "d17": {
+            "clean_lightswitch_low": -0.022928855698555708,
+            "clean_lightswitch_high": 0.9994198060035764,
+            "absolute_difference_high": 0.4862899446487425
+          },
+          "d18": {
+            "clean_lightswitch_low": -0.03125909879803657,
+            "clean_lightswitch_high": 0.443811059594155,
+            "absolute_difference_high": 0.44129772692918706
+          },
+          "d28": {
+            "clean_lightswitch_low": -0.03758312992751598,
+            "clean_lightswitch_high": -0.0002625621398328771,
+            "absolute_difference_high": 0.05904607277363344
+          },
+          "d30": {
+            "clean_lightswitch_low": -0.007286673742346466,
+            "clean_lightswitch_high": 0.9597122627496769,
+            "absolute_difference_high": 0.669271695613859
+          }
+        },
+        "frame_250": {
+          "d5": {
+            "clean_lightswitch_low": -0.009906810214743019,
+            "clean_lightswitch_high": 0.7943974781036385,
+            "absolute_difference_high": 0.6415800881385799
+          },
+          "d6": {
+            "clean_lightswitch_low": -0.02409012312069535,
+            "clean_lightswitch_high": 0.9396956169605282,
+            "absolute_difference_high": 0.7110577094554897
+          },
+          "d17": {
+            "clean_lightswitch_low": -0.02254133256152272,
+            "clean_lightswitch_high": 0.9374490231275574,
+            "absolute_difference_high": 0.8683902078866916
+          },
+          "d18": {
+            "clean_lightswitch_low": -0.02975776283070445,
+            "clean_lightswitch_high": 0.32265741646289914,
+            "absolute_difference_high": 0.41170870989561076
+          },
+          "d28": {
+            "clean_lightswitch_low": -0.037749938890337946,
+            "clean_lightswitch_high": 0.13102072030305903,
+            "absolute_difference_high": 0.2448138083517551
+          },
+          "d30": {
+            "clean_lightswitch_low": -0.009263669392094016,
+            "clean_lightswitch_high": 1.138145152330399,
+            "absolute_difference_high": 0.7517084503173824
+          }
+        },
+        "frame_254": {
+          "d5": {
+            "clean_lightswitch_low": -0.014792704274877905,
+            "clean_lightswitch_high": 0.7636415547132499,
+            "absolute_difference_high": 0.6209773373603812
+          },
+          "d6": {
+            "clean_lightswitch_low": -0.02613087238743901,
+            "clean_lightswitch_high": 0.8330096161365512,
+            "absolute_difference_high": 0.6957770216464993
+          },
+          "d17": {
+            "clean_lightswitch_low": -0.02646329566836357,
+            "clean_lightswitch_high": 1.015596803426744,
+            "absolute_difference_high": 0.8645314466953274
+          },
+          "d18": {
+            "clean_lightswitch_low": -0.034257373437285424,
+            "clean_lightswitch_high": 0.3374765378236785,
+            "absolute_difference_high": 0.40764821767806925
+          },
+          "d28": {
+            "clean_lightswitch_low": -0.04187481105327606,
+            "clean_lightswitch_high": 0.028955860137939715,
+            "absolute_difference_high": 0.14334688976407042
+          },
+          "d30": {
+            "clean_lightswitch_low": -0.008092176169157028,
+            "clean_lightswitch_high": 1.325683281421662,
+            "absolute_difference_high": 0.9928497093915915
+          }
+        }
+      }
+    }
+  }
+}

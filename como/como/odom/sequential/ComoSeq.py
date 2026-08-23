@@ -35,7 +35,7 @@ class ComoSeq(GuiWindow):
 
         if (
             self.mapping is not None
-            and slam_cfg["tracking"].get("color") == "unet"
+            and slam_cfg["tracking"].get("color") in ("unet", "unet_c2f")
         ):
             self.tracking.set_unet(self.mapping.model.gaussian_cov_net)
 

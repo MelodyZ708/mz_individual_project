@@ -1,0 +1,2055 @@
+{
+  "protocol": "unet_enc0_direct_full_sequence_greedy_v1",
+  "random_seed": 20260814,
+  "sampling": "Uniform without replacement within each cardinality. Excludes already evaluated combinations at that cardinality.",
+  "direct_greedy_counts_by_cardinality": {
+    "2": 120,
+    "3": 55,
+    "4": 51,
+    "5": 46,
+    "6": 43
+  },
+  "disjoint_random_capacity_by_cardinality": {
+    "2": 0,
+    "3": 504,
+    "4": 1769,
+    "5": 4321,
+    "6": 7965
+  },
+  "selected_random_counts_by_cardinality": {
+    "2": 0,
+    "3": 55,
+    "4": 51,
+    "5": 46,
+    "6": 43
+  },
+  "candidates": [
+    {
+      "label": "r_k03_0001_d00_d02_d04",
+      "channels": [
+        0,
+        2,
+        4
+      ],
+      "rank_within_cardinality": 1
+    },
+    {
+      "label": "r_k03_0002_d00_d02_d09",
+      "channels": [
+        0,
+        2,
+        9
+      ],
+      "rank_within_cardinality": 2
+    },
+    {
+      "label": "r_k03_0003_d00_d03_d09",
+      "channels": [
+        0,
+        3,
+        9
+      ],
+      "rank_within_cardinality": 3
+    },
+    {
+      "label": "r_k03_0004_d00_d04_d07",
+      "channels": [
+        0,
+        4,
+        7
+      ],
+      "rank_within_cardinality": 4
+    },
+    {
+      "label": "r_k03_0005_d00_d04_d11",
+      "channels": [
+        0,
+        4,
+        11
+      ],
+      "rank_within_cardinality": 5
+    },
+    {
+      "label": "r_k03_0006_d00_d07_d08",
+      "channels": [
+        0,
+        7,
+        8
+      ],
+      "rank_within_cardinality": 6
+    },
+    {
+      "label": "r_k03_0007_d00_d07_d13",
+      "channels": [
+        0,
+        7,
+        13
+      ],
+      "rank_within_cardinality": 7
+    },
+    {
+      "label": "r_k03_0008_d00_d09_d10",
+      "channels": [
+        0,
+        9,
+        10
+      ],
+      "rank_within_cardinality": 8
+    },
+    {
+      "label": "r_k03_0009_d00_d09_d14",
+      "channels": [
+        0,
+        9,
+        14
+      ],
+      "rank_within_cardinality": 9
+    },
+    {
+      "label": "r_k03_0010_d00_d12_d13",
+      "channels": [
+        0,
+        12,
+        13
+      ],
+      "rank_within_cardinality": 10
+    },
+    {
+      "label": "r_k03_0011_d01_d02_d05",
+      "channels": [
+        1,
+        2,
+        5
+      ],
+      "rank_within_cardinality": 11
+    },
+    {
+      "label": "r_k03_0012_d01_d02_d06",
+      "channels": [
+        1,
+        2,
+        6
+      ],
+      "rank_within_cardinality": 12
+    },
+    {
+      "label": "r_k03_0013_d01_d02_d11",
+      "channels": [
+        1,
+        2,
+        11
+      ],
+      "rank_within_cardinality": 13
+    },
+    {
+      "label": "r_k03_0014_d01_d04_d08",
+      "channels": [
+        1,
+        4,
+        8
+      ],
+      "rank_within_cardinality": 14
+    },
+    {
+      "label": "r_k03_0015_d01_d04_d12",
+      "channels": [
+        1,
+        4,
+        12
+      ],
+      "rank_within_cardinality": 15
+    },
+    {
+      "label": "r_k03_0016_d01_d07_d15",
+      "channels": [
+        1,
+        7,
+        15
+      ],
+      "rank_within_cardinality": 16
+    },
+    {
+      "label": "r_k03_0017_d01_d08_d11",
+      "channels": [
+        1,
+        8,
+        11
+      ],
+      "rank_within_cardinality": 17
+    },
+    {
+      "label": "r_k03_0018_d01_d09_d12",
+      "channels": [
+        1,
+        9,
+        12
+      ],
+      "rank_within_cardinality": 18
+    },
+    {
+      "label": "r_k03_0019_d01_d09_d13",
+      "channels": [
+        1,
+        9,
+        13
+      ],
+      "rank_within_cardinality": 19
+    },
+    {
+      "label": "r_k03_0020_d01_d13_d15",
+      "channels": [
+        1,
+        13,
+        15
+      ],
+      "rank_within_cardinality": 20
+    },
+    {
+      "label": "r_k03_0021_d02_d04_d06",
+      "channels": [
+        2,
+        4,
+        6
+      ],
+      "rank_within_cardinality": 21
+    },
+    {
+      "label": "r_k03_0022_d02_d04_d11",
+      "channels": [
+        2,
+        4,
+        11
+      ],
+      "rank_within_cardinality": 22
+    },
+    {
+      "label": "r_k03_0023_d02_d05_d11",
+      "channels": [
+        2,
+        5,
+        11
+      ],
+      "rank_within_cardinality": 23
+    },
+    {
+      "label": "r_k03_0024_d02_d05_d12",
+      "channels": [
+        2,
+        5,
+        12
+      ],
+      "rank_within_cardinality": 24
+    },
+    {
+      "label": "r_k03_0025_d02_d05_d13",
+      "channels": [
+        2,
+        5,
+        13
+      ],
+      "rank_within_cardinality": 25
+    },
+    {
+      "label": "r_k03_0026_d02_d06_d07",
+      "channels": [
+        2,
+        6,
+        7
+      ],
+      "rank_within_cardinality": 26
+    },
+    {
+      "label": "r_k03_0027_d02_d07_d11",
+      "channels": [
+        2,
+        7,
+        11
+      ],
+      "rank_within_cardinality": 27
+    },
+    {
+      "label": "r_k03_0028_d02_d08_d15",
+      "channels": [
+        2,
+        8,
+        15
+      ],
+      "rank_within_cardinality": 28
+    },
+    {
+      "label": "r_k03_0029_d03_d05_d10",
+      "channels": [
+        3,
+        5,
+        10
+      ],
+      "rank_within_cardinality": 29
+    },
+    {
+      "label": "r_k03_0030_d03_d06_d10",
+      "channels": [
+        3,
+        6,
+        10
+      ],
+      "rank_within_cardinality": 30
+    },
+    {
+      "label": "r_k03_0031_d03_d06_d13",
+      "channels": [
+        3,
+        6,
+        13
+      ],
+      "rank_within_cardinality": 31
+    },
+    {
+      "label": "r_k03_0032_d03_d06_d14",
+      "channels": [
+        3,
+        6,
+        14
+      ],
+      "rank_within_cardinality": 32
+    },
+    {
+      "label": "r_k03_0033_d03_d08_d11",
+      "channels": [
+        3,
+        8,
+        11
+      ],
+      "rank_within_cardinality": 33
+    },
+    {
+      "label": "r_k03_0034_d03_d08_d13",
+      "channels": [
+        3,
+        8,
+        13
+      ],
+      "rank_within_cardinality": 34
+    },
+    {
+      "label": "r_k03_0035_d03_d10_d12",
+      "channels": [
+        3,
+        10,
+        12
+      ],
+      "rank_within_cardinality": 35
+    },
+    {
+      "label": "r_k03_0036_d03_d12_d15",
+      "channels": [
+        3,
+        12,
+        15
+      ],
+      "rank_within_cardinality": 36
+    },
+    {
+      "label": "r_k03_0037_d04_d05_d06",
+      "channels": [
+        4,
+        5,
+        6
+      ],
+      "rank_within_cardinality": 37
+    },
+    {
+      "label": "r_k03_0038_d04_d05_d14",
+      "channels": [
+        4,
+        5,
+        14
+      ],
+      "rank_within_cardinality": 38
+    },
+    {
+      "label": "r_k03_0039_d04_d11_d13",
+      "channels": [
+        4,
+        11,
+        13
+      ],
+      "rank_within_cardinality": 39
+    },
+    {
+      "label": "r_k03_0040_d05_d06_d11",
+      "channels": [
+        5,
+        6,
+        11
+      ],
+      "rank_within_cardinality": 40
+    },
+    {
+      "label": "r_k03_0041_d05_d08_d12",
+      "channels": [
+        5,
+        8,
+        12
+      ],
+      "rank_within_cardinality": 41
+    },
+    {
+      "label": "r_k03_0042_d05_d10_d11",
+      "channels": [
+        5,
+        10,
+        11
+      ],
+      "rank_within_cardinality": 42
+    },
+    {
+      "label": "r_k03_0043_d05_d10_d13",
+      "channels": [
+        5,
+        10,
+        13
+      ],
+      "rank_within_cardinality": 43
+    },
+    {
+      "label": "r_k03_0044_d06_d07_d10",
+      "channels": [
+        6,
+        7,
+        10
+      ],
+      "rank_within_cardinality": 44
+    },
+    {
+      "label": "r_k03_0045_d06_d10_d13",
+      "channels": [
+        6,
+        10,
+        13
+      ],
+      "rank_within_cardinality": 45
+    },
+    {
+      "label": "r_k03_0046_d07_d08_d11",
+      "channels": [
+        7,
+        8,
+        11
+      ],
+      "rank_within_cardinality": 46
+    },
+    {
+      "label": "r_k03_0047_d07_d09_d12",
+      "channels": [
+        7,
+        9,
+        12
+      ],
+      "rank_within_cardinality": 47
+    },
+    {
+      "label": "r_k03_0048_d07_d10_d11",
+      "channels": [
+        7,
+        10,
+        11
+      ],
+      "rank_within_cardinality": 48
+    },
+    {
+      "label": "r_k03_0049_d07_d10_d15",
+      "channels": [
+        7,
+        10,
+        15
+      ],
+      "rank_within_cardinality": 49
+    },
+    {
+      "label": "r_k03_0050_d08_d10_d12",
+      "channels": [
+        8,
+        10,
+        12
+      ],
+      "rank_within_cardinality": 50
+    },
+    {
+      "label": "r_k03_0051_d08_d11_d14",
+      "channels": [
+        8,
+        11,
+        14
+      ],
+      "rank_within_cardinality": 51
+    },
+    {
+      "label": "r_k03_0052_d08_d12_d14",
+      "channels": [
+        8,
+        12,
+        14
+      ],
+      "rank_within_cardinality": 52
+    },
+    {
+      "label": "r_k03_0053_d10_d12_d13",
+      "channels": [
+        10,
+        12,
+        13
+      ],
+      "rank_within_cardinality": 53
+    },
+    {
+      "label": "r_k03_0054_d11_d13_d14",
+      "channels": [
+        11,
+        13,
+        14
+      ],
+      "rank_within_cardinality": 54
+    },
+    {
+      "label": "r_k03_0055_d11_d14_d15",
+      "channels": [
+        11,
+        14,
+        15
+      ],
+      "rank_within_cardinality": 55
+    },
+    {
+      "label": "r_k04_0001_d00_d02_d03_d11",
+      "channels": [
+        0,
+        2,
+        3,
+        11
+      ],
+      "rank_within_cardinality": 1
+    },
+    {
+      "label": "r_k04_0002_d00_d02_d05_d13",
+      "channels": [
+        0,
+        2,
+        5,
+        13
+      ],
+      "rank_within_cardinality": 2
+    },
+    {
+      "label": "r_k04_0003_d00_d02_d07_d08",
+      "channels": [
+        0,
+        2,
+        7,
+        8
+      ],
+      "rank_within_cardinality": 3
+    },
+    {
+      "label": "r_k04_0004_d00_d03_d04_d09",
+      "channels": [
+        0,
+        3,
+        4,
+        9
+      ],
+      "rank_within_cardinality": 4
+    },
+    {
+      "label": "r_k04_0005_d00_d03_d04_d15",
+      "channels": [
+        0,
+        3,
+        4,
+        15
+      ],
+      "rank_within_cardinality": 5
+    },
+    {
+      "label": "r_k04_0006_d00_d03_d12_d15",
+      "channels": [
+        0,
+        3,
+        12,
+        15
+      ],
+      "rank_within_cardinality": 6
+    },
+    {
+      "label": "r_k04_0007_d00_d06_d12_d14",
+      "channels": [
+        0,
+        6,
+        12,
+        14
+      ],
+      "rank_within_cardinality": 7
+    },
+    {
+      "label": "r_k04_0008_d00_d07_d10_d11",
+      "channels": [
+        0,
+        7,
+        10,
+        11
+      ],
+      "rank_within_cardinality": 8
+    },
+    {
+      "label": "r_k04_0009_d00_d08_d09_d12",
+      "channels": [
+        0,
+        8,
+        9,
+        12
+      ],
+      "rank_within_cardinality": 9
+    },
+    {
+      "label": "r_k04_0010_d00_d08_d14_d15",
+      "channels": [
+        0,
+        8,
+        14,
+        15
+      ],
+      "rank_within_cardinality": 10
+    },
+    {
+      "label": "r_k04_0011_d00_d09_d11_d15",
+      "channels": [
+        0,
+        9,
+        11,
+        15
+      ],
+      "rank_within_cardinality": 11
+    },
+    {
+      "label": "r_k04_0012_d01_d02_d07_d08",
+      "channels": [
+        1,
+        2,
+        7,
+        8
+      ],
+      "rank_within_cardinality": 12
+    },
+    {
+      "label": "r_k04_0013_d01_d02_d13_d15",
+      "channels": [
+        1,
+        2,
+        13,
+        15
+      ],
+      "rank_within_cardinality": 13
+    },
+    {
+      "label": "r_k04_0014_d01_d03_d05_d14",
+      "channels": [
+        1,
+        3,
+        5,
+        14
+      ],
+      "rank_within_cardinality": 14
+    },
+    {
+      "label": "r_k04_0015_d01_d03_d06_d14",
+      "channels": [
+        1,
+        3,
+        6,
+        14
+      ],
+      "rank_within_cardinality": 15
+    },
+    {
+      "label": "r_k04_0016_d01_d03_d12_d15",
+      "channels": [
+        1,
+        3,
+        12,
+        15
+      ],
+      "rank_within_cardinality": 16
+    },
+    {
+      "label": "r_k04_0017_d01_d04_d05_d08",
+      "channels": [
+        1,
+        4,
+        5,
+        8
+      ],
+      "rank_within_cardinality": 17
+    },
+    {
+      "label": "r_k04_0018_d01_d04_d06_d15",
+      "channels": [
+        1,
+        4,
+        6,
+        15
+      ],
+      "rank_within_cardinality": 18
+    },
+    {
+      "label": "r_k04_0019_d01_d05_d08_d14",
+      "channels": [
+        1,
+        5,
+        8,
+        14
+      ],
+      "rank_within_cardinality": 19
+    },
+    {
+      "label": "r_k04_0020_d01_d06_d09_d15",
+      "channels": [
+        1,
+        6,
+        9,
+        15
+      ],
+      "rank_within_cardinality": 20
+    },
+    {
+      "label": "r_k04_0021_d01_d07_d09_d15",
+      "channels": [
+        1,
+        7,
+        9,
+        15
+      ],
+      "rank_within_cardinality": 21
+    },
+    {
+      "label": "r_k04_0022_d01_d07_d11_d14",
+      "channels": [
+        1,
+        7,
+        11,
+        14
+      ],
+      "rank_within_cardinality": 22
+    },
+    {
+      "label": "r_k04_0023_d01_d09_d11_d14",
+      "channels": [
+        1,
+        9,
+        11,
+        14
+      ],
+      "rank_within_cardinality": 23
+    },
+    {
+      "label": "r_k04_0024_d01_d12_d13_d14",
+      "channels": [
+        1,
+        12,
+        13,
+        14
+      ],
+      "rank_within_cardinality": 24
+    },
+    {
+      "label": "r_k04_0025_d02_d03_d13_d15",
+      "channels": [
+        2,
+        3,
+        13,
+        15
+      ],
+      "rank_within_cardinality": 25
+    },
+    {
+      "label": "r_k04_0026_d02_d04_d06_d15",
+      "channels": [
+        2,
+        4,
+        6,
+        15
+      ],
+      "rank_within_cardinality": 26
+    },
+    {
+      "label": "r_k04_0027_d02_d04_d07_d09",
+      "channels": [
+        2,
+        4,
+        7,
+        9
+      ],
+      "rank_within_cardinality": 27
+    },
+    {
+      "label": "r_k04_0028_d02_d05_d07_d15",
+      "channels": [
+        2,
+        5,
+        7,
+        15
+      ],
+      "rank_within_cardinality": 28
+    },
+    {
+      "label": "r_k04_0029_d02_d05_d11_d15",
+      "channels": [
+        2,
+        5,
+        11,
+        15
+      ],
+      "rank_within_cardinality": 29
+    },
+    {
+      "label": "r_k04_0030_d02_d06_d07_d12",
+      "channels": [
+        2,
+        6,
+        7,
+        12
+      ],
+      "rank_within_cardinality": 30
+    },
+    {
+      "label": "r_k04_0031_d02_d07_d08_d14",
+      "channels": [
+        2,
+        7,
+        8,
+        14
+      ],
+      "rank_within_cardinality": 31
+    },
+    {
+      "label": "r_k04_0032_d02_d10_d11_d12",
+      "channels": [
+        2,
+        10,
+        11,
+        12
+      ],
+      "rank_within_cardinality": 32
+    },
+    {
+      "label": "r_k04_0033_d03_d04_d08_d11",
+      "channels": [
+        3,
+        4,
+        8,
+        11
+      ],
+      "rank_within_cardinality": 33
+    },
+    {
+      "label": "r_k04_0034_d03_d05_d08_d14",
+      "channels": [
+        3,
+        5,
+        8,
+        14
+      ],
+      "rank_within_cardinality": 34
+    },
+    {
+      "label": "r_k04_0035_d03_d07_d08_d15",
+      "channels": [
+        3,
+        7,
+        8,
+        15
+      ],
+      "rank_within_cardinality": 35
+    },
+    {
+      "label": "r_k04_0036_d03_d07_d10_d15",
+      "channels": [
+        3,
+        7,
+        10,
+        15
+      ],
+      "rank_within_cardinality": 36
+    },
+    {
+      "label": "r_k04_0037_d03_d08_d10_d13",
+      "channels": [
+        3,
+        8,
+        10,
+        13
+      ],
+      "rank_within_cardinality": 37
+    },
+    {
+      "label": "r_k04_0038_d03_d10_d13_d14",
+      "channels": [
+        3,
+        10,
+        13,
+        14
+      ],
+      "rank_within_cardinality": 38
+    },
+    {
+      "label": "r_k04_0039_d04_d05_d08_d10",
+      "channels": [
+        4,
+        5,
+        8,
+        10
+      ],
+      "rank_within_cardinality": 39
+    },
+    {
+      "label": "r_k04_0040_d04_d06_d07_d12",
+      "channels": [
+        4,
+        6,
+        7,
+        12
+      ],
+      "rank_within_cardinality": 40
+    },
+    {
+      "label": "r_k04_0041_d04_d06_d08_d10",
+      "channels": [
+        4,
+        6,
+        8,
+        10
+      ],
+      "rank_within_cardinality": 41
+    },
+    {
+      "label": "r_k04_0042_d04_d07_d10_d14",
+      "channels": [
+        4,
+        7,
+        10,
+        14
+      ],
+      "rank_within_cardinality": 42
+    },
+    {
+      "label": "r_k04_0043_d04_d08_d10_d14",
+      "channels": [
+        4,
+        8,
+        10,
+        14
+      ],
+      "rank_within_cardinality": 43
+    },
+    {
+      "label": "r_k04_0044_d04_d08_d12_d15",
+      "channels": [
+        4,
+        8,
+        12,
+        15
+      ],
+      "rank_within_cardinality": 44
+    },
+    {
+      "label": "r_k04_0045_d04_d09_d11_d15",
+      "channels": [
+        4,
+        9,
+        11,
+        15
+      ],
+      "rank_within_cardinality": 45
+    },
+    {
+      "label": "r_k04_0046_d04_d11_d12_d13",
+      "channels": [
+        4,
+        11,
+        12,
+        13
+      ],
+      "rank_within_cardinality": 46
+    },
+    {
+      "label": "r_k04_0047_d05_d07_d13_d14",
+      "channels": [
+        5,
+        7,
+        13,
+        14
+      ],
+      "rank_within_cardinality": 47
+    },
+    {
+      "label": "r_k04_0048_d05_d08_d11_d14",
+      "channels": [
+        5,
+        8,
+        11,
+        14
+      ],
+      "rank_within_cardinality": 48
+    },
+    {
+      "label": "r_k04_0049_d05_d11_d12_d13",
+      "channels": [
+        5,
+        11,
+        12,
+        13
+      ],
+      "rank_within_cardinality": 49
+    },
+    {
+      "label": "r_k04_0050_d07_d08_d10_d12",
+      "channels": [
+        7,
+        8,
+        10,
+        12
+      ],
+      "rank_within_cardinality": 50
+    },
+    {
+      "label": "r_k04_0051_d09_d10_d11_d15",
+      "channels": [
+        9,
+        10,
+        11,
+        15
+      ],
+      "rank_within_cardinality": 51
+    },
+    {
+      "label": "r_k05_0001_d00_d01_d02_d03_d06",
+      "channels": [
+        0,
+        1,
+        2,
+        3,
+        6
+      ],
+      "rank_within_cardinality": 1
+    },
+    {
+      "label": "r_k05_0002_d00_d01_d10_d12_d13",
+      "channels": [
+        0,
+        1,
+        10,
+        12,
+        13
+      ],
+      "rank_within_cardinality": 2
+    },
+    {
+      "label": "r_k05_0003_d00_d02_d05_d06_d12",
+      "channels": [
+        0,
+        2,
+        5,
+        6,
+        12
+      ],
+      "rank_within_cardinality": 3
+    },
+    {
+      "label": "r_k05_0004_d00_d02_d05_d10_d13",
+      "channels": [
+        0,
+        2,
+        5,
+        10,
+        13
+      ],
+      "rank_within_cardinality": 4
+    },
+    {
+      "label": "r_k05_0005_d00_d02_d12_d13_d14",
+      "channels": [
+        0,
+        2,
+        12,
+        13,
+        14
+      ],
+      "rank_within_cardinality": 5
+    },
+    {
+      "label": "r_k05_0006_d00_d03_d07_d08_d11",
+      "channels": [
+        0,
+        3,
+        7,
+        8,
+        11
+      ],
+      "rank_within_cardinality": 6
+    },
+    {
+      "label": "r_k05_0007_d00_d03_d09_d11_d13",
+      "channels": [
+        0,
+        3,
+        9,
+        11,
+        13
+      ],
+      "rank_within_cardinality": 7
+    },
+    {
+      "label": "r_k05_0008_d00_d03_d12_d14_d15",
+      "channels": [
+        0,
+        3,
+        12,
+        14,
+        15
+      ],
+      "rank_within_cardinality": 8
+    },
+    {
+      "label": "r_k05_0009_d00_d04_d05_d12_d13",
+      "channels": [
+        0,
+        4,
+        5,
+        12,
+        13
+      ],
+      "rank_within_cardinality": 9
+    },
+    {
+      "label": "r_k05_0010_d00_d05_d06_d08_d14",
+      "channels": [
+        0,
+        5,
+        6,
+        8,
+        14
+      ],
+      "rank_within_cardinality": 10
+    },
+    {
+      "label": "r_k05_0011_d00_d07_d09_d10_d14",
+      "channels": [
+        0,
+        7,
+        9,
+        10,
+        14
+      ],
+      "rank_within_cardinality": 11
+    },
+    {
+      "label": "r_k05_0012_d00_d07_d10_d11_d15",
+      "channels": [
+        0,
+        7,
+        10,
+        11,
+        15
+      ],
+      "rank_within_cardinality": 12
+    },
+    {
+      "label": "r_k05_0013_d00_d09_d11_d13_d15",
+      "channels": [
+        0,
+        9,
+        11,
+        13,
+        15
+      ],
+      "rank_within_cardinality": 13
+    },
+    {
+      "label": "r_k05_0014_d01_d02_d03_d08_d15",
+      "channels": [
+        1,
+        2,
+        3,
+        8,
+        15
+      ],
+      "rank_within_cardinality": 14
+    },
+    {
+      "label": "r_k05_0015_d01_d02_d11_d14_d15",
+      "channels": [
+        1,
+        2,
+        11,
+        14,
+        15
+      ],
+      "rank_within_cardinality": 15
+    },
+    {
+      "label": "r_k05_0016_d01_d03_d05_d06_d13",
+      "channels": [
+        1,
+        3,
+        5,
+        6,
+        13
+      ],
+      "rank_within_cardinality": 16
+    },
+    {
+      "label": "r_k05_0017_d01_d03_d05_d09_d11",
+      "channels": [
+        1,
+        3,
+        5,
+        9,
+        11
+      ],
+      "rank_within_cardinality": 17
+    },
+    {
+      "label": "r_k05_0018_d01_d03_d06_d12_d14",
+      "channels": [
+        1,
+        3,
+        6,
+        12,
+        14
+      ],
+      "rank_within_cardinality": 18
+    },
+    {
+      "label": "r_k05_0019_d01_d03_d11_d14_d15",
+      "channels": [
+        1,
+        3,
+        11,
+        14,
+        15
+      ],
+      "rank_within_cardinality": 19
+    },
+    {
+      "label": "r_k05_0020_d01_d05_d08_d11_d14",
+      "channels": [
+        1,
+        5,
+        8,
+        11,
+        14
+      ],
+      "rank_within_cardinality": 20
+    },
+    {
+      "label": "r_k05_0021_d01_d06_d07_d10_d14",
+      "channels": [
+        1,
+        6,
+        7,
+        10,
+        14
+      ],
+      "rank_within_cardinality": 21
+    },
+    {
+      "label": "r_k05_0022_d01_d07_d08_d12_d13",
+      "channels": [
+        1,
+        7,
+        8,
+        12,
+        13
+      ],
+      "rank_within_cardinality": 22
+    },
+    {
+      "label": "r_k05_0023_d01_d09_d11_d13_d15",
+      "channels": [
+        1,
+        9,
+        11,
+        13,
+        15
+      ],
+      "rank_within_cardinality": 23
+    },
+    {
+      "label": "r_k05_0024_d02_d03_d04_d05_d14",
+      "channels": [
+        2,
+        3,
+        4,
+        5,
+        14
+      ],
+      "rank_within_cardinality": 24
+    },
+    {
+      "label": "r_k05_0025_d02_d04_d05_d12_d14",
+      "channels": [
+        2,
+        4,
+        5,
+        12,
+        14
+      ],
+      "rank_within_cardinality": 25
+    },
+    {
+      "label": "r_k05_0026_d02_d04_d06_d08_d10",
+      "channels": [
+        2,
+        4,
+        6,
+        8,
+        10
+      ],
+      "rank_within_cardinality": 26
+    },
+    {
+      "label": "r_k05_0027_d02_d04_d10_d11_d12",
+      "channels": [
+        2,
+        4,
+        10,
+        11,
+        12
+      ],
+      "rank_within_cardinality": 27
+    },
+    {
+      "label": "r_k05_0028_d02_d05_d06_d08_d15",
+      "channels": [
+        2,
+        5,
+        6,
+        8,
+        15
+      ],
+      "rank_within_cardinality": 28
+    },
+    {
+      "label": "r_k05_0029_d02_d05_d06_d11_d14",
+      "channels": [
+        2,
+        5,
+        6,
+        11,
+        14
+      ],
+      "rank_within_cardinality": 29
+    },
+    {
+      "label": "r_k05_0030_d02_d07_d10_d12_d15",
+      "channels": [
+        2,
+        7,
+        10,
+        12,
+        15
+      ],
+      "rank_within_cardinality": 30
+    },
+    {
+      "label": "r_k05_0031_d02_d07_d11_d12_d14",
+      "channels": [
+        2,
+        7,
+        11,
+        12,
+        14
+      ],
+      "rank_within_cardinality": 31
+    },
+    {
+      "label": "r_k05_0032_d02_d08_d09_d11_d15",
+      "channels": [
+        2,
+        8,
+        9,
+        11,
+        15
+      ],
+      "rank_within_cardinality": 32
+    },
+    {
+      "label": "r_k05_0033_d03_d04_d09_d11_d15",
+      "channels": [
+        3,
+        4,
+        9,
+        11,
+        15
+      ],
+      "rank_within_cardinality": 33
+    },
+    {
+      "label": "r_k05_0034_d03_d04_d10_d11_d14",
+      "channels": [
+        3,
+        4,
+        10,
+        11,
+        14
+      ],
+      "rank_within_cardinality": 34
+    },
+    {
+      "label": "r_k05_0035_d03_d05_d07_d09_d15",
+      "channels": [
+        3,
+        5,
+        7,
+        9,
+        15
+      ],
+      "rank_within_cardinality": 35
+    },
+    {
+      "label": "r_k05_0036_d03_d05_d08_d10_d12",
+      "channels": [
+        3,
+        5,
+        8,
+        10,
+        12
+      ],
+      "rank_within_cardinality": 36
+    },
+    {
+      "label": "r_k05_0037_d03_d06_d07_d09_d10",
+      "channels": [
+        3,
+        6,
+        7,
+        9,
+        10
+      ],
+      "rank_within_cardinality": 37
+    },
+    {
+      "label": "r_k05_0038_d03_d09_d11_d12_d13",
+      "channels": [
+        3,
+        9,
+        11,
+        12,
+        13
+      ],
+      "rank_within_cardinality": 38
+    },
+    {
+      "label": "r_k05_0039_d04_d05_d09_d10_d14",
+      "channels": [
+        4,
+        5,
+        9,
+        10,
+        14
+      ],
+      "rank_within_cardinality": 39
+    },
+    {
+      "label": "r_k05_0040_d04_d06_d12_d13_d14",
+      "channels": [
+        4,
+        6,
+        12,
+        13,
+        14
+      ],
+      "rank_within_cardinality": 40
+    },
+    {
+      "label": "r_k05_0041_d04_d07_d08_d11_d14",
+      "channels": [
+        4,
+        7,
+        8,
+        11,
+        14
+      ],
+      "rank_within_cardinality": 41
+    },
+    {
+      "label": "r_k05_0042_d04_d07_d09_d12_d13",
+      "channels": [
+        4,
+        7,
+        9,
+        12,
+        13
+      ],
+      "rank_within_cardinality": 42
+    },
+    {
+      "label": "r_k05_0043_d04_d09_d10_d11_d14",
+      "channels": [
+        4,
+        9,
+        10,
+        11,
+        14
+      ],
+      "rank_within_cardinality": 43
+    },
+    {
+      "label": "r_k05_0044_d05_d07_d09_d12_d15",
+      "channels": [
+        5,
+        7,
+        9,
+        12,
+        15
+      ],
+      "rank_within_cardinality": 44
+    },
+    {
+      "label": "r_k05_0045_d06_d07_d10_d11_d12",
+      "channels": [
+        6,
+        7,
+        10,
+        11,
+        12
+      ],
+      "rank_within_cardinality": 45
+    },
+    {
+      "label": "r_k05_0046_d06_d09_d10_d12_d15",
+      "channels": [
+        6,
+        9,
+        10,
+        12,
+        15
+      ],
+      "rank_within_cardinality": 46
+    },
+    {
+      "label": "r_k06_0001_d00_d01_d02_d05_d09_d15",
+      "channels": [
+        0,
+        1,
+        2,
+        5,
+        9,
+        15
+      ],
+      "rank_within_cardinality": 1
+    },
+    {
+      "label": "r_k06_0002_d00_d01_d02_d10_d14_d15",
+      "channels": [
+        0,
+        1,
+        2,
+        10,
+        14,
+        15
+      ],
+      "rank_within_cardinality": 2
+    },
+    {
+      "label": "r_k06_0003_d00_d01_d03_d04_d06_d08",
+      "channels": [
+        0,
+        1,
+        3,
+        4,
+        6,
+        8
+      ],
+      "rank_within_cardinality": 3
+    },
+    {
+      "label": "r_k06_0004_d00_d01_d03_d05_d07_d10",
+      "channels": [
+        0,
+        1,
+        3,
+        5,
+        7,
+        10
+      ],
+      "rank_within_cardinality": 4
+    },
+    {
+      "label": "r_k06_0005_d00_d01_d03_d11_d13_d15",
+      "channels": [
+        0,
+        1,
+        3,
+        11,
+        13,
+        15
+      ],
+      "rank_within_cardinality": 5
+    },
+    {
+      "label": "r_k06_0006_d00_d01_d04_d09_d10_d13",
+      "channels": [
+        0,
+        1,
+        4,
+        9,
+        10,
+        13
+      ],
+      "rank_within_cardinality": 6
+    },
+    {
+      "label": "r_k06_0007_d00_d01_d06_d08_d13_d15",
+      "channels": [
+        0,
+        1,
+        6,
+        8,
+        13,
+        15
+      ],
+      "rank_within_cardinality": 7
+    },
+    {
+      "label": "r_k06_0008_d00_d01_d10_d11_d13_d14",
+      "channels": [
+        0,
+        1,
+        10,
+        11,
+        13,
+        14
+      ],
+      "rank_within_cardinality": 8
+    },
+    {
+      "label": "r_k06_0009_d00_d02_d03_d04_d08_d15",
+      "channels": [
+        0,
+        2,
+        3,
+        4,
+        8,
+        15
+      ],
+      "rank_within_cardinality": 9
+    },
+    {
+      "label": "r_k06_0010_d00_d02_d03_d05_d10_d11",
+      "channels": [
+        0,
+        2,
+        3,
+        5,
+        10,
+        11
+      ],
+      "rank_within_cardinality": 10
+    },
+    {
+      "label": "r_k06_0011_d00_d04_d05_d06_d08_d15",
+      "channels": [
+        0,
+        4,
+        5,
+        6,
+        8,
+        15
+      ],
+      "rank_within_cardinality": 11
+    },
+    {
+      "label": "r_k06_0012_d00_d04_d06_d09_d11_d14",
+      "channels": [
+        0,
+        4,
+        6,
+        9,
+        11,
+        14
+      ],
+      "rank_within_cardinality": 12
+    },
+    {
+      "label": "r_k06_0013_d00_d05_d06_d08_d10_d14",
+      "channels": [
+        0,
+        5,
+        6,
+        8,
+        10,
+        14
+      ],
+      "rank_within_cardinality": 13
+    },
+    {
+      "label": "r_k06_0014_d00_d05_d07_d11_d14_d15",
+      "channels": [
+        0,
+        5,
+        7,
+        11,
+        14,
+        15
+      ],
+      "rank_within_cardinality": 14
+    },
+    {
+      "label": "r_k06_0015_d00_d06_d07_d08_d09_d10",
+      "channels": [
+        0,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "rank_within_cardinality": 15
+    },
+    {
+      "label": "r_k06_0016_d00_d08_d09_d12_d13_d15",
+      "channels": [
+        0,
+        8,
+        9,
+        12,
+        13,
+        15
+      ],
+      "rank_within_cardinality": 16
+    },
+    {
+      "label": "r_k06_0017_d01_d02_d03_d05_d07_d11",
+      "channels": [
+        1,
+        2,
+        3,
+        5,
+        7,
+        11
+      ],
+      "rank_within_cardinality": 17
+    },
+    {
+      "label": "r_k06_0018_d01_d02_d05_d06_d07_d12",
+      "channels": [
+        1,
+        2,
+        5,
+        6,
+        7,
+        12
+      ],
+      "rank_within_cardinality": 18
+    },
+    {
+      "label": "r_k06_0019_d01_d03_d04_d05_d13_d15",
+      "channels": [
+        1,
+        3,
+        4,
+        5,
+        13,
+        15
+      ],
+      "rank_within_cardinality": 19
+    },
+    {
+      "label": "r_k06_0020_d01_d03_d05_d07_d14_d15",
+      "channels": [
+        1,
+        3,
+        5,
+        7,
+        14,
+        15
+      ],
+      "rank_within_cardinality": 20
+    },
+    {
+      "label": "r_k06_0021_d01_d03_d05_d13_d14_d15",
+      "channels": [
+        1,
+        3,
+        5,
+        13,
+        14,
+        15
+      ],
+      "rank_within_cardinality": 21
+    },
+    {
+      "label": "r_k06_0022_d01_d03_d06_d07_d08_d14",
+      "channels": [
+        1,
+        3,
+        6,
+        7,
+        8,
+        14
+      ],
+      "rank_within_cardinality": 22
+    },
+    {
+      "label": "r_k06_0023_d01_d03_d06_d09_d11_d15",
+      "channels": [
+        1,
+        3,
+        6,
+        9,
+        11,
+        15
+      ],
+      "rank_within_cardinality": 23
+    },
+    {
+      "label": "r_k06_0024_d01_d05_d06_d10_d12_d13",
+      "channels": [
+        1,
+        5,
+        6,
+        10,
+        12,
+        13
+      ],
+      "rank_within_cardinality": 24
+    },
+    {
+      "label": "r_k06_0025_d01_d05_d06_d12_d14_d15",
+      "channels": [
+        1,
+        5,
+        6,
+        12,
+        14,
+        15
+      ],
+      "rank_within_cardinality": 25
+    },
+    {
+      "label": "r_k06_0026_d01_d05_d08_d09_d10_d13",
+      "channels": [
+        1,
+        5,
+        8,
+        9,
+        10,
+        13
+      ],
+      "rank_within_cardinality": 26
+    },
+    {
+      "label": "r_k06_0027_d01_d06_d08_d10_d13_d15",
+      "channels": [
+        1,
+        6,
+        8,
+        10,
+        13,
+        15
+      ],
+      "rank_within_cardinality": 27
+    },
+    {
+      "label": "r_k06_0028_d01_d07_d09_d10_d11_d13",
+      "channels": [
+        1,
+        7,
+        9,
+        10,
+        11,
+        13
+      ],
+      "rank_within_cardinality": 28
+    },
+    {
+      "label": "r_k06_0029_d02_d03_d04_d06_d07_d13",
+      "channels": [
+        2,
+        3,
+        4,
+        6,
+        7,
+        13
+      ],
+      "rank_within_cardinality": 29
+    },
+    {
+      "label": "r_k06_0030_d02_d03_d08_d10_d11_d14",
+      "channels": [
+        2,
+        3,
+        8,
+        10,
+        11,
+        14
+      ],
+      "rank_within_cardinality": 30
+    },
+    {
+      "label": "r_k06_0031_d02_d03_d09_d10_d13_d15",
+      "channels": [
+        2,
+        3,
+        9,
+        10,
+        13,
+        15
+      ],
+      "rank_within_cardinality": 31
+    },
+    {
+      "label": "r_k06_0032_d02_d04_d07_d10_d11_d15",
+      "channels": [
+        2,
+        4,
+        7,
+        10,
+        11,
+        15
+      ],
+      "rank_within_cardinality": 32
+    },
+    {
+      "label": "r_k06_0033_d02_d06_d11_d12_d13_d15",
+      "channels": [
+        2,
+        6,
+        11,
+        12,
+        13,
+        15
+      ],
+      "rank_within_cardinality": 33
+    },
+    {
+      "label": "r_k06_0034_d02_d07_d09_d10_d12_d13",
+      "channels": [
+        2,
+        7,
+        9,
+        10,
+        12,
+        13
+      ],
+      "rank_within_cardinality": 34
+    },
+    {
+      "label": "r_k06_0035_d03_d04_d06_d07_d12_d13",
+      "channels": [
+        3,
+        4,
+        6,
+        7,
+        12,
+        13
+      ],
+      "rank_within_cardinality": 35
+    },
+    {
+      "label": "r_k06_0036_d03_d04_d07_d08_d10_d15",
+      "channels": [
+        3,
+        4,
+        7,
+        8,
+        10,
+        15
+      ],
+      "rank_within_cardinality": 36
+    },
+    {
+      "label": "r_k06_0037_d03_d04_d07_d11_d12_d15",
+      "channels": [
+        3,
+        4,
+        7,
+        11,
+        12,
+        15
+      ],
+      "rank_within_cardinality": 37
+    },
+    {
+      "label": "r_k06_0038_d03_d05_d06_d07_d08_d15",
+      "channels": [
+        3,
+        5,
+        6,
+        7,
+        8,
+        15
+      ],
+      "rank_within_cardinality": 38
+    },
+    {
+      "label": "r_k06_0039_d03_d06_d08_d09_d10_d11",
+      "channels": [
+        3,
+        6,
+        8,
+        9,
+        10,
+        11
+      ],
+      "rank_within_cardinality": 39
+    },
+    {
+      "label": "r_k06_0040_d04_d09_d10_d11_d12_d13",
+      "channels": [
+        4,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "rank_within_cardinality": 40
+    },
+    {
+      "label": "r_k06_0041_d06_d08_d09_d11_d13_d15",
+      "channels": [
+        6,
+        8,
+        9,
+        11,
+        13,
+        15
+      ],
+      "rank_within_cardinality": 41
+    },
+    {
+      "label": "r_k06_0042_d07_d09_d10_d11_d12_d14",
+      "channels": [
+        7,
+        9,
+        10,
+        11,
+        12,
+        14
+      ],
+      "rank_within_cardinality": 42
+    },
+    {
+      "label": "r_k06_0043_d08_d10_d11_d13_d14_d15",
+      "channels": [
+        8,
+        10,
+        11,
+        13,
+        14,
+        15
+      ],
+      "rank_within_cardinality": 43
+    }
+  ]
+}

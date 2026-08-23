@@ -1,0 +1,29 @@
+{
+  "status": "numerical eligibility for Pearson correlation only",
+  "not_a_functional_profile": true,
+  "standard_deviation_epsilon": 1e-12,
+  "minimum_valid_frames_per_condition": 20,
+  "layers": {
+    "conv1": {
+      "channels": [
+        2,
+        4,
+        7,
+        9,
+        13,
+        36,
+        38,
+        48
+      ],
+      "count": 8
+    },
+    "layer1": {
+      "channels": [],
+      "count": 0
+    },
+    "layer2": {
+      "channels": [],
+      "count": 0
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "protocol": "unet_enc0_direct_full_sequence_greedy_v1",
+  "selection_rule": "Repeat each G1--G6 endpoint, R4, Rstar, Lstar and every anchor to three total observations. Choose Gstar after repeats.",
+  "candidates": [
+    {
+      "candidate_key": "gray",
+      "tags": [
+        "gray_current"
+      ],
+      "tag": "gray_current"
+    },
+    {
+      "candidate_key": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+      "tags": [
+        "unet_enc0_all16"
+      ],
+      "tag": "unet_enc0_all16"
+    },
+    {
+      "candidate_key": "0,10,15",
+      "tags": [
+        "B3_historical_bqs_top3"
+      ],
+      "tag": "B3_historical_bqs_top3"
+    },
+    {
+      "candidate_key": "0,3,10,14,15",
+      "tags": [
+        "B5_historical_bqs_top5"
+      ],
+      "tag": "B5_historical_bqs_top5"
+    },
+    {
+      "candidate_key": "3",
+      "tags": [
+        "G1"
+      ],
+      "tag": "G1"
+    },
+    {
+      "candidate_key": "2,14",
+      "tags": [
+        "G2"
+      ],
+      "tag": "G2"
+    },
+    {
+      "candidate_key": "3,7,12",
+      "tags": [
+        "G3"
+      ],
+      "tag": "G3"
+    },
+    {
+      "candidate_key": "2,3,12,14",
+      "tags": [
+        "G4"
+      ],
+      "tag": "G4"
+    },
+    {
+      "candidate_key": "2,3,7,12,13",
+      "tags": [
+        "G5"
+      ],
+      "tag": "G5"
+    },
+    {
+      "candidate_key": "2,3,7,12,13,14",
+      "tags": [
+        "G6",
+        "Lstar_single"
+      ],
+      "tag": "G6+Lstar_single"
+    },
+    {
+      "candidate_key": "0,2,3,11",
+      "tags": [
+        "R4"
+      ],
+      "tag": "R4"
+    },
+    {
+      "candidate_key": "2,4,6",
+      "tags": [
+        "Rstar_single"
+      ],
+      "tag": "Rstar_single"
+    }
+  ]
+}

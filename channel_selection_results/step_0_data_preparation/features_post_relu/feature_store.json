@@ -1,0 +1,108 @@
+{
+  "format_version": 1,
+  "storage": {
+    "format": "per-frame NPZ",
+    "compressed": true,
+    "dtype": "float32",
+    "frame_directory": "/home/melody/code/individual_project/channel_selection_results/step_0_data_preparation/features_post_relu/frames",
+    "manifest": "/home/melody/code/individual_project/channel_selection_results/step_0_data_preparation/features_post_relu/feature_manifest.csv",
+    "array_keys": [
+      "conv1_clean",
+      "conv1_light",
+      "layer1_clean",
+      "layer1_light",
+      "layer2_clean",
+      "layer2_light"
+    ]
+  },
+  "model": {
+    "architecture": "torchvision ResNet-18",
+    "weights": "ResNet18_Weights.IMAGENET1K_V1",
+    "torch_version": "2.5.1",
+    "torchvision_version": "0.20.1",
+    "device": "cpu",
+    "eval_mode": true
+  },
+  "preprocessing": {
+    "rgb_range": [
+      0.0,
+      1.0
+    ],
+    "channel_order": "RGB",
+    "normalization_mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "normalization_std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "extraction": {
+    "activation_position": "post-ReLU",
+    "native_resolution": true,
+    "upsampling": null,
+    "paths": {
+      "conv1": "conv1 -> bn1 -> relu",
+      "layer1": "conv1 -> bn1 -> relu -> maxpool -> layer1",
+      "layer2": "conv1 -> bn1 -> relu -> maxpool -> layer1 -> layer2"
+    },
+    "input_shape_chw": [
+      3,
+      480,
+      640
+    ],
+    "feature_shapes_chw": {
+      "conv1_clean": [
+        64,
+        240,
+        320
+      ],
+      "conv1_light": [
+        64,
+        240,
+        320
+      ],
+      "layer1_clean": [
+        64,
+        120,
+        160
+      ],
+      "layer1_light": [
+        64,
+        120,
+        160
+      ],
+      "layer2_clean": [
+        128,
+        60,
+        80
+      ],
+      "layer2_light": [
+        128,
+        60,
+        80
+      ]
+    }
+  },
+  "source": {
+    "paired_json": "/home/melody/code/individual_project/channel_selection_results/step_0_data_preparation/paired_frames/paired_frames.json",
+    "paired_protocol": {
+      "total_samples": 30,
+      "uniform_samples": 12,
+      "events_per_kind": 3,
+      "samples_per_event": [
+        "before",
+        "peak",
+        "after"
+      ],
+      "event_offset_frames": 4,
+      "pairing_index": "matched_rgb.txt",
+      "event_signal": "log(mean_luminance_light / mean_luminance_clean)",
+      "peak_definition": "largest signed first difference during event onset"
+    },
+    "processed_frame_count": 30
+  }
+}

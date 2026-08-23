@@ -1,0 +1,81 @@
+{
+  "protocol": "resnet_layer2_direct_full_sequence_greedy_v1",
+  "effective_starts": 3,
+  "seed_policy": "singleton_only",
+  "seed_source": "best PASS singleton ATE",
+  "singleton_passes": [
+    {
+      "channel": 121,
+      "historical_ate_mean_cm": 27.5292
+    },
+    {
+      "channel": 67,
+      "historical_ate_mean_cm": 28.6825
+    },
+    {
+      "channel": 96,
+      "historical_ate_mean_cm": 30.3645
+    },
+    {
+      "channel": 37,
+      "historical_ate_mean_cm": 35.6271
+    },
+    {
+      "channel": 52,
+      "historical_ate_mean_cm": 38.7646
+    },
+    {
+      "channel": 60,
+      "historical_ate_mean_cm": 42.7801
+    },
+    {
+      "channel": 107,
+      "historical_ate_mean_cm": 47.1483
+    },
+    {
+      "channel": 54,
+      "historical_ate_mean_cm": 49.0176
+    },
+    {
+      "channel": 14,
+      "historical_ate_mean_cm": 49.1875
+    },
+    {
+      "channel": 123,
+      "historical_ate_mean_cm": 52.635
+    },
+    {
+      "channel": 109,
+      "historical_ate_mean_cm": 55.97220000000001
+    },
+    {
+      "channel": 63,
+      "historical_ate_mean_cm": 57.9716
+    },
+    {
+      "channel": 36,
+      "historical_ate_mean_cm": 58.4767
+    },
+    {
+      "channel": 122,
+      "historical_ate_mean_cm": 61.82490000000001
+    },
+    {
+      "channel": 120,
+      "historical_ate_mean_cm": 80.62
+    }
+  ],
+  "selected_seeds": [
+    [
+      121
+    ],
+    [
+      67
+    ],
+    [
+      96
+    ]
+  ],
+  "selected_pair_seeds": [],
+  "reserved_singleton_pair_keys": []
+}
