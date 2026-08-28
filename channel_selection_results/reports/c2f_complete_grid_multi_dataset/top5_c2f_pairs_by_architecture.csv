@@ -1,0 +1,11 @@
+rank,architecture,fine_rank,coarse_rank,best_variant,best_wins_vs_better_parent,best_family_triple_wins,best_median_percent_delta,other_variant,other_wins_vs_better_parent,components
+1,U-Net,4,2,A,8,fr2_desk;fr3_long_office_household,-13.7796328998769,B,6,"Enc0 [2,4,6] + Enc1 [0,5,6,17,18,30]"
+2,U-Net,5,4,A,8,fr1_desk;fr2_desk,-4.216989017957503,B,8,"Enc0 [2,3,7,12,13] + Enc1 [0,5,6,18,30]"
+3,U-Net,1,2,A,8,fr2_desk;fr3_long_office_household,-4.020232478965027,B,6,"Enc0 [2,3,7,12,13,14] + Enc1 [0,5,6,17,18,30]"
+4,U-Net,2,4,A,8,fr1_desk;fr3_long_office_household,-2.330856697969028,B,7,"Enc0 [3,7,12] + Enc1 [0,5,6,18,30]"
+5,U-Net,4,1,B,7,fr2_desk;fr3_long_office_household,-4.7253350050936405,A,7,"Enc0 [2,4,6] + Enc1 [5,6,17,18,28,30]"
+1,ResNet,3,5,B,7,fr1_desk;fr2_desk,-4.731998399471133,A,3,"Conv1 [15,20,26,34,45,53] + Layer2 [108,121]"
+2,ResNet,4,5,B,7,fr2_desk,-0.9848001392353637,A,4,"Conv1 [33,52] + Layer2 [108,121]"
+3,ResNet,5,5,A,5,fr1_desk,-2.667937112910917,B,4,"Conv1 [5,6,24,29] + Layer2 [108,121]"
+4,ResNet,4,2,B,5,fr2_desk,-0.6181829449677918,A,2,"Conv1 [33,52] + Layer2 [60,67,108,121]"
+5,ResNet,4,4,B,5,fr2_desk,-0.40282597917701995,A,2,"Conv1 [33,52] + Layer2 [67,108,121]"

@@ -1,0 +1,27 @@
+{
+  "status_counts": {
+    "PASS": 66,
+    "FAIL_TRACKING_NAN": 6
+  },
+  "best_c2f": {
+    "label": "resnet_c2f_b_fine02_coarse04",
+    "variant": "B",
+    "fr": 2,
+    "cr": 4,
+    "ate": 9.3293,
+    "gain": 1.1242,
+    "se3_rmse": 14.45152898102766,
+    "hist_rpe": 1.1472
+  },
+  "strict_pair_improvement": {
+    "count": 20,
+    "of_planned": 72,
+    "of_pass": 0.30303030303030304
+  },
+  "legacy_mvs_gate_safe_count": 2,
+  "matched_variant_comparison": {
+    "pairs": 32,
+    "a_better": 13,
+    "b_better": 19
+  }
+}

@@ -1,0 +1,5 @@
+c2f_label,variant,configuration,c2f_pass_count,comparable_parent_pairs,beats_fine_parent_count,beats_better_direct_parent_count,median_delta_vs_fine_cm,median_percent_delta_vs_fine,median_delta_vs_better_parent_cm,median_percent_delta_vs_better_parent,noncomparable_c2f_nonpass_count,noncomparable_parent_nonpass_count,not_run_count
+resnet_c2f_a_f6_c5_positive_synergy,A,"C2F-A; fine conv1[d29,d33,d52]; coarse layer2[d108,d121]",8,8,4,4,-0.11349999999999927,-0.27102274492424616,-0.11349999999999927,-0.27102274492424616,1,0,0
+resnet_c2f_b_f2_c4_global_best,B,"C2F-B; fine conv1[d23,d24,d26,d51,d63]; coarse layer2[d67,d108,d121]",9,9,3,3,0.5106999999999999,4.299617774335315,0.5106999999999999,4.299617774335315,0,0,0
+resnet_c2f_a_f2_c4_variant_negative,A,"C2F-A; fine conv1[d23,d24,d26,d51,d63]; coarse layer2[d67,d108,d121]",9,9,1,1,2.495899999999999,20.394505683071706,2.495899999999999,20.394505683071706,0,0,0
+resnet_c2f_b_f1_c4_negative_high_parent,B,"C2F-B; fine conv1[d15,d20,d26,d34]; coarse layer2[d67,d108,d121]",7,7,0,0,0.6556999999999995,6.319512712272784,0.6556999999999995,6.319512712272784,2,0,0

@@ -1,0 +1,101 @@
+mapping:
+  cnn_channel_select: d6
+  cnn_channels: 1
+  cnn_layer_full_channels: 64
+  cnn_layer_name: conv1
+  cnn_mode: cnn_only
+  color: gray
+  corr:
+    corr_mode: logz
+    corr_thresh: 0.03
+    distill_with_prior: true
+    logz_grad_mag_thresh: 0.07
+    min_obs_depth: 0.0
+  device: cuda:0
+  dtype: double
+  graph:
+    num_keyframes: 9
+    num_one_way_frames: 24
+  init:
+    delta_norm: 0.0001
+    end_level: 3
+    kf_depth_motion_ratio: 0.04
+    kf_num_pixels_frac: 0.75
+    max_iter: 50
+    rel_tol: 0.0001
+    start_level: 0
+  model_path: models/scannet.ckpt
+  photo_construction:
+    degrees_thresh: 0.0
+    nonmax_suppression_window: 4
+    pairwise_batch_size: 128
+    radius_thresh: 0.0
+  sampling:
+    border: 3
+    dist_thresh: 0.1
+    fixed_var: 0.0
+    max_num_coords: 64
+    max_stdev_thresh: 0.01
+    mode: greedy_conditional_entropy
+  sigmas:
+    mean_depth_prior: 0.01
+    photo: 0.1
+    pose_prior: 1.0e-06
+    scale_prior: 1.0e-10
+  term_criteria:
+    abs_tol: 1.0e-06
+    delta_norm: 1.0e-08
+    max_iter: 20
+    rel_tol: 1.0e-06
+  track_ref:
+    num_keyframes: 1
+  unet_channel_select: d4
+  unet_enc_level: 1
+  use_sensor_depth: true
+name: Depth odom config
+tracking:
+  cnn_c2f_version: A
+
+  # resnet cnn configuration
+  cnn_channel_select: d15,d17,d52,d59
+  
+  # unet cnn configuration
+  # cnn_channel_select: d2,d3,d7,d12,d13,d14
+
+
+  cnn_channel_select_coarse: d121,d67,d60,d51
+  cnn_channel_select_fine: d5,d25,d22,d6
+  cnn_channels: 4
+  cnn_channels_coarse: 4
+  cnn_channels_fine: 4
+  cnn_layer_coarse: layer2
+  cnn_layer_fine: conv1
+  cnn_layer_full_channels: 16
+  cnn_layer_full_channels_coarse: 128
+  cnn_layer_full_channels_fine: 16
+  cnn_layer_name: conv1
+  cnn_mode: cnn_only
+  color: cnn
+  debug_tracking_diagnostics: true
+  device: cuda:0
+  dtype: float
+  keyframing:
+    kf_depth_motion_ratio: 0.12
+    kf_num_pixels_frac: 0.75
+    one_way_freq: 3
+  pyr:
+    depth_interp_mode: nearest_neighbor
+    end_level: 3
+    start_level: 0
+  sensor_tracking_only: false
+  sigmas:
+    photo: 0.1
+  term_criteria:
+    delta_norm: 0.001
+    grad_norm: 1.0
+    max_iter: 50
+    rel_tol: 0.001
+  unet_channel_select: d0,d2
+  unet_enc_level: 1
+  debug_tracking_print_every_frame: true
+  debug_tracking_save_suspicious: false

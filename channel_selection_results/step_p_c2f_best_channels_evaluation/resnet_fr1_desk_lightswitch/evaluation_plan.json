@@ -1,0 +1,2040 @@
+{
+  "protocol": "c2f_promising_channel_grid_execution_v1",
+  "architecture": "resnet",
+  "dataset": "/home/melody/data/tum/rgbd_dataset_freiburg1_desk_lightswitch",
+  "matched_frames": 573,
+  "candidate_plan": "/home/melody/code/individual_project/channel_selection_pipeline/scripts/step_p_c2f_best_channels_evaluation/resnet_c2f_candidate_plan.json",
+  "candidate_plan_sha256": "b0d181786b9eb088764c5c31e460c9d056fe5573a80efe4e2a56523f9fe97c9c",
+  "variants": [
+    "A",
+    "B"
+  ],
+  "replicates": 1,
+  "timeout_seconds": 500.0,
+  "minimum_coverage": 0.9,
+  "primary_metric": "historical keyframe evo_ape mean: --align --correct_scale",
+  "diagnostic_metrics": [
+    "historical evo_rpe",
+    "all-frame metric-scale SE(3) ATE/RPE",
+    "coverage",
+    "tracking numerical diagnostics"
+  ],
+  "configurations": [
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 1,
+        "channels": [
+          15,
+          20,
+          26,
+          34
+        ],
+        "source_ate_mean_cm": 10.3758,
+        "tag": "G4+Lstar"
+      },
+      "coarse": {
+        "rank": 1,
+        "channels": [
+          41,
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.61,
+        "tag": "G5+Lstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 1,
+        "channels": [
+          15,
+          20,
+          26,
+          34
+        ],
+        "source_ate_mean_cm": 10.3758,
+        "tag": "G4+Lstar"
+      },
+      "coarse": {
+        "rank": 2,
+        "channels": [
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.6714,
+        "tag": "G4"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 1,
+        "channels": [
+          15,
+          20,
+          26,
+          34
+        ],
+        "source_ate_mean_cm": 10.3758,
+        "tag": "G4+Lstar"
+      },
+      "coarse": {
+        "rank": 3,
+        "channels": [
+          41,
+          60,
+          67,
+          95,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.7413,
+        "tag": "G6"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 1,
+        "channels": [
+          15,
+          20,
+          26,
+          34
+        ],
+        "source_ate_mean_cm": 10.3758,
+        "tag": "G4+Lstar"
+      },
+      "coarse": {
+        "rank": 4,
+        "channels": [
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 15.9524,
+        "tag": "G3"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 1,
+        "channels": [
+          15,
+          20,
+          26,
+          34
+        ],
+        "source_ate_mean_cm": 10.3758,
+        "tag": "G4+Lstar"
+      },
+      "coarse": {
+        "rank": 5,
+        "channels": [
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 16.6202,
+        "tag": "G2"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 1,
+        "channels": [
+          15,
+          20,
+          26,
+          34
+        ],
+        "source_ate_mean_cm": 10.3758,
+        "tag": "G4+Lstar"
+      },
+      "coarse": {
+        "rank": 6,
+        "channels": [
+          37,
+          74,
+          119,
+          121
+        ],
+        "source_ate_mean_cm": 20.3798,
+        "tag": "R4+Rstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 2,
+        "channels": [
+          23,
+          24,
+          26,
+          51,
+          63
+        ],
+        "source_ate_mean_cm": 10.4535,
+        "tag": "G5"
+      },
+      "coarse": {
+        "rank": 1,
+        "channels": [
+          41,
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.61,
+        "tag": "G5+Lstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 2,
+        "channels": [
+          23,
+          24,
+          26,
+          51,
+          63
+        ],
+        "source_ate_mean_cm": 10.4535,
+        "tag": "G5"
+      },
+      "coarse": {
+        "rank": 2,
+        "channels": [
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.6714,
+        "tag": "G4"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 2,
+        "channels": [
+          23,
+          24,
+          26,
+          51,
+          63
+        ],
+        "source_ate_mean_cm": 10.4535,
+        "tag": "G5"
+      },
+      "coarse": {
+        "rank": 3,
+        "channels": [
+          41,
+          60,
+          67,
+          95,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.7413,
+        "tag": "G6"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 2,
+        "channels": [
+          23,
+          24,
+          26,
+          51,
+          63
+        ],
+        "source_ate_mean_cm": 10.4535,
+        "tag": "G5"
+      },
+      "coarse": {
+        "rank": 4,
+        "channels": [
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 15.9524,
+        "tag": "G3"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 2,
+        "channels": [
+          23,
+          24,
+          26,
+          51,
+          63
+        ],
+        "source_ate_mean_cm": 10.4535,
+        "tag": "G5"
+      },
+      "coarse": {
+        "rank": 5,
+        "channels": [
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 16.6202,
+        "tag": "G2"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 2,
+        "channels": [
+          23,
+          24,
+          26,
+          51,
+          63
+        ],
+        "source_ate_mean_cm": 10.4535,
+        "tag": "G5"
+      },
+      "coarse": {
+        "rank": 6,
+        "channels": [
+          37,
+          74,
+          119,
+          121
+        ],
+        "source_ate_mean_cm": 20.3798,
+        "tag": "R4+Rstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 3,
+        "channels": [
+          15,
+          20,
+          26,
+          34,
+          45,
+          53
+        ],
+        "source_ate_mean_cm": 11.6218,
+        "tag": "G6"
+      },
+      "coarse": {
+        "rank": 1,
+        "channels": [
+          41,
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.61,
+        "tag": "G5+Lstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 3,
+        "channels": [
+          15,
+          20,
+          26,
+          34,
+          45,
+          53
+        ],
+        "source_ate_mean_cm": 11.6218,
+        "tag": "G6"
+      },
+      "coarse": {
+        "rank": 2,
+        "channels": [
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.6714,
+        "tag": "G4"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 3,
+        "channels": [
+          15,
+          20,
+          26,
+          34,
+          45,
+          53
+        ],
+        "source_ate_mean_cm": 11.6218,
+        "tag": "G6"
+      },
+      "coarse": {
+        "rank": 3,
+        "channels": [
+          41,
+          60,
+          67,
+          95,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.7413,
+        "tag": "G6"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 3,
+        "channels": [
+          15,
+          20,
+          26,
+          34,
+          45,
+          53
+        ],
+        "source_ate_mean_cm": 11.6218,
+        "tag": "G6"
+      },
+      "coarse": {
+        "rank": 4,
+        "channels": [
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 15.9524,
+        "tag": "G3"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 3,
+        "channels": [
+          15,
+          20,
+          26,
+          34,
+          45,
+          53
+        ],
+        "source_ate_mean_cm": 11.6218,
+        "tag": "G6"
+      },
+      "coarse": {
+        "rank": 5,
+        "channels": [
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 16.6202,
+        "tag": "G2"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 3,
+        "channels": [
+          15,
+          20,
+          26,
+          34,
+          45,
+          53
+        ],
+        "source_ate_mean_cm": 11.6218,
+        "tag": "G6"
+      },
+      "coarse": {
+        "rank": 6,
+        "channels": [
+          37,
+          74,
+          119,
+          121
+        ],
+        "source_ate_mean_cm": 20.3798,
+        "tag": "R4+Rstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 4,
+        "channels": [
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 13.981,
+        "tag": "G2"
+      },
+      "coarse": {
+        "rank": 1,
+        "channels": [
+          41,
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.61,
+        "tag": "G5+Lstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 4,
+        "channels": [
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 13.981,
+        "tag": "G2"
+      },
+      "coarse": {
+        "rank": 2,
+        "channels": [
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.6714,
+        "tag": "G4"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 4,
+        "channels": [
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 13.981,
+        "tag": "G2"
+      },
+      "coarse": {
+        "rank": 3,
+        "channels": [
+          41,
+          60,
+          67,
+          95,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.7413,
+        "tag": "G6"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 4,
+        "channels": [
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 13.981,
+        "tag": "G2"
+      },
+      "coarse": {
+        "rank": 4,
+        "channels": [
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 15.9524,
+        "tag": "G3"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 4,
+        "channels": [
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 13.981,
+        "tag": "G2"
+      },
+      "coarse": {
+        "rank": 5,
+        "channels": [
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 16.6202,
+        "tag": "G2"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 4,
+        "channels": [
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 13.981,
+        "tag": "G2"
+      },
+      "coarse": {
+        "rank": 6,
+        "channels": [
+          37,
+          74,
+          119,
+          121
+        ],
+        "source_ate_mean_cm": 20.3798,
+        "tag": "R4+Rstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 5,
+        "channels": [
+          5,
+          6,
+          24,
+          29
+        ],
+        "source_ate_mean_cm": 14.0623,
+        "tag": "historical-correlation H4"
+      },
+      "coarse": {
+        "rank": 1,
+        "channels": [
+          41,
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.61,
+        "tag": "G5+Lstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 5,
+        "channels": [
+          5,
+          6,
+          24,
+          29
+        ],
+        "source_ate_mean_cm": 14.0623,
+        "tag": "historical-correlation H4"
+      },
+      "coarse": {
+        "rank": 2,
+        "channels": [
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.6714,
+        "tag": "G4"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 5,
+        "channels": [
+          5,
+          6,
+          24,
+          29
+        ],
+        "source_ate_mean_cm": 14.0623,
+        "tag": "historical-correlation H4"
+      },
+      "coarse": {
+        "rank": 3,
+        "channels": [
+          41,
+          60,
+          67,
+          95,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.7413,
+        "tag": "G6"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 5,
+        "channels": [
+          5,
+          6,
+          24,
+          29
+        ],
+        "source_ate_mean_cm": 14.0623,
+        "tag": "historical-correlation H4"
+      },
+      "coarse": {
+        "rank": 4,
+        "channels": [
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 15.9524,
+        "tag": "G3"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 5,
+        "channels": [
+          5,
+          6,
+          24,
+          29
+        ],
+        "source_ate_mean_cm": 14.0623,
+        "tag": "historical-correlation H4"
+      },
+      "coarse": {
+        "rank": 5,
+        "channels": [
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 16.6202,
+        "tag": "G2"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 5,
+        "channels": [
+          5,
+          6,
+          24,
+          29
+        ],
+        "source_ate_mean_cm": 14.0623,
+        "tag": "historical-correlation H4"
+      },
+      "coarse": {
+        "rank": 6,
+        "channels": [
+          37,
+          74,
+          119,
+          121
+        ],
+        "source_ate_mean_cm": 20.3798,
+        "tag": "R4+Rstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 6,
+        "channels": [
+          29,
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 14.6721,
+        "tag": "G3"
+      },
+      "coarse": {
+        "rank": 1,
+        "channels": [
+          41,
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.61,
+        "tag": "G5+Lstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 6,
+        "channels": [
+          29,
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 14.6721,
+        "tag": "G3"
+      },
+      "coarse": {
+        "rank": 2,
+        "channels": [
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.6714,
+        "tag": "G4"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 6,
+        "channels": [
+          29,
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 14.6721,
+        "tag": "G3"
+      },
+      "coarse": {
+        "rank": 3,
+        "channels": [
+          41,
+          60,
+          67,
+          95,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.7413,
+        "tag": "G6"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 6,
+        "channels": [
+          29,
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 14.6721,
+        "tag": "G3"
+      },
+      "coarse": {
+        "rank": 4,
+        "channels": [
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 15.9524,
+        "tag": "G3"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 6,
+        "channels": [
+          29,
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 14.6721,
+        "tag": "G3"
+      },
+      "coarse": {
+        "rank": 5,
+        "channels": [
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 16.6202,
+        "tag": "G2"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "A",
+      "fine": {
+        "rank": 6,
+        "channels": [
+          29,
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 14.6721,
+        "tag": "G3"
+      },
+      "coarse": {
+        "rank": 6,
+        "channels": [
+          37,
+          74,
+          119,
+          121
+        ],
+        "source_ate_mean_cm": 20.3798,
+        "tag": "R4+Rstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 1,
+        "channels": [
+          15,
+          20,
+          26,
+          34
+        ],
+        "source_ate_mean_cm": 10.3758,
+        "tag": "G4+Lstar"
+      },
+      "coarse": {
+        "rank": 1,
+        "channels": [
+          41,
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.61,
+        "tag": "G5+Lstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 1,
+        "channels": [
+          15,
+          20,
+          26,
+          34
+        ],
+        "source_ate_mean_cm": 10.3758,
+        "tag": "G4+Lstar"
+      },
+      "coarse": {
+        "rank": 2,
+        "channels": [
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.6714,
+        "tag": "G4"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 1,
+        "channels": [
+          15,
+          20,
+          26,
+          34
+        ],
+        "source_ate_mean_cm": 10.3758,
+        "tag": "G4+Lstar"
+      },
+      "coarse": {
+        "rank": 3,
+        "channels": [
+          41,
+          60,
+          67,
+          95,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.7413,
+        "tag": "G6"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 1,
+        "channels": [
+          15,
+          20,
+          26,
+          34
+        ],
+        "source_ate_mean_cm": 10.3758,
+        "tag": "G4+Lstar"
+      },
+      "coarse": {
+        "rank": 4,
+        "channels": [
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 15.9524,
+        "tag": "G3"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 1,
+        "channels": [
+          15,
+          20,
+          26,
+          34
+        ],
+        "source_ate_mean_cm": 10.3758,
+        "tag": "G4+Lstar"
+      },
+      "coarse": {
+        "rank": 5,
+        "channels": [
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 16.6202,
+        "tag": "G2"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 1,
+        "channels": [
+          15,
+          20,
+          26,
+          34
+        ],
+        "source_ate_mean_cm": 10.3758,
+        "tag": "G4+Lstar"
+      },
+      "coarse": {
+        "rank": 6,
+        "channels": [
+          37,
+          74,
+          119,
+          121
+        ],
+        "source_ate_mean_cm": 20.3798,
+        "tag": "R4+Rstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 2,
+        "channels": [
+          23,
+          24,
+          26,
+          51,
+          63
+        ],
+        "source_ate_mean_cm": 10.4535,
+        "tag": "G5"
+      },
+      "coarse": {
+        "rank": 1,
+        "channels": [
+          41,
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.61,
+        "tag": "G5+Lstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 2,
+        "channels": [
+          23,
+          24,
+          26,
+          51,
+          63
+        ],
+        "source_ate_mean_cm": 10.4535,
+        "tag": "G5"
+      },
+      "coarse": {
+        "rank": 2,
+        "channels": [
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.6714,
+        "tag": "G4"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 2,
+        "channels": [
+          23,
+          24,
+          26,
+          51,
+          63
+        ],
+        "source_ate_mean_cm": 10.4535,
+        "tag": "G5"
+      },
+      "coarse": {
+        "rank": 3,
+        "channels": [
+          41,
+          60,
+          67,
+          95,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.7413,
+        "tag": "G6"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 2,
+        "channels": [
+          23,
+          24,
+          26,
+          51,
+          63
+        ],
+        "source_ate_mean_cm": 10.4535,
+        "tag": "G5"
+      },
+      "coarse": {
+        "rank": 4,
+        "channels": [
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 15.9524,
+        "tag": "G3"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 2,
+        "channels": [
+          23,
+          24,
+          26,
+          51,
+          63
+        ],
+        "source_ate_mean_cm": 10.4535,
+        "tag": "G5"
+      },
+      "coarse": {
+        "rank": 5,
+        "channels": [
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 16.6202,
+        "tag": "G2"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 2,
+        "channels": [
+          23,
+          24,
+          26,
+          51,
+          63
+        ],
+        "source_ate_mean_cm": 10.4535,
+        "tag": "G5"
+      },
+      "coarse": {
+        "rank": 6,
+        "channels": [
+          37,
+          74,
+          119,
+          121
+        ],
+        "source_ate_mean_cm": 20.3798,
+        "tag": "R4+Rstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 3,
+        "channels": [
+          15,
+          20,
+          26,
+          34,
+          45,
+          53
+        ],
+        "source_ate_mean_cm": 11.6218,
+        "tag": "G6"
+      },
+      "coarse": {
+        "rank": 1,
+        "channels": [
+          41,
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.61,
+        "tag": "G5+Lstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 3,
+        "channels": [
+          15,
+          20,
+          26,
+          34,
+          45,
+          53
+        ],
+        "source_ate_mean_cm": 11.6218,
+        "tag": "G6"
+      },
+      "coarse": {
+        "rank": 2,
+        "channels": [
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.6714,
+        "tag": "G4"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 3,
+        "channels": [
+          15,
+          20,
+          26,
+          34,
+          45,
+          53
+        ],
+        "source_ate_mean_cm": 11.6218,
+        "tag": "G6"
+      },
+      "coarse": {
+        "rank": 3,
+        "channels": [
+          41,
+          60,
+          67,
+          95,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.7413,
+        "tag": "G6"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 3,
+        "channels": [
+          15,
+          20,
+          26,
+          34,
+          45,
+          53
+        ],
+        "source_ate_mean_cm": 11.6218,
+        "tag": "G6"
+      },
+      "coarse": {
+        "rank": 4,
+        "channels": [
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 15.9524,
+        "tag": "G3"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 3,
+        "channels": [
+          15,
+          20,
+          26,
+          34,
+          45,
+          53
+        ],
+        "source_ate_mean_cm": 11.6218,
+        "tag": "G6"
+      },
+      "coarse": {
+        "rank": 5,
+        "channels": [
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 16.6202,
+        "tag": "G2"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 3,
+        "channels": [
+          15,
+          20,
+          26,
+          34,
+          45,
+          53
+        ],
+        "source_ate_mean_cm": 11.6218,
+        "tag": "G6"
+      },
+      "coarse": {
+        "rank": 6,
+        "channels": [
+          37,
+          74,
+          119,
+          121
+        ],
+        "source_ate_mean_cm": 20.3798,
+        "tag": "R4+Rstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 4,
+        "channels": [
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 13.981,
+        "tag": "G2"
+      },
+      "coarse": {
+        "rank": 1,
+        "channels": [
+          41,
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.61,
+        "tag": "G5+Lstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 4,
+        "channels": [
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 13.981,
+        "tag": "G2"
+      },
+      "coarse": {
+        "rank": 2,
+        "channels": [
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.6714,
+        "tag": "G4"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 4,
+        "channels": [
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 13.981,
+        "tag": "G2"
+      },
+      "coarse": {
+        "rank": 3,
+        "channels": [
+          41,
+          60,
+          67,
+          95,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.7413,
+        "tag": "G6"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 4,
+        "channels": [
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 13.981,
+        "tag": "G2"
+      },
+      "coarse": {
+        "rank": 4,
+        "channels": [
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 15.9524,
+        "tag": "G3"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 4,
+        "channels": [
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 13.981,
+        "tag": "G2"
+      },
+      "coarse": {
+        "rank": 5,
+        "channels": [
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 16.6202,
+        "tag": "G2"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 4,
+        "channels": [
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 13.981,
+        "tag": "G2"
+      },
+      "coarse": {
+        "rank": 6,
+        "channels": [
+          37,
+          74,
+          119,
+          121
+        ],
+        "source_ate_mean_cm": 20.3798,
+        "tag": "R4+Rstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 5,
+        "channels": [
+          5,
+          6,
+          24,
+          29
+        ],
+        "source_ate_mean_cm": 14.0623,
+        "tag": "historical-correlation H4"
+      },
+      "coarse": {
+        "rank": 1,
+        "channels": [
+          41,
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.61,
+        "tag": "G5+Lstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 5,
+        "channels": [
+          5,
+          6,
+          24,
+          29
+        ],
+        "source_ate_mean_cm": 14.0623,
+        "tag": "historical-correlation H4"
+      },
+      "coarse": {
+        "rank": 2,
+        "channels": [
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.6714,
+        "tag": "G4"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 5,
+        "channels": [
+          5,
+          6,
+          24,
+          29
+        ],
+        "source_ate_mean_cm": 14.0623,
+        "tag": "historical-correlation H4"
+      },
+      "coarse": {
+        "rank": 3,
+        "channels": [
+          41,
+          60,
+          67,
+          95,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.7413,
+        "tag": "G6"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 5,
+        "channels": [
+          5,
+          6,
+          24,
+          29
+        ],
+        "source_ate_mean_cm": 14.0623,
+        "tag": "historical-correlation H4"
+      },
+      "coarse": {
+        "rank": 4,
+        "channels": [
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 15.9524,
+        "tag": "G3"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 5,
+        "channels": [
+          5,
+          6,
+          24,
+          29
+        ],
+        "source_ate_mean_cm": 14.0623,
+        "tag": "historical-correlation H4"
+      },
+      "coarse": {
+        "rank": 5,
+        "channels": [
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 16.6202,
+        "tag": "G2"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 5,
+        "channels": [
+          5,
+          6,
+          24,
+          29
+        ],
+        "source_ate_mean_cm": 14.0623,
+        "tag": "historical-correlation H4"
+      },
+      "coarse": {
+        "rank": 6,
+        "channels": [
+          37,
+          74,
+          119,
+          121
+        ],
+        "source_ate_mean_cm": 20.3798,
+        "tag": "R4+Rstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 6,
+        "channels": [
+          29,
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 14.6721,
+        "tag": "G3"
+      },
+      "coarse": {
+        "rank": 1,
+        "channels": [
+          41,
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.61,
+        "tag": "G5+Lstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 6,
+        "channels": [
+          29,
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 14.6721,
+        "tag": "G3"
+      },
+      "coarse": {
+        "rank": 2,
+        "channels": [
+          60,
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.6714,
+        "tag": "G4"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 6,
+        "channels": [
+          29,
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 14.6721,
+        "tag": "G3"
+      },
+      "coarse": {
+        "rank": 3,
+        "channels": [
+          41,
+          60,
+          67,
+          95,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 12.7413,
+        "tag": "G6"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 6,
+        "channels": [
+          29,
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 14.6721,
+        "tag": "G3"
+      },
+      "coarse": {
+        "rank": 4,
+        "channels": [
+          67,
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 15.9524,
+        "tag": "G3"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 6,
+        "channels": [
+          29,
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 14.6721,
+        "tag": "G3"
+      },
+      "coarse": {
+        "rank": 5,
+        "channels": [
+          108,
+          121
+        ],
+        "source_ate_mean_cm": 16.6202,
+        "tag": "G2"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    },
+    {
+      "architecture": "resnet",
+      "variant": "B",
+      "fine": {
+        "rank": 6,
+        "channels": [
+          29,
+          33,
+          52
+        ],
+        "source_ate_mean_cm": 14.6721,
+        "tag": "G3"
+      },
+      "coarse": {
+        "rank": 6,
+        "channels": [
+          37,
+          74,
+          119,
+          121
+        ],
+        "source_ate_mean_cm": 20.3798,
+        "tag": "R4+Rstar"
+      },
+      "fine_layer": "conv1",
+      "coarse_layer": "layer2"
+    }
+  ]
+}

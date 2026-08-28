@@ -1,0 +1,3 @@
+variant,c2f_cells,c2f_pass_count,comparable_parent_pairs,beats_fine_parent_count,beats_better_direct_parent_count,median_percent_delta_vs_fine,median_percent_delta_vs_better_parent
+A,18,17,17,5,5,10.595452537130816,10.595452537130816
+B,18,16,16,3,3,4.846329959789612,4.846329959789612

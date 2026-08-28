@@ -1,0 +1,22 @@
+{
+  "protocol": "c2f_full_grid_completion_v1",
+  "architecture": "unet",
+  "source_grid_plan": "../step_p_c2f_best_channels_evaluation/unet_c2f_candidate_plan.json",
+  "reuse_step_q_plan": "../step_q_c2f_multi_dataset_evaluation/unet_c2f_parent_comparison_plan.json",
+  "reuse_step_q_output": "channel_selection_results/step_q_c2f_multi_dataset_evaluation/unet",
+  "fine_top_count": 5,
+  "coarse_top_count": 4,
+  "variants": ["A", "B"],
+  "replicates": 1,
+  "timeout_seconds": 500,
+  "expected": {
+    "full_c2f_pairs": 40,
+    "reused_step_q_c2f_pairs": 4,
+    "new_c2f_pairs": 36,
+    "full_direct_parents": 9,
+    "reused_step_q_direct_parents": 5,
+    "new_direct_parents": 4,
+    "new_evaluations_per_dataset": 40,
+    "new_evaluations_all_datasets": 360
+  }
+}

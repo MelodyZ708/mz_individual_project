@@ -1,0 +1,5 @@
+c2f_label,variant,configuration,c2f_pass_count,comparable_parent_pairs,beats_fine_parent_count,beats_better_direct_parent_count,median_delta_vs_fine_cm,median_percent_delta_vs_fine,median_delta_vs_better_parent_cm,median_percent_delta_vs_better_parent,noncomparable_c2f_nonpass_count,noncomparable_parent_nonpass_count,not_run_count
+unet_c2f_a_f5_c4_positive_synergy,A,"C2F-A; fine enc0[d2,d3,d7,d12,d13]; coarse enc1[d0,d5,d6,d18,d30]",9,9,8,8,-0.33370000000000033,-4.216989017957503,-0.33370000000000033,-4.216989017957503,0,0,0
+unet_c2f_a_f2_c4_global_best,A,"C2F-A; fine enc0[d3,d7,d12]; coarse enc1[d0,d5,d6,d18,d30]",9,9,8,8,-0.22710000000000008,-2.330856697969028,-0.22710000000000008,-2.330856697969028,0,0,0
+unet_c2f_a_f1_c4_negative_high_parent,A,"C2F-A; fine enc0[d2,d3,d7,d12,d13,d14]; coarse enc1[d0,d5,d6,d18,d30]",9,9,7,7,-0.2555999999999994,-3.7320902565275853,-0.2555999999999994,-3.7320902565275853,0,0,0
+unet_c2f_b_f2_c2_variant_contrast,B,"C2F-B; fine enc0[d3,d7,d12]; coarse enc1[d0,d5,d6,d17,d18,d30]",9,9,5,4,-0.25619999999999976,-2.4625380866790314,0.00020000000000042206,0.006507027589810713,0,0,0

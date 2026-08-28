@@ -1,0 +1,109 @@
+{
+  "protocol": "c2f_parent_comparative_candidate_plan_v1",
+  "architecture": "unet",
+  "source_scope": "fr1/desk_lightswitch direct greedy searches and completed Step-P C2F grid",
+  "selection": {
+    "selected_count": 10,
+    "replicates_per_dataset": 1,
+    "source_metric": "historical keyframe evo_ape ATE mean with --align --correct_scale",
+    "selection_rule": "Show the gray control; the direct parents needed to interpret each C2F cell; the global C2F best; a strong positive synergy; and a high-ranked direct parent for which C2F is worse."
+  },
+  "candidates": [
+    {
+      "label": "gray_baseline",
+      "candidate_key": "gray",
+      "mode": "gray",
+      "role": "Photometric grayscale baseline; no learned tracking features.",
+      "source_fr1_lightswitch_ate_mean_cm": null
+    },
+    {
+      "label": "unet_enc1_direct_c4_d00_d05_d06_d18_d30",
+      "candidate_key": "unet:direct:enc1:0,5,6,18,30",
+      "mode": "direct",
+      "layer": "enc1",
+      "channels": [0, 5, 6, 18, 30],
+      "role": "Direct coarse parent C4, selected because it participates in the strongest U-Net C2F results.",
+      "source_fr1_lightswitch_ate_mean_cm": 7.6408
+    },
+    {
+      "label": "unet_enc1_direct_c2_d00_d05_d06_d17_d18_d30",
+      "candidate_key": "unet:direct:enc1:0,5,6,17,18,30",
+      "mode": "direct",
+      "layer": "enc1",
+      "channels": [0, 5, 6, 17, 18, 30],
+      "role": "Direct coarse parent C2, needed to interpret the C2F-B schedule contrast.",
+      "source_fr1_lightswitch_ate_mean_cm": 6.9553
+    },
+    {
+      "label": "unet_enc0_direct_f1_d02_d03_d07_d12_d13_d14",
+      "candidate_key": "unet:direct:enc0:2,3,7,12,13,14",
+      "mode": "direct",
+      "layer": "enc0",
+      "channels": [2, 3, 7, 12, 13, 14],
+      "role": "Direct fine parent F1: global direct U-Net optimum on fr1/desk_lightswitch.",
+      "source_fr1_lightswitch_ate_mean_cm": 5.9208
+    },
+    {
+      "label": "unet_enc0_direct_f2_d03_d07_d12",
+      "candidate_key": "unet:direct:enc0:3,7,12",
+      "mode": "direct",
+      "layer": "enc0",
+      "channels": [3, 7, 12],
+      "role": "Direct fine parent F2: the three-channel near-optimum.",
+      "source_fr1_lightswitch_ate_mean_cm": 6.0004
+    },
+    {
+      "label": "unet_enc0_direct_f5_d02_d03_d07_d12_d13",
+      "candidate_key": "unet:direct:enc0:2,3,7,12,13",
+      "mode": "direct",
+      "layer": "enc0",
+      "channels": [2, 3, 7, 12, 13],
+      "role": "Direct fine parent F5, included because it has the clearest positive C2F synergy.",
+      "source_fr1_lightswitch_ate_mean_cm": 7.0959
+    },
+    {
+      "label": "unet_c2f_a_f1_c4_negative_high_parent",
+      "candidate_key": "unet:c2f:A:fine2,3,7,12,13,14:coarse0,5,6,18,30",
+      "mode": "c2f",
+      "variant": "A",
+      "fine": {"layer": "enc0", "channels": [2, 3, 7, 12, 13, 14]},
+      "coarse": {"layer": "enc1", "channels": [0, 5, 6, 18, 30]},
+      "parent_labels": ["unet_enc0_direct_f1_d02_d03_d07_d12_d13_d14", "unet_enc1_direct_c4_d00_d05_d06_d18_d30"],
+      "role": "C2F-A negative control: on fr1 lightswitch it is worse than the globally best direct fine parent F1.",
+      "source_fr1_lightswitch_ate_mean_cm": 6.5324
+    },
+    {
+      "label": "unet_c2f_a_f2_c4_global_best",
+      "candidate_key": "unet:c2f:A:fine3,7,12:coarse0,5,6,18,30",
+      "mode": "c2f",
+      "variant": "A",
+      "fine": {"layer": "enc0", "channels": [3, 7, 12]},
+      "coarse": {"layer": "enc1", "channels": [0, 5, 6, 18, 30]},
+      "parent_labels": ["unet_enc0_direct_f2_d03_d07_d12", "unet_enc1_direct_c4_d00_d05_d06_d18_d30"],
+      "role": "C2F-A global U-Net C2F optimum on fr1 lightswitch; compare against both direct parents.",
+      "source_fr1_lightswitch_ate_mean_cm": 5.8765
+    },
+    {
+      "label": "unet_c2f_a_f5_c4_positive_synergy",
+      "candidate_key": "unet:c2f:A:fine2,3,7,12,13:coarse0,5,6,18,30",
+      "mode": "c2f",
+      "variant": "A",
+      "fine": {"layer": "enc0", "channels": [2, 3, 7, 12, 13]},
+      "coarse": {"layer": "enc1", "channels": [0, 5, 6, 18, 30]},
+      "parent_labels": ["unet_enc0_direct_f5_d02_d03_d07_d12_d13", "unet_enc1_direct_c4_d00_d05_d06_d18_d30"],
+      "role": "C2F-A positive synergy case: 12.8% lower fr1-lightswitch ATE than direct F5.",
+      "source_fr1_lightswitch_ate_mean_cm": 6.1874
+    },
+    {
+      "label": "unet_c2f_b_f2_c2_variant_contrast",
+      "candidate_key": "unet:c2f:B:fine3,7,12:coarse0,5,6,17,18,30",
+      "mode": "c2f",
+      "variant": "B",
+      "fine": {"layer": "enc0", "channels": [3, 7, 12]},
+      "coarse": {"layer": "enc1", "channels": [0, 5, 6, 17, 18, 30]},
+      "parent_labels": ["unet_enc0_direct_f2_d03_d07_d12", "unet_enc1_direct_c2_d00_d05_d06_d17_d18_d30"],
+      "role": "C2F-B schedule contrast: on fr1 lightswitch it is worse than direct F2, despite the same fine scale family.",
+      "source_fr1_lightswitch_ate_mean_cm": 6.3454
+    }
+  ]
+}

@@ -1,0 +1,1741 @@
+{
+  "protocol": "c2f_full_grid_completion_execution_v1",
+  "architecture": "unet",
+  "dataset_key": "fr2_desk_flashlight",
+  "dataset": "/home/melody/data/tum/rgbd_dataset_freiburg2_desk_flashlight",
+  "matched_frames": 2893,
+  "completion_plan": "/home/melody/code/individual_project/channel_selection_pipeline/scripts/step_r_c2f_grid_completion/unet_c2f_grid_completion_plan.json",
+  "completion_plan_sha256": "4e3e01f19d79b435c6f1b45f4bf1930220819ac4edce4ba47012ce0c0477730e",
+  "step_q_reuse_output": "/home/melody/code/individual_project/channel_selection_results/step_q_c2f_multi_dataset_evaluation/unet",
+  "timeout_seconds": 500.0,
+  "minimum_coverage": 0.9,
+  "full_grid": [
+    {
+      "label": "unet_direct_fine01",
+      "kind": "direct_fine",
+      "spec": {
+        "label": "unet_direct_fine01",
+        "candidate_key": "unet:direct:enc0:2,3,7,12,13,14",
+        "architecture": "unet",
+        "mode": "direct",
+        "role": "Step-R direct fine rank 1",
+        "source_ate_mean_cm": 5.9208,
+        "direct_layer": "enc0",
+        "direct_channels": [
+          2,
+          3,
+          7,
+          12,
+          13,
+          14
+        ],
+        "variant": null,
+        "fine_layer": null,
+        "fine_channels": [],
+        "coarse_layer": null,
+        "coarse_channels": [],
+        "parent_labels": []
+      },
+      "fine_rank": 1,
+      "coarse_rank": null,
+      "variant": null,
+      "reused_step_q_label": "unet_enc0_direct_f1_d02_d03_d07_d12_d13_d14"
+    },
+    {
+      "label": "unet_direct_fine02",
+      "kind": "direct_fine",
+      "spec": {
+        "label": "unet_direct_fine02",
+        "candidate_key": "unet:direct:enc0:3,7,12",
+        "architecture": "unet",
+        "mode": "direct",
+        "role": "Step-R direct fine rank 2",
+        "source_ate_mean_cm": 6.0004,
+        "direct_layer": "enc0",
+        "direct_channels": [
+          3,
+          7,
+          12
+        ],
+        "variant": null,
+        "fine_layer": null,
+        "fine_channels": [],
+        "coarse_layer": null,
+        "coarse_channels": [],
+        "parent_labels": []
+      },
+      "fine_rank": 2,
+      "coarse_rank": null,
+      "variant": null,
+      "reused_step_q_label": "unet_enc0_direct_f2_d03_d07_d12"
+    },
+    {
+      "label": "unet_direct_fine03",
+      "kind": "direct_fine",
+      "spec": {
+        "label": "unet_direct_fine03",
+        "candidate_key": "unet:direct:enc0:2,3,12,14",
+        "architecture": "unet",
+        "mode": "direct",
+        "role": "Step-R direct fine rank 3",
+        "source_ate_mean_cm": 6.3905,
+        "direct_layer": "enc0",
+        "direct_channels": [
+          2,
+          3,
+          12,
+          14
+        ],
+        "variant": null,
+        "fine_layer": null,
+        "fine_channels": [],
+        "coarse_layer": null,
+        "coarse_channels": [],
+        "parent_labels": []
+      },
+      "fine_rank": 3,
+      "coarse_rank": null,
+      "variant": null,
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_direct_fine04",
+      "kind": "direct_fine",
+      "spec": {
+        "label": "unet_direct_fine04",
+        "candidate_key": "unet:direct:enc0:2,4,6",
+        "architecture": "unet",
+        "mode": "direct",
+        "role": "Step-R direct fine rank 4",
+        "source_ate_mean_cm": 6.6111,
+        "direct_layer": "enc0",
+        "direct_channels": [
+          2,
+          4,
+          6
+        ],
+        "variant": null,
+        "fine_layer": null,
+        "fine_channels": [],
+        "coarse_layer": null,
+        "coarse_channels": [],
+        "parent_labels": []
+      },
+      "fine_rank": 4,
+      "coarse_rank": null,
+      "variant": null,
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_direct_fine05",
+      "kind": "direct_fine",
+      "spec": {
+        "label": "unet_direct_fine05",
+        "candidate_key": "unet:direct:enc0:2,3,7,12,13",
+        "architecture": "unet",
+        "mode": "direct",
+        "role": "Step-R direct fine rank 5",
+        "source_ate_mean_cm": 7.0959,
+        "direct_layer": "enc0",
+        "direct_channels": [
+          2,
+          3,
+          7,
+          12,
+          13
+        ],
+        "variant": null,
+        "fine_layer": null,
+        "fine_channels": [],
+        "coarse_layer": null,
+        "coarse_channels": [],
+        "parent_labels": []
+      },
+      "fine_rank": 5,
+      "coarse_rank": null,
+      "variant": null,
+      "reused_step_q_label": "unet_enc0_direct_f5_d02_d03_d07_d12_d13"
+    },
+    {
+      "label": "unet_direct_coarse01",
+      "kind": "direct_coarse",
+      "spec": {
+        "label": "unet_direct_coarse01",
+        "candidate_key": "unet:direct:enc1:5,6,17,18,28,30",
+        "architecture": "unet",
+        "mode": "direct",
+        "role": "Step-R direct coarse rank 1",
+        "source_ate_mean_cm": 6.7335,
+        "direct_layer": "enc1",
+        "direct_channels": [
+          5,
+          6,
+          17,
+          18,
+          28,
+          30
+        ],
+        "variant": null,
+        "fine_layer": null,
+        "fine_channels": [],
+        "coarse_layer": null,
+        "coarse_channels": [],
+        "parent_labels": []
+      },
+      "fine_rank": null,
+      "coarse_rank": 1,
+      "variant": null,
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_direct_coarse02",
+      "kind": "direct_coarse",
+      "spec": {
+        "label": "unet_direct_coarse02",
+        "candidate_key": "unet:direct:enc1:0,5,6,17,18,30",
+        "architecture": "unet",
+        "mode": "direct",
+        "role": "Step-R direct coarse rank 2",
+        "source_ate_mean_cm": 6.9553,
+        "direct_layer": "enc1",
+        "direct_channels": [
+          0,
+          5,
+          6,
+          17,
+          18,
+          30
+        ],
+        "variant": null,
+        "fine_layer": null,
+        "fine_channels": [],
+        "coarse_layer": null,
+        "coarse_channels": [],
+        "parent_labels": []
+      },
+      "fine_rank": null,
+      "coarse_rank": 2,
+      "variant": null,
+      "reused_step_q_label": "unet_enc1_direct_c2_d00_d05_d06_d17_d18_d30"
+    },
+    {
+      "label": "unet_direct_coarse03",
+      "kind": "direct_coarse",
+      "spec": {
+        "label": "unet_direct_coarse03",
+        "candidate_key": "unet:direct:enc1:0,5,18,30",
+        "architecture": "unet",
+        "mode": "direct",
+        "role": "Step-R direct coarse rank 3",
+        "source_ate_mean_cm": 7.1673,
+        "direct_layer": "enc1",
+        "direct_channels": [
+          0,
+          5,
+          18,
+          30
+        ],
+        "variant": null,
+        "fine_layer": null,
+        "fine_channels": [],
+        "coarse_layer": null,
+        "coarse_channels": [],
+        "parent_labels": []
+      },
+      "fine_rank": null,
+      "coarse_rank": 3,
+      "variant": null,
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_direct_coarse04",
+      "kind": "direct_coarse",
+      "spec": {
+        "label": "unet_direct_coarse04",
+        "candidate_key": "unet:direct:enc1:0,5,6,18,30",
+        "architecture": "unet",
+        "mode": "direct",
+        "role": "Step-R direct coarse rank 4",
+        "source_ate_mean_cm": 7.6408,
+        "direct_layer": "enc1",
+        "direct_channels": [
+          0,
+          5,
+          6,
+          18,
+          30
+        ],
+        "variant": null,
+        "fine_layer": null,
+        "fine_channels": [],
+        "coarse_layer": null,
+        "coarse_channels": [],
+        "parent_labels": []
+      },
+      "fine_rank": null,
+      "coarse_rank": 4,
+      "variant": null,
+      "reused_step_q_label": "unet_enc1_direct_c4_d00_d05_d06_d18_d30"
+    },
+    {
+      "label": "unet_c2f_a_fine01_coarse01",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine01_coarse01",
+        "candidate_key": "unet:c2f:A:fine2,3,7,12,13,14:coarse5,6,17,18,28,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F1 \u00d7 C1",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          7,
+          12,
+          13,
+          14
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          5,
+          6,
+          17,
+          18,
+          28,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 1,
+      "coarse_rank": 1,
+      "variant": "A",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_a_fine01_coarse02",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine01_coarse02",
+        "candidate_key": "unet:c2f:A:fine2,3,7,12,13,14:coarse0,5,6,17,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F1 \u00d7 C2",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          7,
+          12,
+          13,
+          14
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          17,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 1,
+      "coarse_rank": 2,
+      "variant": "A",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_a_fine01_coarse03",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine01_coarse03",
+        "candidate_key": "unet:c2f:A:fine2,3,7,12,13,14:coarse0,5,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F1 \u00d7 C3",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          7,
+          12,
+          13,
+          14
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 1,
+      "coarse_rank": 3,
+      "variant": "A",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_a_fine01_coarse04",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine01_coarse04",
+        "candidate_key": "unet:c2f:A:fine2,3,7,12,13,14:coarse0,5,6,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F1 \u00d7 C4",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          7,
+          12,
+          13,
+          14
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 1,
+      "coarse_rank": 4,
+      "variant": "A",
+      "reused_step_q_label": "unet_c2f_a_f1_c4_negative_high_parent"
+    },
+    {
+      "label": "unet_c2f_a_fine02_coarse01",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine02_coarse01",
+        "candidate_key": "unet:c2f:A:fine3,7,12:coarse5,6,17,18,28,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F2 \u00d7 C1",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          3,
+          7,
+          12
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          5,
+          6,
+          17,
+          18,
+          28,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 2,
+      "coarse_rank": 1,
+      "variant": "A",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_a_fine02_coarse02",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine02_coarse02",
+        "candidate_key": "unet:c2f:A:fine3,7,12:coarse0,5,6,17,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F2 \u00d7 C2",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          3,
+          7,
+          12
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          17,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 2,
+      "coarse_rank": 2,
+      "variant": "A",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_a_fine02_coarse03",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine02_coarse03",
+        "candidate_key": "unet:c2f:A:fine3,7,12:coarse0,5,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F2 \u00d7 C3",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          3,
+          7,
+          12
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 2,
+      "coarse_rank": 3,
+      "variant": "A",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_a_fine02_coarse04",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine02_coarse04",
+        "candidate_key": "unet:c2f:A:fine3,7,12:coarse0,5,6,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F2 \u00d7 C4",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          3,
+          7,
+          12
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 2,
+      "coarse_rank": 4,
+      "variant": "A",
+      "reused_step_q_label": "unet_c2f_a_f2_c4_global_best"
+    },
+    {
+      "label": "unet_c2f_a_fine03_coarse01",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine03_coarse01",
+        "candidate_key": "unet:c2f:A:fine2,3,12,14:coarse5,6,17,18,28,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F3 \u00d7 C1",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          12,
+          14
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          5,
+          6,
+          17,
+          18,
+          28,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 3,
+      "coarse_rank": 1,
+      "variant": "A",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_a_fine03_coarse02",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine03_coarse02",
+        "candidate_key": "unet:c2f:A:fine2,3,12,14:coarse0,5,6,17,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F3 \u00d7 C2",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          12,
+          14
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          17,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 3,
+      "coarse_rank": 2,
+      "variant": "A",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_a_fine03_coarse03",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine03_coarse03",
+        "candidate_key": "unet:c2f:A:fine2,3,12,14:coarse0,5,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F3 \u00d7 C3",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          12,
+          14
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 3,
+      "coarse_rank": 3,
+      "variant": "A",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_a_fine03_coarse04",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine03_coarse04",
+        "candidate_key": "unet:c2f:A:fine2,3,12,14:coarse0,5,6,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F3 \u00d7 C4",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          12,
+          14
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 3,
+      "coarse_rank": 4,
+      "variant": "A",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_a_fine04_coarse01",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine04_coarse01",
+        "candidate_key": "unet:c2f:A:fine2,4,6:coarse5,6,17,18,28,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F4 \u00d7 C1",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          4,
+          6
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          5,
+          6,
+          17,
+          18,
+          28,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 4,
+      "coarse_rank": 1,
+      "variant": "A",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_a_fine04_coarse02",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine04_coarse02",
+        "candidate_key": "unet:c2f:A:fine2,4,6:coarse0,5,6,17,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F4 \u00d7 C2",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          4,
+          6
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          17,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 4,
+      "coarse_rank": 2,
+      "variant": "A",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_a_fine04_coarse03",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine04_coarse03",
+        "candidate_key": "unet:c2f:A:fine2,4,6:coarse0,5,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F4 \u00d7 C3",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          4,
+          6
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 4,
+      "coarse_rank": 3,
+      "variant": "A",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_a_fine04_coarse04",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine04_coarse04",
+        "candidate_key": "unet:c2f:A:fine2,4,6:coarse0,5,6,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F4 \u00d7 C4",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          4,
+          6
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 4,
+      "coarse_rank": 4,
+      "variant": "A",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_a_fine05_coarse01",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine05_coarse01",
+        "candidate_key": "unet:c2f:A:fine2,3,7,12,13:coarse5,6,17,18,28,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F5 \u00d7 C1",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          7,
+          12,
+          13
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          5,
+          6,
+          17,
+          18,
+          28,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 5,
+      "coarse_rank": 1,
+      "variant": "A",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_a_fine05_coarse02",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine05_coarse02",
+        "candidate_key": "unet:c2f:A:fine2,3,7,12,13:coarse0,5,6,17,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F5 \u00d7 C2",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          7,
+          12,
+          13
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          17,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 5,
+      "coarse_rank": 2,
+      "variant": "A",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_a_fine05_coarse03",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine05_coarse03",
+        "candidate_key": "unet:c2f:A:fine2,3,7,12,13:coarse0,5,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F5 \u00d7 C3",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          7,
+          12,
+          13
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 5,
+      "coarse_rank": 3,
+      "variant": "A",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_a_fine05_coarse04",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_a_fine05_coarse04",
+        "candidate_key": "unet:c2f:A:fine2,3,7,12,13:coarse0,5,6,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-A; F5 \u00d7 C4",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "A",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          7,
+          12,
+          13
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 5,
+      "coarse_rank": 4,
+      "variant": "A",
+      "reused_step_q_label": "unet_c2f_a_f5_c4_positive_synergy"
+    },
+    {
+      "label": "unet_c2f_b_fine01_coarse01",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine01_coarse01",
+        "candidate_key": "unet:c2f:B:fine2,3,7,12,13,14:coarse5,6,17,18,28,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F1 \u00d7 C1",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          7,
+          12,
+          13,
+          14
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          5,
+          6,
+          17,
+          18,
+          28,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 1,
+      "coarse_rank": 1,
+      "variant": "B",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_b_fine01_coarse02",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine01_coarse02",
+        "candidate_key": "unet:c2f:B:fine2,3,7,12,13,14:coarse0,5,6,17,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F1 \u00d7 C2",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          7,
+          12,
+          13,
+          14
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          17,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 1,
+      "coarse_rank": 2,
+      "variant": "B",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_b_fine01_coarse03",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine01_coarse03",
+        "candidate_key": "unet:c2f:B:fine2,3,7,12,13,14:coarse0,5,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F1 \u00d7 C3",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          7,
+          12,
+          13,
+          14
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 1,
+      "coarse_rank": 3,
+      "variant": "B",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_b_fine01_coarse04",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine01_coarse04",
+        "candidate_key": "unet:c2f:B:fine2,3,7,12,13,14:coarse0,5,6,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F1 \u00d7 C4",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          7,
+          12,
+          13,
+          14
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 1,
+      "coarse_rank": 4,
+      "variant": "B",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_b_fine02_coarse01",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine02_coarse01",
+        "candidate_key": "unet:c2f:B:fine3,7,12:coarse5,6,17,18,28,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F2 \u00d7 C1",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          3,
+          7,
+          12
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          5,
+          6,
+          17,
+          18,
+          28,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 2,
+      "coarse_rank": 1,
+      "variant": "B",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_b_fine02_coarse02",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine02_coarse02",
+        "candidate_key": "unet:c2f:B:fine3,7,12:coarse0,5,6,17,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F2 \u00d7 C2",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          3,
+          7,
+          12
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          17,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 2,
+      "coarse_rank": 2,
+      "variant": "B",
+      "reused_step_q_label": "unet_c2f_b_f2_c2_variant_contrast"
+    },
+    {
+      "label": "unet_c2f_b_fine02_coarse03",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine02_coarse03",
+        "candidate_key": "unet:c2f:B:fine3,7,12:coarse0,5,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F2 \u00d7 C3",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          3,
+          7,
+          12
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 2,
+      "coarse_rank": 3,
+      "variant": "B",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_b_fine02_coarse04",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine02_coarse04",
+        "candidate_key": "unet:c2f:B:fine3,7,12:coarse0,5,6,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F2 \u00d7 C4",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          3,
+          7,
+          12
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 2,
+      "coarse_rank": 4,
+      "variant": "B",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_b_fine03_coarse01",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine03_coarse01",
+        "candidate_key": "unet:c2f:B:fine2,3,12,14:coarse5,6,17,18,28,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F3 \u00d7 C1",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          12,
+          14
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          5,
+          6,
+          17,
+          18,
+          28,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 3,
+      "coarse_rank": 1,
+      "variant": "B",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_b_fine03_coarse02",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine03_coarse02",
+        "candidate_key": "unet:c2f:B:fine2,3,12,14:coarse0,5,6,17,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F3 \u00d7 C2",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          12,
+          14
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          17,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 3,
+      "coarse_rank": 2,
+      "variant": "B",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_b_fine03_coarse03",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine03_coarse03",
+        "candidate_key": "unet:c2f:B:fine2,3,12,14:coarse0,5,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F3 \u00d7 C3",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          12,
+          14
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 3,
+      "coarse_rank": 3,
+      "variant": "B",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_b_fine03_coarse04",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine03_coarse04",
+        "candidate_key": "unet:c2f:B:fine2,3,12,14:coarse0,5,6,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F3 \u00d7 C4",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          12,
+          14
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 3,
+      "coarse_rank": 4,
+      "variant": "B",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_b_fine04_coarse01",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine04_coarse01",
+        "candidate_key": "unet:c2f:B:fine2,4,6:coarse5,6,17,18,28,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F4 \u00d7 C1",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          4,
+          6
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          5,
+          6,
+          17,
+          18,
+          28,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 4,
+      "coarse_rank": 1,
+      "variant": "B",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_b_fine04_coarse02",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine04_coarse02",
+        "candidate_key": "unet:c2f:B:fine2,4,6:coarse0,5,6,17,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F4 \u00d7 C2",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          4,
+          6
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          17,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 4,
+      "coarse_rank": 2,
+      "variant": "B",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_b_fine04_coarse03",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine04_coarse03",
+        "candidate_key": "unet:c2f:B:fine2,4,6:coarse0,5,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F4 \u00d7 C3",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          4,
+          6
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 4,
+      "coarse_rank": 3,
+      "variant": "B",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_b_fine04_coarse04",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine04_coarse04",
+        "candidate_key": "unet:c2f:B:fine2,4,6:coarse0,5,6,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F4 \u00d7 C4",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          4,
+          6
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 4,
+      "coarse_rank": 4,
+      "variant": "B",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_b_fine05_coarse01",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine05_coarse01",
+        "candidate_key": "unet:c2f:B:fine2,3,7,12,13:coarse5,6,17,18,28,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F5 \u00d7 C1",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          7,
+          12,
+          13
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          5,
+          6,
+          17,
+          18,
+          28,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 5,
+      "coarse_rank": 1,
+      "variant": "B",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_b_fine05_coarse02",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine05_coarse02",
+        "candidate_key": "unet:c2f:B:fine2,3,7,12,13:coarse0,5,6,17,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F5 \u00d7 C2",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          7,
+          12,
+          13
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          17,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 5,
+      "coarse_rank": 2,
+      "variant": "B",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_b_fine05_coarse03",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine05_coarse03",
+        "candidate_key": "unet:c2f:B:fine2,3,7,12,13:coarse0,5,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F5 \u00d7 C3",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          7,
+          12,
+          13
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 5,
+      "coarse_rank": 3,
+      "variant": "B",
+      "reused_step_q_label": null
+    },
+    {
+      "label": "unet_c2f_b_fine05_coarse04",
+      "kind": "c2f",
+      "spec": {
+        "label": "unet_c2f_b_fine05_coarse04",
+        "candidate_key": "unet:c2f:B:fine2,3,7,12,13:coarse0,5,6,18,30",
+        "architecture": "unet",
+        "mode": "c2f",
+        "role": "Step-R full-grid C2F-B; F5 \u00d7 C4",
+        "source_ate_mean_cm": null,
+        "direct_layer": null,
+        "direct_channels": [],
+        "variant": "B",
+        "fine_layer": "enc0",
+        "fine_channels": [
+          2,
+          3,
+          7,
+          12,
+          13
+        ],
+        "coarse_layer": "enc1",
+        "coarse_channels": [
+          0,
+          5,
+          6,
+          18,
+          30
+        ],
+        "parent_labels": []
+      },
+      "fine_rank": 5,
+      "coarse_rank": 4,
+      "variant": "B",
+      "reused_step_q_label": null
+    }
+  ],
+  "new_step_r_labels": [
+    "unet_direct_fine03",
+    "unet_direct_fine04",
+    "unet_direct_coarse01",
+    "unet_direct_coarse03",
+    "unet_c2f_a_fine01_coarse01",
+    "unet_c2f_a_fine01_coarse02",
+    "unet_c2f_a_fine01_coarse03",
+    "unet_c2f_a_fine02_coarse01",
+    "unet_c2f_a_fine02_coarse02",
+    "unet_c2f_a_fine02_coarse03",
+    "unet_c2f_a_fine03_coarse01",
+    "unet_c2f_a_fine03_coarse02",
+    "unet_c2f_a_fine03_coarse03",
+    "unet_c2f_a_fine03_coarse04",
+    "unet_c2f_a_fine04_coarse01",
+    "unet_c2f_a_fine04_coarse02",
+    "unet_c2f_a_fine04_coarse03",
+    "unet_c2f_a_fine04_coarse04",
+    "unet_c2f_a_fine05_coarse01",
+    "unet_c2f_a_fine05_coarse02",
+    "unet_c2f_a_fine05_coarse03",
+    "unet_c2f_b_fine01_coarse01",
+    "unet_c2f_b_fine01_coarse02",
+    "unet_c2f_b_fine01_coarse03",
+    "unet_c2f_b_fine01_coarse04",
+    "unet_c2f_b_fine02_coarse01",
+    "unet_c2f_b_fine02_coarse03",
+    "unet_c2f_b_fine02_coarse04",
+    "unet_c2f_b_fine03_coarse01",
+    "unet_c2f_b_fine03_coarse02",
+    "unet_c2f_b_fine03_coarse03",
+    "unet_c2f_b_fine03_coarse04",
+    "unet_c2f_b_fine04_coarse01",
+    "unet_c2f_b_fine04_coarse02",
+    "unet_c2f_b_fine04_coarse03",
+    "unet_c2f_b_fine04_coarse04",
+    "unet_c2f_b_fine05_coarse01",
+    "unet_c2f_b_fine05_coarse02",
+    "unet_c2f_b_fine05_coarse03",
+    "unet_c2f_b_fine05_coarse04"
+  ]
+}
